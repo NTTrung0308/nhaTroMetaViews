@@ -44,16 +44,28 @@
                                 <select name="thang" class="form-select" required>
                                     @for ($i = 1; $i <= 12; $i++)
                                         <option value="{{ $i }}" {{ $thang == $i ? 'selected' : '' }}>
-                                            {{ $i }}
+                                            {{ $i }}</option>
+                                    @endfor
+                                </select>
+                            </div>
+                            @php
+                                $currentYear = date('Y');
+                                $startYear = 1990;
+                                $endYear = $currentYear + 5;
+                            @endphp
+
+                            <div class="col-md-2">
+                                <label>Năm</label>
+                                <select name="nam" class="form-select" required>
+                                    @for ($year = $startYear; $year <= $endYear; $year++)
+                                        <option value="{{ $year }}"
+                                            {{ ($nam ?? $currentYear) == $year ? 'selected' : '' }}>
+                                            {{ $year }}
                                         </option>
                                     @endfor
                                 </select>
                             </div>
-                            <div class="col-md-2">
-                                <label>Năm</label>
-                                <input type="number" name="nam" class="form-control" value="{{ $nam ?? date('Y') }}"
-                                    required>
-                            </div>
+
                             <div class="col-md-2 align-self-end">
                                 <button class="btn btn-primary w-100">Xem dữ liệu</button>
                             </div>
@@ -76,7 +88,13 @@
                                 <tr>
                                     <th>Phòng</th>
                                     <th>Số điện (kWh)</th>
-                                    <th>Số nước (m³)</th>
+                                    @if ($kieuTinhNuoc == 'cong_to')
+                                        <th>Số nước (m³)</th>
+                                    @elseif($kieuTinhNuoc == 'dau_nguoi')
+                                        <th>Số nước (Tính theo đầu người)</th>
+                                    @elseif($kieuTinhNuoc == 'co_dinh')
+                                        <th>Số nước (Tính theo phòng)</th>
+                                    @endif
                                     <th>Số người</th>
                                     <th>Hành động</th>
                                 </tr>
@@ -88,17 +106,18 @@
                                             @csrf
                                             @method('PUT')
                                             <td>{{ optional($dn->room)->ten_phong }}</td>
+
+                                            {{-- Chỉ số điện --}}
                                             <td>
                                                 <input type="number" step="0.1" name="chi_so_dien" class="form-control"
                                                     value="{{ $dn->chi_so_dien }}">
                                             </td>
 
-                                            {{-- Xử lý hiển thị theo kiểu tính --}}
-
+                                            {{-- Số nước --}}
                                             <td>
                                                 @if ($kieuTinhNuoc == 'cong_to')
                                                     <input type="number" step="0.1" name="so_m3_nuoc"
-                                                        class="form-control" value="{{ $dn->so_nuoc }}">
+                                                        class="form-control" value="{{ $dn->so_m3_nuoc }}">
                                                 @elseif($kieuTinhNuoc == 'dau_nguoi')
                                                     <input type="number" class="form-control" name="so_m3_nuoc"
                                                         value="{{ $dn->so_nguoi }}" readonly>
@@ -108,10 +127,12 @@
                                                 @endif
                                             </td>
 
+                                            {{-- Số người --}}
                                             <td>
                                                 <input type="number" name="so_nguoi" class="form-control"
                                                     value="{{ $dn->so_nguoi }}">
                                             </td>
+
                                             <td>
                                                 <button type="submit" class="btn btn-sm btn-primary">Lưu</button>
                                             </td>
@@ -122,6 +143,7 @@
                         </table>
                     @endif
                 </div>
+
 
             </div>
         </div>

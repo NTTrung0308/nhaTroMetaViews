@@ -17,7 +17,7 @@ class PolicyController extends Controller
         $this->middleware('can:Sửa chính sách')->only(['edit', 'update']);
         $this->middleware('can:Xóa chính sách')->only(['destroy']);
     }
-     public function index()
+    public function index()
     {
         $policies = Policie::latest()->get();
         return view('admin.policies.index', compact('policies'));
@@ -28,21 +28,31 @@ class PolicyController extends Controller
         return view('admin.policies.create');
     }
 
-  public function store(Request $request)
-{
-    $request->validate([
-        'title' => 'required|string|max:255',
-        'content' => 'required',
-    ]);
+    public function store(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required',
+        ], [
+            'title.required' => 'Vui lòng nhập tiêu đề chính sách.',
+            'title.string' => 'Tiêu đề phải là chuỗi.',
+            'title.max' => 'Tiêu đề không được vượt quá 255 ký tự.',
+            'content.required' => 'Vui lòng nhập nội dung chính sách.',
+        ]);
 
-    // Mặc định là false nếu không được gửi lên
-    $data = $request->only('title', 'content');
-    $data['active'] = $request->has('active');
+        $data = $request->only('title', 'content');
+        $data['active'] = $request->has('active');
 
-    Policie::create($data);
-LogHelper::ghi('Đã thêm mới 1 chính sách ', 'Chính sách', 'Thêm mới chính sách trong quản trị viên');
-    return redirect()->route('policies.index')->with('success', 'Thêm chính sách thành công');
-}
+        $chinhSach = Policie::create($data);
+
+        // ✅ Ghi log chi tiết
+        LogHelper::ghi(
+            'Thêm chính sách: ' . $chinhSach->title,
+            'Chính sách',
+            'Người dùng "' . auth()->user()->name . '" (ID: ' . auth()->id() . ') đã thêm chính sách mới với tiêu đề: "' . $chinhSach->title . '"'
+        );
+        return redirect()->route('policies.index')->with('success', 'Thêm chính sách thành công');
+    }
 
 
     public function edit(Policie $policy)
@@ -50,27 +60,48 @@ LogHelper::ghi('Đã thêm mới 1 chính sách ', 'Chính sách', 'Thêm mới 
         return view('admin.policies.edit', compact('policy'));
     }
 
-   public function update(Request $request, Policie $policy)
-{
-    $request->validate([
-        'title' => 'required|string|max:255',
-        'content' => 'required',
-    ]);
+    public function update(Request $request, Policie $policy)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required',
+        ], [
+            'title.required' => 'Vui lòng nhập tiêu đề chính sách.',
+            'title.string' => 'Tiêu đề phải là chuỗi.',
+            'title.max' => 'Tiêu đề không được vượt quá 255 ký tự.',
+            'content.required' => 'Vui lòng nhập nội dung chính sách.',
+        ]);
 
-    $data = $request->only('title', 'content');
-    $data['active'] = $request->has('active');
+        $data = $request->only('title', 'content');
+        $data['active'] = $request->has('active');
 
-    $policy->update($data);
-LogHelper::ghi('Đã sửa mới 1 chính sách ' . $policy->title, 'Chính sách', 'Sửa mới chính sách trong quản trị viên');
+        $policy->update($data);
 
-    return redirect()->route('policies.index')->with('success', 'Cập nhật chính sách thành công');
-}
+        // ✅ Ghi log chi tiết
+        LogHelper::ghi(
+            'Cập nhật chính sách: ' . $policy->title,
+            'Chính sách',
+            'Người dùng "' . auth()->user()->name . '" (ID: ' . auth()->id() . ') đã cập nhật chính sách có ID: ' . $policy->id
+        );
+
+
+        return redirect()->route('policies.index')->with('success', 'Cập nhật chính sách thành công');
+    }
 
 
     public function destroy(Policie $policy)
     {
+        $policyTitle = $policy->title;
+        $policyId = $policy->id;
+
         $policy->delete();
-LogHelper::ghi('Đã xóa mới 1 chính sách ' . $policy->title, 'Chính sách', 'Xóa chính sách trong quản trị viên');
+
+        // ✅ Ghi log chi tiết
+        LogHelper::ghi(
+            'Xóa chính sách: ' . $policyTitle,
+            'Chính sách',
+            'Người dùng "' . auth()->user()->name . '" (ID: ' . auth()->id() . ') đã xóa chính sách có ID: ' . $policyId
+        );
 
         return redirect()->route('policies.index')->with('success', 'Xóa chính sách thành công');
     }

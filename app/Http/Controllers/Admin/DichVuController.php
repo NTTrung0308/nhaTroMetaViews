@@ -7,10 +7,11 @@ use App\Http\Controllers\Controller;
 use App\Models\DichVu;
 use App\Models\DonViTinh;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DichVuController extends Controller
 {
-     public function __construct()
+    public function __construct()
     {
         // Kiểm tra quyền của người dùng để tạo, sửa, xóa hợp đồng
         $this->middleware('can:Xem dịch vụ')->only(['index']);
@@ -20,7 +21,7 @@ class DichVuController extends Controller
     }
     public function index()
     {
-        $dichVus = DichVu::with('donViTinh')->paginate(10);
+        $dichVus = DichVu::with('donViTinh')->orderBy('created_at', 'desc')->paginate(10);
         LogHelper::ghi('Xem danh sách dịch vụ', 'Dịch Vụ', 'Xem danh sách dịch vụ trong quản trị viên');
 
         return view('admin.dich_vu.index', compact('dichVus'));
@@ -55,8 +56,16 @@ class DichVuController extends Controller
         ]);
 
 
-        DichVu::create($request->all());
-        LogHelper::ghi('Thêm dịch vụ mới', 'Dịch Vụ', 'Thêm dịch vụ mới trong quản trị viên');
+
+        $dichVu = DichVu::create($request->all());
+        $admin = Auth::user();
+        LogHelper::ghi(
+            'Thêm dịch vụ mới',
+            'Dịch Vụ',
+            'Người dùng "' . $admin->name . '" (ID: ' . $admin->id . ') đã thêm dịch vụ "' . $dichVu->ten_dich_vu .
+                '" với mã "' . $dichVu->ma_dich_vu . '".'
+        );
+
         return redirect()->route('dichvu.index')->with('success', 'Thêm dịch vụ thành công');
     }
 
@@ -65,18 +74,27 @@ class DichVuController extends Controller
         $dichvu = DichVu::find($id);
         $donViTinhs = DonViTinh::all();
         $maDichVuDaTonTai = DichVu::where('id', '!=', $dichvu->id)->pluck('ma_dich_vu')->toArray();
-        LogHelper::ghi('Vào form sửa dịch vụ', 'Dịch Vụ', 'Vào form sửa dịch vụ trong quản trị viên');
+
+        $admin = Auth::user();
+        LogHelper::ghi(
+            'Vào form sửa dịch vụ',
+            'Dịch Vụ',
+            'Người dùng "' . $admin->name . '" (ID: ' . $admin->id . ') đã vào form sửa dịch vụ "' . $dichvu->ten_dich_vu .
+                '" (Mã: ' . $dichvu->ma_dich_vu . ', ID: ' . $dichvu->id . ').'
+        );
+
         return view('admin.dich_vu.edit', compact('dichvu', 'donViTinhs', 'maDichVuDaTonTai'));
     }
 
+
     public function update(Request $request, $id)
     {
-        $dichVu = DichVu::find($id);
+        $dichVu = DichVu::findOrFail($id);
+
         $request->validate([
             'ten_dich_vu' => 'required|string|max:255',
             'ma_dich_vu' => 'required|unique:dich_vus,ma_dich_vu,' . $dichVu->id,
             'don_vi_tinh_id' => 'nullable|exists:don_vi_tinhs,id',
-
         ], [
             'ten_dich_vu.required' => 'Vui lòng nhập tên dịch vụ.',
             'ten_dich_vu.string' => 'Tên dịch vụ phải là chuỗi ký tự.',
@@ -84,14 +102,28 @@ class DichVuController extends Controller
             'ma_dich_vu.required' => 'Vui lòng nhập mã dịch vụ.',
             'ma_dich_vu.unique' => 'Mã dịch vụ đã tồn tại, vui lòng chọn mã khác.',
             'don_vi_tinh_id.exists' => 'Đơn vị tính không hợp lệ.',
-
         ]);
 
+        // Ghi log thay đổi
+        $admin = Auth::user();
+        $tenCu = $dichVu->ten_dich_vu;
+        $maCu = $dichVu->ma_dich_vu;
 
         $dichVu->update($request->all());
-        LogHelper::ghi('Cập nhật dịch vụ với Id là ' . $dichVu->id, 'Dịch Vụ', 'Cập nhật dịch vụ trong quản trị viên');
+
+        $tenMoi = $dichVu->ten_dich_vu;
+        $maMoi = $dichVu->ma_dich_vu;
+
+        LogHelper::ghi(
+            'Cập nhật dịch vụ',
+            'Dịch Vụ',
+            'Người dùng "' . $admin->name . '" (ID: ' . $admin->id . ') đã cập nhật dịch vụ ID: ' . $dichVu->id .
+                '. Tên: "' . $tenCu . '" → "' . $tenMoi . '", Mã: "' . $maCu . '" → "' . $maMoi . '".'
+        );
+
         return redirect()->route('dichvu.index')->with('success', 'Cập nhật dịch vụ thành công');
     }
+
 
     public function destroy($id)
     {

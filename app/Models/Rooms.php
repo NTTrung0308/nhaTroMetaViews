@@ -51,4 +51,20 @@ class Rooms extends Model
     return $this->hasMany(TaiSanChungRieng::class, 'room_id');
 }
 
+public function congTos()
+{
+    return $this->hasMany(CongTo::class);
+}
+
+public function congToDien()
+{
+    return $this->hasOne(CongTo::class)->where('loai', 'dien');
+}
+
+public function congToNuoc()
+{
+    return $this->hasOne(CongTo::class)->where('loai', 'nuoc');
+}
+
+
 }

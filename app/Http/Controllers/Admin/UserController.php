@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\File;
 
 class UserController extends Controller
 {
-     public function __construct()
+    public function __construct()
     {
         // Kiểm tra quyền của người dùng để tạo, sửa, xóa hợp đồng
         $this->middleware('can:Xem người dùng')->only(['index']);
@@ -40,7 +40,7 @@ class UserController extends Controller
             $query->where('active', $request->active); // active là true/false
         }
 
-        $users = $query->paginate(20);
+        $users = $query->orderBy('created_at', 'desc')->paginate(20);
 
         return view('admin.users.index', compact('users'));
     }
@@ -158,15 +158,15 @@ class UserController extends Controller
 
         $user->assignRole('nguoi-thue-tro');
         $user->save();
-        LogHelper::ghi('Thêm Người dụng mới', 'Khách hàng', 'Thêm Người dụng mới trong quản trị viên');
+        LogHelper::ghi('Thêm Người dụng mới', 'Khách hàng', 'Thêm Người dụng mới trong quản trị viên bởi ' . auth()->user()->name);
         return redirect()->route('admin.users.index')->with('success', 'User created successfully.');
     }
 
     public function edit(User $user)
     {
         if (!$user->roles->pluck('name')->contains('nguoi-thue-tro')) {
-        return redirect()->back()->with('error', 'Có lỗi xảy ra.');
-    }
+            return redirect()->back()->with('error', 'Có lỗi xảy ra.');
+        }
         return view('admin.users.form', compact('user'));
     }
 
@@ -257,10 +257,10 @@ class UserController extends Controller
         // Upload avatar
         if ($request->hasFile('avatar')) {
 
- // Xóa ảnh cũ nếu có
-    if (!empty($user->avatar) && file_exists(public_path($user->avatar))) {
-        @unlink(public_path($user->avatar));
-    }
+            // Xóa ảnh cũ nếu có
+            if (!empty($user->avatar) && file_exists(public_path($user->avatar))) {
+                @unlink(public_path($user->avatar));
+            }
 
             $file = $request->file('avatar');
             $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
@@ -270,9 +270,9 @@ class UserController extends Controller
 
         // Upload CMT mặt trước
         if ($request->hasFile('cmt_mat_truoc')) {
-  if (!empty($user->cmt_mat_truoc) && file_exists(public_path($user->cmt_mat_truoc))) {
-        @unlink(public_path($user->cmt_mat_truoc));
-    }
+            if (!empty($user->cmt_mat_truoc) && file_exists(public_path($user->cmt_mat_truoc))) {
+                @unlink(public_path($user->cmt_mat_truoc));
+            }
 
 
             $file = $request->file('cmt_mat_truoc');
@@ -283,9 +283,9 @@ class UserController extends Controller
 
         // Upload CMT mặt sau
         if ($request->hasFile('cmt_mat_sau')) {
-  if (!empty($user->cmt_mat_sau) && file_exists(public_path($user->cmt_mat_sau))) {
-        @unlink(public_path($user->cmt_mat_sau));
-    }
+            if (!empty($user->cmt_mat_sau) && file_exists(public_path($user->cmt_mat_sau))) {
+                @unlink(public_path($user->cmt_mat_sau));
+            }
 
 
             $file = $request->file('cmt_mat_sau');
@@ -297,9 +297,9 @@ class UserController extends Controller
         // Upload hộ chiếu
         if ($request->hasFile('ho_chieu')) {
 
- if (!empty($user->ho_chieu) && file_exists(public_path($user->ho_chieu))) {
-        @unlink(public_path($user->ho_chieu));
-    }
+            if (!empty($user->ho_chieu) && file_exists(public_path($user->ho_chieu))) {
+                @unlink(public_path($user->ho_chieu));
+            }
 
             $file = $request->file('ho_chieu');
             $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
@@ -308,28 +308,33 @@ class UserController extends Controller
         }
 
         $user->save();
-        LogHelper::ghi('Cập nhật khách hàng với id ' . $user->id, 'Khách hàng', 'Cập nhật thông tin Khách hàng trong quản trị viên');
+        LogHelper::ghi(
+            'Cập nhật khách hàng: ' . $user->name . ' (ID: ' . $user->id . ')',
+            'Khách hàng',
+            'Cập nhật thông tin khách hàng trong quản trị viên bởi ' . auth()->user()->name
+        );
+
         return redirect()->route('admin.users.index')->with('success', 'User updated successfully.');
     }
 
     public function destroy(User $user)
     {
         if (!$user->roles->pluck('name')->contains('nguoi-thue-tro')) {
-        return redirect()->back()->with('error', 'Có lỗi xảy ra.');
-    }
-         // Danh sách các cột chứa đường dẫn ảnh
-    $imageFields = ['avatar', 'cmt_mat_truoc', 'cmt_mat_sau', 'ho_chieu'];
+            return redirect()->back()->with('error', 'Có lỗi xảy ra.');
+        }
+        // Danh sách các cột chứa đường dẫn ảnh
+        $imageFields = ['avatar', 'cmt_mat_truoc', 'cmt_mat_sau', 'ho_chieu'];
 
-    // Xóa từng ảnh nếu có
-    foreach ($imageFields as $field) {
-        if (!empty($user->$field)) {
-            $imagePath = public_path($user->$field);
-            if (file_exists($imagePath)) {
-                @unlink($imagePath); // Xóa file vật lý
+        // Xóa từng ảnh nếu có
+        foreach ($imageFields as $field) {
+            if (!empty($user->$field)) {
+                $imagePath = public_path($user->$field);
+                if (file_exists($imagePath)) {
+                    @unlink($imagePath); // Xóa file vật lý
+                }
             }
         }
-    }
-    
+
         $user->delete();
         return redirect()->route('admin.users.index')->with('success', 'User deleted successfully.');
     }

@@ -43,6 +43,11 @@ class NhaTros extends Model
     {
         return $this->hasMany(Rooms::class);
     }
+    public function congTos()
+{
+    return $this->hasMany(CongTo::class);
+}
+
 
     // public function baoTris()
     // {

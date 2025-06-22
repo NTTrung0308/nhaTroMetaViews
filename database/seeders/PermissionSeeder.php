@@ -78,7 +78,15 @@ class PermissionSeeder extends Seeder
             'Xem phương tiện',
             'Sửa phương tiện',
             'Xóa phương tiện',
-            'Thêm phương tiện'
+            'Thêm phương tiện',
+            'Xem công tơ',
+            'Sửa công tơ',
+            'Thêm công tơ',
+            'Xóa công tơ',
+            'Xem hợp đồng',
+            'Sửa hợp đồng',
+            'Thêm hợp đồng',
+            'Xóa hợp đồng',
 
 
         ];

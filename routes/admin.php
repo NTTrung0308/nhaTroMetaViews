@@ -2,11 +2,13 @@
 
 use App\Http\Controllers\Admin\AboutUsController;
 use App\Http\Controllers\Admin\AdministratorController;
+use App\Http\Controllers\Admin\CongtoController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DichVuController;
 use App\Http\Controllers\Admin\DienNuocController;
 use App\Http\Controllers\Admin\FeedbackController;
+use App\Http\Controllers\Admin\HopDongController;
 use App\Http\Controllers\Admin\NhaTroController;
 use App\Http\Controllers\Admin\PhuongTienController;
 use App\Http\Controllers\Admin\PolicyController;
@@ -172,10 +174,29 @@ Route::prefix('phuong-tiens')->name('admin.phuong_tiens.')->group(function () {
     Route::put('/{phuong_tien}', [PhuongTienController::class, 'update'])->name('update');
     Route::delete('/{phuong_tien}', [PhuongTienController::class, 'destroy'])->name('destroy');
 });
-
-
-
-
+Route::prefix('cong-to')->name('admin.cong_tos.')->group(function(){
+      Route::get('/', [CongtoController::class, 'index'])->name('index');
+    Route::get('/create', [CongtoController::class, 'create'])->name('create');
+    Route::post('/', [CongtoController::class, 'store'])->name('store');
+    Route::get('/{congTo}/edit', [CongtoController::class, 'edit'])->name('edit');
+    Route::put('/{congTo}', [CongtoController::class, 'update'])->name('update');
+    Route::delete('/{congTo}', [CongtoController::class, 'destroy'])->name('destroy');
 });
+
+// routes/web.php
+
+Route::prefix('hop-dong')->name('admin.hop_dong.')->group(function () {
+    Route::get('/', [HopDongController::class, 'index'])->name('index');
+    Route::get('/create', [HopDongController::class, 'create'])->name('create');
+    Route::post('/', [HopDongController::class, 'store'])->name('store');
+    Route::get('/{hopDong}/edit', [HopDongController::class, 'edit'])->name('edit');
+    Route::put('/{hopDong}', [HopDongController::class, 'update'])->name('update');
+    Route::delete('/{hopDong}', [HopDongController::class, 'destroy'])->name('destroy');
+});
+
+
+
+
 Route::post('/upload-image', [UploadController::class, 'uploadImage'])->name('upload-image');
 Route::post('/delete-image', [UploadController::class, 'deleteImage'])->name('delete-image');
+});

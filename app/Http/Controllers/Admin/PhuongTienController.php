@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\LogHelper;
 use App\Http\Controllers\Controller;
 use App\Models\PhuongTien;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PhuongTienController extends Controller
 {
-     public function __construct()
+    public function __construct()
     {
         // Kiểm tra quyền của người dùng để tạo, sửa, xóa hợp đồng
         $this->middleware('can:Xem phương tiện')->only(['index']);
@@ -20,7 +22,7 @@ class PhuongTienController extends Controller
     public function index(Request $request)
     {
         $query = PhuongTien::with('user');
-       $users = User::whereHas('roles', function ($q) {
+        $users = User::whereHas('roles', function ($q) {
             $q->where('name', 'nguoi-thue-tro');
         })->get();
         // Lọc theo user_id nếu có
@@ -28,9 +30,9 @@ class PhuongTienController extends Controller
             $query->where('user_id', $request->user_id);
         }
 
-        $phuongTiens = $query->paginate(20);
-        $userId = $request->user_id;
-        return view('admin.phuong_tien.index', compact('phuongTiens', 'userId','users'));
+        $phuongTiens = $query->orderBy('created_at', 'desc')->paginate(20);
+        $userId = $request->user_id ?? '';
+        return view('admin.phuong_tien.index', compact('phuongTiens', 'userId', 'users'));
     }
 
     public function create(Request $request)
@@ -53,11 +55,26 @@ class PhuongTienController extends Controller
             'loai_phuong_tien' => 'required',
             'ten_chu_xe' => 'required',
             'user_id' => 'required|exists:users,id',
+        ], [
+            'name.required' => 'Vui lòng nhập tên phương tiện.',
+            'bien_so.required' => 'Vui lòng nhập biển số xe.',
+            'bien_so.unique' => 'Biển số xe đã tồn tại.',
+            'loai_phuong_tien.required' => 'Vui lòng chọn loại phương tiện.',
+            'ten_chu_xe.required' => 'Vui lòng nhập tên chủ xe.',
+            'user_id.required' => 'Vui lòng chọn người sở hữu.',
+            'user_id.exists' => 'Người sở hữu không hợp lệ.',
         ]);
 
-        PhuongTien::create($request->all());
+        $phuongTien = PhuongTien::create($request->all());
 
-        return redirect()->route('admin.phuong-tien.index')->with('success', 'Thêm phương tiện thành công!');
+        // ✅ Ghi log
+        LogHelper::ghi(
+            'Thêm phương tiện: ' . $phuongTien->bien_so,
+            'Phương Tiện',
+            'Người dùng "' . Auth::user()->name . '" (ID: ' . Auth::user()->id . ') đã thêm phương tiện "' . $phuongTien->name . '" với biển số "' . $phuongTien->bien_so . '"'
+        );
+
+        return redirect()->route('admin.phuong_tiens.index')->with('success', 'Thêm phương tiện thành công!');
     }
 
     public function edit(PhuongTien $phuongTien)
@@ -74,16 +91,41 @@ class PhuongTienController extends Controller
             'loai_phuong_tien' => 'required',
             'ten_chu_xe' => 'required',
             'user_id' => 'required|exists:users,id',
+        ], [
+            'name.required' => 'Vui lòng nhập tên phương tiện.',
+            'bien_so.required' => 'Vui lòng nhập biển số xe.',
+            'bien_so.unique' => 'Biển số xe đã tồn tại.',
+            'loai_phuong_tien.required' => 'Vui lòng chọn loại phương tiện.',
+            'ten_chu_xe.required' => 'Vui lòng nhập tên chủ xe.',
+            'user_id.required' => 'Vui lòng chọn người sở hữu.',
+            'user_id.exists' => 'Người sở hữu không hợp lệ.',
         ]);
 
         $phuongTien->update($request->all());
 
-        return redirect()->route('admin.phuong-tien.index')->with('success', 'Cập nhật phương tiện thành công!');
+        // ✅ Ghi log
+        LogHelper::ghi(
+            'Cập nhật phương tiện: ' . $phuongTien->bien_so,
+            'Phương Tiện',
+            'Người dùng "' . Auth::user()->name . '" (ID: ' . Auth::user()->id . ') đã cập nhật phương tiện "' . $phuongTien->name . '" với biển số "' . $phuongTien->bien_so . '"'
+        );
+
+        return redirect()->route('admin.phuong_tiens.index')->with('success', 'Cập nhật phương tiện thành công!');
     }
 
     public function destroy(PhuongTien $phuongTien)
     {
+        $tenPhuongTien = $phuongTien->name;
+        $bienSo = $phuongTien->bien_so;
+
         $phuongTien->delete();
-        return redirect()->route('admin.phuong-tien.index')->with('success', 'Xóa phương tiện thành công!');
+
+        // ✅ Ghi log
+        LogHelper::ghi(
+            'Xóa phương tiện: ' . $bienSo,
+            'Phương Tiện',
+            'Người dùng "' . Auth::user()->name . '" (ID: ' . Auth::user()->id . ') đã xóa phương tiện "' . $tenPhuongTien . '" có biển số "' . $bienSo . '"'
+        );
+        return redirect()->route('admin.phuong_tiens.index')->with('success', 'Xóa phương tiện thành công!');
     }
 }

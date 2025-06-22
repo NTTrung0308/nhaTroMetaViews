@@ -11,7 +11,7 @@ use Intervention\Image\Facades\Image;
 
 class SliderController extends Controller
 {
-     public function __construct()
+    public function __construct()
     {
         // Kiểm tra quyền của người dùng để tạo, sửa, xóa hợp đồng
         $this->middleware('can:Xem slider')->only(['index']);
@@ -58,7 +58,7 @@ class SliderController extends Controller
 
         $imagePath = $this->saveBase64Image($request->input('cropped_image'));
 
-        Slider::create([
+        $slider = Slider::create([
             'title' => $request->title,
             'subtitle' => $request->subtitle,
             'image' => $imagePath,
@@ -66,7 +66,11 @@ class SliderController extends Controller
             'position' => $request->position ?? 0,
             'active' => $request->boolean('active'),
         ]);
-        LogHelper::ghi('Thêm mới slider', 'Slider', 'Đã thêm mới silder trong quản trị viên');
+        LogHelper::ghi(
+            'Thêm mới slider: "' . ($slider->title ?? 'Không tiêu đề') . '" (ID: ' . $slider->id . ')',
+            'Slider',
+            'Người dùng "' . auth()->user()->name . '" (ID: ' . auth()->id() . ') đã thêm slider "' . ($slider->title ?? 'Không tiêu đề') . '" trong quản trị viên.'
+        );
         return redirect()->route('sliders.index')->with('success', 'Thêm slider thành công.');
     }
 
@@ -112,20 +116,37 @@ class SliderController extends Controller
         $slider->position = $request->position ?? 0;
         $slider->active = $request->boolean('active');
         $slider->save();
-        LogHelper::ghi('Cập nhật Slider với id ' . $slider->id, 'Slider', 'Cập nhật thông tin Slider trong quản trị viên');
+        // Ghi lại log chi tiết
+        LogHelper::ghi(
+            'Cập nhật slider: "' . ($slider->title ?? 'Không tiêu đề') . '" (ID: ' . $slider->id . ')',
+            'Slider',
+            'Người dùng "' . auth()->user()->name . '" (ID: ' . auth()->id() . ') đã cập nhật slider "' . ($slider->title ?? 'Không tiêu đề') . '" trong quản trị viên.'
+        );
         return redirect()->route('sliders.index')->with('success', 'Cập nhật slider thành công.');
     }
 
     public function destroy(Slider $slider)
     {
+        // Xóa ảnh nếu có
         if ($slider->image && file_exists(public_path($slider->image))) {
             unlink(public_path($slider->image));
         }
 
+        $title = $slider->title ?? 'Không tiêu đề';
+        $id = $slider->id;
+
         $slider->delete();
-        LogHelper::ghi('Xóa Slider với id ' . $slider->title, 'Slider', 'Xóa thông tin Slider trong quản trị viên');
+
+        // Ghi log chi tiết
+        LogHelper::ghi(
+            'Xóa slider: "' . $title . '" (ID: ' . $id . ')',
+            'Slider',
+            'Người dùng "' . auth()->user()->name . '" (ID: ' . auth()->id() . ') đã xóa slider "' . $title . '" trong quản trị viên.'
+        );
+
         return redirect()->route('sliders.index')->with('success', 'Xóa slider thành công.');
     }
+
 
     protected function saveBase64Image($base64Image)
     {

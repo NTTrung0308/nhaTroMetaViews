@@ -7,11 +7,12 @@ use App\Http\Controllers\Controller;
 use App\Models\DichVu;
 use App\Models\NhaTros;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 class NhaTroController extends Controller
 {
-      public function __construct()
+    public function __construct()
     {
         // Kiểm tra quyền của người dùng để tạo, sửa, xóa hợp đồng
         $this->middleware('can:Xem nhà trọ')->only(['index']);
@@ -118,7 +119,14 @@ class NhaTroController extends Controller
 
             $nhaTro->dichVus()->attach($syncData);
         }
-        LogHelper::ghi('Thêm nhà trọ mới', 'Nhà Trọ', 'Thêm nhà trọ mới trong quản trị viên');
+        // Ghi log chi tiết
+        $user = Auth::user();
+        LogHelper::ghi(
+            'Thêm nhà trọ: ' . $nhaTro->ten_toa_nha,
+            'Nhà Trọ',
+            'Người dùng "' . $user->name . '" (ID: ' . $user->id . ') đã thêm nhà trọ "' . $nhaTro->ten_toa_nha . '" với mã "' . $nhaTro->ma_toa_nha . '"'
+        );
+
 
 
         return redirect()->route('nha_tro.index')->with('success', 'Thêm nhà trọ thành công');
@@ -136,7 +144,13 @@ class NhaTroController extends Controller
                 'kieu_tinh' => $item->pivot->kieu_tinh,
             ]];
         });
-        LogHelper::ghi('Vào form sửa nhà trọ', 'Nhà Trọ', 'Vào form sửa nhà trọ trong quản trị viên');
+        // Ghi log chi tiết
+        $user = Auth::user();
+        LogHelper::ghi(
+            'Vào form sửa nhà trọ: ' . $nhaTro->ten_toa_nha,
+            'Nhà Trọ',
+            'Người dùng "' . $user->name . '" (ID: ' . $user->id . ') đã truy cập form sửa nhà trọ "' . $nhaTro->ten_toa_nha . '" (Mã: ' . $nhaTro->ma_toa_nha . ')'
+        );
         return view('admin.nha_tro.edit', compact('nhaTro', 'dichVus', 'pivotData'));
     }
 
@@ -206,7 +220,7 @@ class NhaTroController extends Controller
             }
         }
         $nhaTro->dichVus()->sync($syncData);
-        LogHelper::ghi('Cập nhật nhà trọ với id ' . $nhaTro->id, 'Nhà Trọ', 'Cập nhật thông tin nhà trọ trong quản trị viên');
+        LogHelper::ghi('Cập nhật nhà trọ với id ' . $nhaTro->id . 'thành ' . $request->ten_toa_nha , 'Nhà Trọ', 'Cập nhật thông tin nhà trọ trong quản trị viên');
         return redirect()->route('nha_tro.index')->with('success', 'Cập nhật nhà trọ thành công');
     }
 

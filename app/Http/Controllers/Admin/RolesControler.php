@@ -22,7 +22,7 @@ class RolesControler extends Controller
      public function index()
     {
         // Get all roles with their permissions
-        $roles = Role::with('permissions')->paginate(10);
+        $roles = Role::with('permissions')->orderBy('created_at', 'desc')->paginate(10);
 
         return view('admin.roles.index', compact('roles'));
     }

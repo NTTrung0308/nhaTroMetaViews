@@ -97,38 +97,7 @@
                                     @enderror
                                 </div>
 
-                                {{-- <div class="col-lg-6">
-                                    <label for="kieu_tinh" class="form-label">Kiểu tính</label><br>
-                                    <select id="kieu_tinh" name="kieu_tinh" class="select_ted form-control">
-                                        <option value="">-- Chọn kiểu tính --</option>
-                                        <option value="cong_to" {{ old('kieu_tinh') == 'cong_to' ? 'selected' : '' }}>Tính
-                                            theo
-                                            công tơ
-                                        </option>
-                                        <option value="dau_nguoi" {{ old('kieu_tinh') == 'dau_nguoi' ? 'selected' : '' }}>
-                                            Tính
-                                            theo đầu người
-                                        </option>
-                                        <option value="co_dinh" {{ old('kieu_tinh') == 'co_dinh' ? 'selected' : '' }}>Cố
-                                            định
-                                            hàng tháng
-                                        </option>
-                                    </select>
-                                    <div class="text-danger" id="err-kieu_tinh"></div>
-                                    @error('kieu_tinh')
-                                        <div style="color:red">{{ $message }}</div>
-                                    @enderror
-                                </div> --}}
-
-                                {{-- <div>
-                                    <label for="don_gia" class="form-label">Đơn giá</label><br>
-                                    <input type="number" id="don_gia" class="form-control" name="don_gia" step="0.01"
-                                        value="{{ old('don_gia', 0) }}">
-                                    <div class="text-danger" id="err-don_gia"></div>
-                                    @error('don_gia')
-                                        <div style="color:red">{{ $message }}</div>
-                                    @enderror
-                                </div> --}}
+                               
 
                                 <div>
                                     <label for="mo_ta" class="form-label">Mô tả</label><br>

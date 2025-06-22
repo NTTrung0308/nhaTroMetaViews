@@ -6,6 +6,7 @@ use App\Helpers\LogHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Feedback;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class FeedbackController extends Controller
 {
@@ -33,7 +34,7 @@ class FeedbackController extends Controller
             $query->where('active', $request->active == '1' ? 1 : 0);
         }
 
-        $feedbacks = $query->orderBy('id', 'desc')->paginate(20); // phân trang
+        $feedbacks = $query->orderBy('created_at', 'desc')->paginate(20); // phân trang
 
         return view('admin.feedbacks.index', compact('feedbacks'));
     }
@@ -75,8 +76,17 @@ class FeedbackController extends Controller
             $data['image'] = 'uploads/feedbacks/' . $filename;
         }
 
-        Feedback::create($data);
-        LogHelper::ghi('Đã Thêm mới một cảm nghĩ ', 'Cảm nghĩ', 'Thêm mới cảm nghĩ trong quản trị viên');
+        $feedback = Feedback::create($data);
+        // ✅ Ghi log chi tiết
+        $admin = Auth::user();
+        LogHelper::ghi(
+            'Thêm cảm nghĩ mới',
+            'Cảm nghĩ',
+            'Người dùng "' . $admin->name . '" (ID: ' . $admin->id . ') đã thêm cảm nghĩ của "' . $feedback->name . '"' .
+                ($feedback->position ? ' - Chức vụ: ' . $feedback->position : '') .
+                ($feedback->image ? ' (có ảnh)' : ' (không ảnh)') .
+                '.'
+        );
 
         return redirect()->route('feedbacks.index')->with('success', 'Thêm cảm nghĩ thành công.');
     }
@@ -118,10 +128,21 @@ class FeedbackController extends Controller
             $filename = time() . '_' . $file->getClientOriginalName();
             $file->move(public_path('uploads/feedbacks'), $filename);
             $data['image'] = 'uploads/feedbacks/' . $filename;
+            $daThayAnh = true;
         }
 
         $feedback->update($data);
-        LogHelper::ghi('Đã sửa mới một cảm nghĩ ' . $feedback->name, 'Cảm nghĩ', 'Sửa cảm nghĩ trong quản trị viên');
+
+
+        // Ghi log chi tiết
+        $admin = Auth::user();
+        LogHelper::ghi(
+            'Cập nhật cảm nghĩ: ' . $feedback->name,
+            'Cảm nghĩ',
+            'Người dùng "' . $admin->name . '" (ID: ' . $admin->id . ') đã cập nhật cảm nghĩ "' . $feedback->name . '"' .
+                ($feedback->position ? ' - Chức vụ: ' . $feedback->position : '') .
+                ($daThayAnh ? ' (có thay ảnh)' : ' (không thay ảnh)')
+        );
 
         return redirect()->route('feedbacks.index')->with('success', 'Cập nhật cảm nghĩ thành công.');
     }
@@ -129,12 +150,22 @@ class FeedbackController extends Controller
 
     public function destroy(Feedback $feedback)
     {
+        $admin = Auth::user();
+        $feedbackName = $feedback->name;
+
         // Xóa ảnh nếu có
-    if (!empty($feedback->image) && file_exists(public_path($feedback->image))) {
-        unlink(public_path($feedback->image));
-    }
+        if (!empty($feedback->image) && file_exists(public_path($feedback->image))) {
+            unlink(public_path($feedback->image));
+        }
+
         $feedback->delete();
-        LogHelper::ghi('Xóa một cảm nghĩ ' . $feedback->name, 'Cảm nghĩ', 'Xóa quản lý trong quản trị viên');
+
+        // Ghi log
+        LogHelper::ghi(
+            'Xóa cảm nghĩ: ' . $feedbackName,
+            'Cảm nghĩ',
+            'Người dùng "' . $admin->name . '" (ID: ' . $admin->id . ') đã xóa cảm nghĩ "' . $feedbackName . '"'
+        );
 
         return redirect()->route('feedbacks.index')->with('success', 'Xóa cảm nghĩ thành công.');
     }

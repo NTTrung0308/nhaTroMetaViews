@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('rooms', function (Blueprint $table) {
             $table->id();
-       
             $table->foreignId('nha_tro_id')->constrained('nha_tros')->onDelete('cascade');
             $table->string('ten_phong');
             $table->string('ma_phong')->nullable();

@@ -21,7 +21,8 @@ return new class extends Migration
             $table->integer('chi_so_dien')->nullable();     // Nhập tay
             $table->integer('so_m3_nuoc')->nullable();       // Nếu tính theo nước
             $table->integer('so_nguoi')->nullable();         // Nếu tính theo đầu người
-
+ $table->integer('tieu_thu_dien')->nullable();
+        $table->integer('tieu_thu_nuoc')->nullable();
             $table->timestamps();
 
             $table->unique(['nha_tro_id', 'room_id', 'thang', 'nam']); // Một dòng duy nhất mỗi phòng/tháng/năm

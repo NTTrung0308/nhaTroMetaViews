@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class RoomController extends Controller
 {
-     public function __construct()
+    public function __construct()
     {
         // Kiểm tra quyền của người dùng để tạo, sửa, xóa hợp đồng
         $this->middleware('can:Xem phòng trọ')->only(['index']);
@@ -42,7 +42,7 @@ class RoomController extends Controller
             }
         }
 
-        $rooms = $query->paginate(10);
+        $rooms = $query->orderBy('created_at', 'desc')->paginate(10);
 
         // Lấy danh sách nhà trọ để đưa vào form select
         $nhaTros = NhaTros::all();
@@ -54,7 +54,11 @@ class RoomController extends Controller
     public function create()
     {
         $nhaTros = NhaTros::all();
-        LogHelper::ghi('Vào form tạo phòng trọ', 'Phòng Trọ', 'Vào form tạo phòng trọ trong quản trị viên');
+        LogHelper::ghi(
+            'Vào form tạo phòng trọ',
+            'Phòng Trọ',
+            'Người dùng "' . auth()->user()->name . '" (ID: ' . auth()->id() . ') đã vào form tạo phòng trọ trong quản trị viên'
+        );
         return view('admin.phong_tro.create', compact('nhaTros'));
     }
 
@@ -126,15 +130,23 @@ class RoomController extends Controller
         }
 
         $validated['images'] = json_encode($images);
-        Rooms::create($validated);
-        LogHelper::ghi('Thêm phòng trọ mới', 'Phòng Trọ', 'Thêm phòng trọ mới trong quản trị viên');
+        $room = Rooms::create($validated);
+        LogHelper::ghi(
+            'Thêm phòng trọ mới: ' . $room->ten_phong,
+            'Phòng Trọ',
+            'Người dùng "' . auth()->user()->name . '" (ID: ' . auth()->id() . ') đã thêm phòng trọ mới "' . $room->ten_phong . '" thuộc tòa nhà ID ' . $room->nha_tro_id
+        );
         return redirect()->route('rooms.index')->with('success', 'Thêm phòng thành công.');
     }
 
     public function edit(Rooms $room)
     {
         $nhaTros = NhaTros::all();
-        LogHelper::ghi('Vào form sửa phòng trọ', 'Phòng Trọ', 'Vào form sửa phòng trọ trong quản trị viên');
+        LogHelper::ghi(
+            'Vào form sửa phòng trọ: ' . $room->ten_phong,
+            'Phòng Trọ',
+            'Người dùng "' . auth()->user()->name . '" (ID: ' . auth()->id() . ') đã vào form sửa phòng trọ "' . $room->ten_phong . '" (ID: ' . $room->id . ')'
+        );
         return view('admin.phong_tro.edit', compact('room', 'nhaTros'));
     }
 
@@ -249,7 +261,13 @@ class RoomController extends Controller
         // $validated['images'] = json_encode($images); // nếu cột là TEXT hoặc JSON
 
         $room->update($validated);
-        LogHelper::ghi('Cập nhật phòng trọ với id ' . $room->id, 'Phòng Trọ', 'Cập nhật phòng trọ trong quản trị viên');
+        // Ghi lại log chi tiết
+        LogHelper::ghi(
+            'Cập nhật phòng trọ: ' . $room->ten_phong . ' (ID: ' . $room->id . ')',
+            'Phòng Trọ',
+            'Người dùng "' . auth()->user()->name . '" (ID: ' . auth()->id() . ') đã cập nhật phòng trọ "' . $room->ten_phong . '" (ID: ' . $room->id . ')'
+        );
+
         return redirect()->route('rooms.index')->with('success', 'Cập nhật phòng thành công.');
     }
 
@@ -269,8 +287,13 @@ class RoomController extends Controller
         // Xóa bản ghi
         $room->delete();
 
-        // Ghi log
-        LogHelper::ghi('Xóa phòng trọ với id ' . $room->id, 'Phòng Trọ', 'Xóa phòng trọ trong quản trị viên');
+       
+    // Ghi log chi tiết
+    LogHelper::ghi(
+        'Xóa phòng trọ: ' . $room->ten_phong . ' (ID: ' . $room->id . ')',
+        'Phòng Trọ',
+        'Người dùng "' . auth()->user()->name . '" (ID: ' . auth()->id() . ') đã xóa phòng trọ "' . $room->ten_phong . '" (ID: ' . $room->id . ') trong quản trị viên.'
+    );
 
         return back()->with('success', 'Xóa phòng thành công.');
     }

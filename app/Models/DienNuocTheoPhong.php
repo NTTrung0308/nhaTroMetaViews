@@ -16,7 +16,9 @@ class DienNuocTheoPhong extends Model
         'nam',
         'chi_so_dien',
         'so_m3_nuoc',
-        'so_nguoi'
+        'so_nguoi',
+        'tieu_thu_dien',
+        'tieu_thu_nuoc'
     ];
 
     public function room()

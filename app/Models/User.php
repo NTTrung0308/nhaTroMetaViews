@@ -76,5 +76,9 @@ class User extends Authenticatable
 {
     return $this->hasMany(CongViec::class, 'user_thuc_hien');
 }
+public function hopDongThuePhongs()
+{
+    return $this->hasMany(HopDongThuePhong::class);
+}
 
 }

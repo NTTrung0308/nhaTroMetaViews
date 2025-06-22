@@ -38,4 +38,7 @@ Route::get('/ajax/rooms-by-nhatro/{nhaTroId}', function ($nhaTroId) {
         ];
     }));
 });
+Route::get('/rooms-by-nha-tro/{nhaTroId}', function ($nhaTroId) {
+    return \App\Models\Rooms::where('nha_tro_id', $nhaTroId)->get(['id', 'ten_phong','ma_phong', 'da_thue','gia_thue']);
+});
 

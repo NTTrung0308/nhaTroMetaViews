@@ -16,7 +16,7 @@ class PhuongTien extends Model
         'user_id',
     ];
 
-    public function khachHang()
+    public function user()
     {
         return $this->belongsTo(User::class);
     }

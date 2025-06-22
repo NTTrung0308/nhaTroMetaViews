@@ -1,0 +1,6 @@
+//Chạy câu lệnh mỗi 5h sáng để check hợp đồng còn hạn hay không
+
+* * * * * cd /path/to/your/project && php artisan schedule:run >> /dev/null 2>&1
+php artisan hopdong:check-expired
+
+//end

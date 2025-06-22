@@ -46,6 +46,18 @@
                  </a>
              </li>
          @endif
+         @if (auth()->user()->hasPermissionTo('Xem công tơ') ||
+                 auth()->user()->hasPermissionTo('Thêm công tơ') ||
+                 auth()->user()->hasPermissionTo('Sửa công tơ') ||
+                 auth()->user()->hasPermissionTo('Xóa công tơ'))
+             <li class="nav-item">
+                 <a class="nav-link {{ in_array(Request::route()->getName(), ['admin.cong_tos.index', 'admin.cong_tos.create', 'admin.cong_tos.edit']) ? '' : 'collapsed' }}"
+                     href="{{ route('admin.cong_tos.index') }}">
+                     <i class="bi bi-lightning"></i>
+                     <span>Công tơ</span>
+                 </a>
+             </li>
+         @endif
          @if (auth()->user()->hasPermissionTo('Xem tài sản trọ') ||
                  auth()->user()->hasPermissionTo('Thêm tài sản trọ') ||
                  auth()->user()->hasPermissionTo('Sửa tài sản trọ') ||
@@ -71,6 +83,14 @@
                  </a>
              </li>
          @endif
+
+             <li class="nav-item">
+                 <a class="nav-link {{ in_array(Request::route()->getName(), ['diennuoc.index']) ? '' : 'collapsed' }}"
+                     href="{{ route('diennuoc.index') }}">
+                     <i class="bi bi-cash-coin"></i>
+                     <span>Quản lý điện nước</span>
+                 </a>
+             </li>
          <li class="nav-heading">Phân quyền</li>
          @if (auth()->user()->hasPermissionTo('Xem vai trò') ||
                  auth()->user()->hasPermissionTo('Thêm vai trò') ||
@@ -122,7 +142,18 @@
                  </a>
              </li>
          @endif
-
+         @if (auth()->user()->hasPermissionTo('Xem hợp đồng') ||
+                 auth()->user()->hasPermissionTo('Thêm hợp đồng') ||
+                 auth()->user()->hasPermissionTo('Sửa hợp đồng') ||
+                 auth()->user()->hasPermissionTo('Xóa hợp đồng'))
+             <li class="nav-item">
+                 <a class="nav-link {{ in_array(Request::route()->getName(), ['admin.hop_dong.index', 'admin.hop_dong.create', 'admin.hop_dong.edit']) ? '' : 'collapsed' }}"
+                     href="{{ route('admin.hop_dong.index') }}">
+                     <i class="bi bi-person-circle"></i>
+                     <span>Hợp đồng</span>
+                 </a>
+             </li>
+         @endif
          <li class="nav-heading">Hiện thị trang chủ</li>
          @if (auth()->user()->hasPermissionTo('Xem tin tức') ||
                  auth()->user()->hasPermissionTo('Thêm tin tức') ||

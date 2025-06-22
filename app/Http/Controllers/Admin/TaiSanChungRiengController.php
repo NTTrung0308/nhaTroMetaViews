@@ -40,8 +40,15 @@ class TaiSanChungRiengController extends Controller
             });
         }
 
-        $list = $query->paginate(20);
-        LogHelper::ghi('Xem danh sách tài sản chung riêng', 'Tài Sản Chung Riêng', 'Xem danh sách tài sản chung riêng trong quản trị viên');
+        $list = $query->orderBy('created_at', 'desc')->paginate(20);
+
+        // Ghi lại log chi tiết
+        LogHelper::ghi(
+            'Truy cập danh sách tài sản chung - riêng',
+            'Tài Sản Chung Riêng',
+            'Người dùng "' . auth()->user()->name . '" (ID: ' . auth()->id() . ') đã xem danh sách tài sản chung riêng trong quản trị viên.'
+        );
+
         return view('admin.tai_san_chung_riengs.index', compact('list'));
     }
 
@@ -56,31 +63,37 @@ class TaiSanChungRiengController extends Controller
         $rooms = Rooms::whereNotIn('id', $usedRoomIds)->with('nhaTro')->get();
 
         $taiSans = TaiSan::all();
-        LogHelper::ghi('Vào form tạo tài sản chung riêng', 'Tài Sản Chung Riêng', 'Vào form tạo tài sản chung riêng trong quản trị viên');
+        // Ghi lại log chi tiết
+        LogHelper::ghi(
+            'Vào form tạo tài sản chung - riêng',
+            'Tài Sản Chung Riêng',
+            'Người dùng "' . auth()->user()->name . '" (ID: ' . auth()->id() . ') đã vào form tạo tài sản chung riêng trong quản trị viên.'
+        );
+
         return view('admin.tai_san_chung_riengs.create', compact('nhaTros', 'rooms', 'taiSans'));
     }
 
     public function store(Request $request)
     {
-       $request->validate([
-    'nha_tro_id' => 'required|exists:nha_tros,id',
-    'room_id' => 'nullable|exists:rooms,id',
-    'tai_san_chung_ids' => 'nullable|array',
-    'tai_san_chung_ids.*' => 'exists:tai_sans,id',
-    'tai_san_rieng_ids' => 'nullable|array',
-    'tai_san_rieng_ids.*' => 'exists:tai_sans,id',
-], [
-    'nha_tro_id.required' => 'Vui lòng chọn nhà trọ.',
-    'nha_tro_id.exists' => 'Nhà trọ đã chọn không tồn tại.',
+        $request->validate([
+            'nha_tro_id' => 'required|exists:nha_tros,id',
+            'room_id' => 'nullable|exists:rooms,id',
+            'tai_san_chung_ids' => 'nullable|array',
+            'tai_san_chung_ids.*' => 'exists:tai_sans,id',
+            'tai_san_rieng_ids' => 'nullable|array',
+            'tai_san_rieng_ids.*' => 'exists:tai_sans,id',
+        ], [
+            'nha_tro_id.required' => 'Vui lòng chọn nhà trọ.',
+            'nha_tro_id.exists' => 'Nhà trọ đã chọn không tồn tại.',
 
-    'room_id.exists' => 'Phòng đã chọn không tồn tại.',
+            'room_id.exists' => 'Phòng đã chọn không tồn tại.',
 
-    'tai_san_chung_ids.array' => 'Danh sách tài sản chung không hợp lệ.',
-    'tai_san_chung_ids.*.exists' => 'Một hoặc nhiều tài sản chung không hợp lệ.',
+            'tai_san_chung_ids.array' => 'Danh sách tài sản chung không hợp lệ.',
+            'tai_san_chung_ids.*.exists' => 'Một hoặc nhiều tài sản chung không hợp lệ.',
 
-    'tai_san_rieng_ids.array' => 'Danh sách tài sản riêng không hợp lệ.',
-    'tai_san_rieng_ids.*.exists' => 'Một hoặc nhiều tài sản riêng không hợp lệ.',
-]);
+            'tai_san_rieng_ids.array' => 'Danh sách tài sản riêng không hợp lệ.',
+            'tai_san_rieng_ids.*.exists' => 'Một hoặc nhiều tài sản riêng không hợp lệ.',
+        ]);
 
 
 
@@ -109,7 +122,13 @@ class TaiSanChungRiengController extends Controller
                 ]);
             }
         }
-        LogHelper::ghi('Thêm tài sản chung riêng mới', 'Tài Sản Chung Riêng', 'Thêm tài sản chung riêng mới trong quản trị viên');
+        // Ghi log chi tiết
+        LogHelper::ghi(
+            'Thêm tài sản chung riêng mới (ID: ' . $tscr->id . ')',
+            'Tài Sản Chung Riêng',
+            'Người dùng "' . auth()->user()->name . '" (ID: ' . auth()->id() . ') đã thêm tài sản chung riêng cho nhà trọ ID ' . $request->nha_tro_id .
+                ($request->room_id ? ', phòng ID ' . $request->room_id : '') . '.'
+        );
 
         return redirect()->route('tai_san_chung_riengs.index')->with('success', 'Thêm mới thành công!');
     }
@@ -120,7 +139,12 @@ class TaiSanChungRiengController extends Controller
         $nhaTros = NhaTros::all();
         $rooms = Rooms::with('nhaTro')->get();
         $taiSans = TaiSan::all();
-        LogHelper::ghi('Vào form sửa tài sản chung riêng', 'Tài Sản Chung Riêng', 'Vào form sửa tài sản chung riêng trong quản trị viên');
+        // Ghi log chi tiết
+        LogHelper::ghi(
+            'Vào form sửa tài sản chung riêng (ID: ' . $taiSanChungRieng->id . ')',
+            'Tài Sản Chung Riêng',
+            'Người dùng "' . auth()->user()->name . '" (ID: ' . auth()->id() . ') đã vào trang chỉnh sửa tài sản chung riêng.'
+        );
         return view('admin.tai_san_chung_riengs.edit', compact('taiSanChungRieng', 'nhaTros', 'rooms', 'taiSans'));
     }
 
@@ -151,7 +175,15 @@ class TaiSanChungRiengController extends Controller
             }
 
             DB::commit();
-            LogHelper::ghi('Cập nhật tài sản chung riêng với id ' . $tscr->id, 'Tài Sản Chung Riêng', 'Cập nhật tài sản chung riêng trong quản trị viên');
+
+            // Ghi log chi tiết
+            LogHelper::ghi(
+                'Cập nhật tài sản chung riêng (ID: ' . $tscr->id . ')',
+                'Tài Sản Chung Riêng',
+                'Người dùng "' . auth()->user()->name . '" (ID: ' . auth()->id() . ') đã cập nhật tài sản chung riêng cho nhà trọ ID ' . $tscr->nha_tro_id .
+                    ($tscr->room_id ? (', phòng ID ' . $tscr->room_id) : '') . '.'
+            );
+
             return redirect()->route('tai_san_chung_riengs.index')->with('success', 'Cập nhật thành công');
         } catch (\Exception $e) {
             DB::rollBack();
@@ -162,8 +194,17 @@ class TaiSanChungRiengController extends Controller
     public function destroy($id)
     {
         $tscr = TaiSanChungRieng::findOrFail($id);
+        // Lưu thông tin trước khi xóa (nếu cần)
+        $nhaTroId = $tscr->nha_tro_id;
+        $roomId = $tscr->room_id;
         $tscr->delete();
-        LogHelper::ghi('Xóa tài sản chung riêng với id ' . $tscr->id, 'Tài Sản Chung Riêng', 'Xóa tài sản chung riêng trong quản trị viên');
+        // Ghi log chi tiết
+    LogHelper::ghi(
+        'Xóa tài sản chung riêng (ID: ' . $id . ')',
+        'Tài Sản Chung Riêng',
+        'Người dùng "' . auth()->user()->name . '" (ID: ' . auth()->id() . ') đã xóa tài sản chung riêng thuộc nhà trọ ID ' . $nhaTroId .
+        ($roomId ? (', phòng ID ' . $roomId) : '') . '.'
+    );
         return redirect()->route('tai_san_chung_riengs.index')->with('success', 'Đã xóa thành công');
     }
 }

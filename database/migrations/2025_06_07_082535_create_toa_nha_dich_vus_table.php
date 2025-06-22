@@ -16,8 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('nha_tro_id');
             $table->unsignedBigInteger('dich_vu_id');
             $table->enum('kieu_tinh', ['cong_to', 'dau_nguoi', 'co_dinh'])->default('cong_to'); //cong_to	Tính theo số đo công tơ (số điện, số nước, MB Internet...)
-            //dau_nguoi	Tính theo số người trong phòng
-            //co_dinh	Mức giá cố định hàng tháng (VD: phí quản lý, rác...)
+           
             $table->integer('don_gia')->default(0); // Giá cơ bản mặc định
             $table->timestamps();
             $table->foreign('nha_tro_id')->references('id')->on('nha_tros')->onDelete('cascade');
