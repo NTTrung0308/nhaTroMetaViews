@@ -72,7 +72,7 @@
                                         <td>{{ $ct->id }}</td>
                                         <td>{{ ucfirst($ct->loai) }}</td>
                                         <td>{{ number_format($ct->chi_so_dau) }}</td>
-                                        <td>{{ $ct->room->ten_phong ?? 'Chưa gán' }} {{$ct->room->ma_phong ?? 'Chưa gán'}}</td>
+                                        <td>{{ $ct->room->ten_phong ?? 'Chưa gán' }} - {{$ct->room->ma_phong ?? 'Chưa gán'}}</td>
                                         <td>{{ $ct->nhaTro->ten_toa_nha ?? '' }}</td>
                                         <td>
                                             <a href="{{ route('admin.cong_tos.edit', $ct) }}"

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('hoa_dons', function (Blueprint $table) {
            $table->id();
-    $table->unsignedBigInteger('phong_id');
+    $table->unsignedBigInteger('room_id');
     $table->unsignedBigInteger('nha_tro_id');
     $table->unsignedBigInteger('user_id'); // Thêm dòng này
 
@@ -29,7 +29,7 @@ return new class extends Migration
     $table->integer('tong_tien')->default(0);
     $table->timestamps();
 
-    $table->foreign('phong_id')->references('id')->on('phongs')->onDelete('cascade');
+    $table->foreign('room_id')->references('id')->on('rooms')->onDelete('cascade');
     $table->foreign('nha_tro_id')->references('id')->on('nha_tros')->onDelete('cascade');
     $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade'); // Liên kết user
         });

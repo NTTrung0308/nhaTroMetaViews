@@ -24,6 +24,7 @@ return new class extends Migration
             $table->integer('so_nguoi')->default(1);
             $table->integer('dien_tieu_thu')->default(0);
             $table->integer('nuoc_tieu_thu')->default(0);
+               $table->boolean('trang_thai_chot')->default(false);
             $table->timestamps();
 
             $table->unique(['nha_tro_id', 'room_id', 'thang', 'nam']); // Một dòng duy nhất mỗi phòng/tháng/năm

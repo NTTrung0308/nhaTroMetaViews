@@ -12,7 +12,8 @@ class DienNuocTheoPhong extends Model
    protected $fillable = [
         'nha_tro_id', 'room_id', 'thang', 'nam',
         'chi_so_dien', 'so_m3_nuoc_truoc', 'so_nguoi',
-        'dien_tieu_thu', 'nuoc_tieu_thu','chi_so_dien_truoc','so_m3_nuoc_sau'
+        'dien_tieu_thu', 'nuoc_tieu_thu','chi_so_dien_truoc','so_m3_nuoc_sau',
+        'trang_thai_chot'
     ];
 
     public function room()

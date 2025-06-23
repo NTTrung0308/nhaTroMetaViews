@@ -72,6 +72,8 @@ Route::prefix('admin')->group(function () {
         Route::get('/', [DienNuocController::class, 'index'])->name('diennuoc.index');
         Route::post('/tao-du-lieu', [DienNuocController::class, 'store'])->name('diennuoc.store');
         Route::put('/{id}', [DienNuocController::class, 'update'])->name('diennuoc.update');
+        Route::put('/chot/{id}', [DienNuocController::class, 'chot'])->name('diennuoc.chot');
+
     });
 
     Route::prefix('tai-sans')->group(function () {

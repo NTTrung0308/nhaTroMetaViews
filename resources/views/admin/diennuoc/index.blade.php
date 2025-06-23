@@ -169,14 +169,32 @@
                                                 <input type="number" name="so_nguoi" class="form-control text-end"
                                                     value="{{ $dn->so_nguoi }}">
                                             </td>
- @if (auth()->user()->hasPermissionTo('Sửa quản lý điện nước'))
-                                            <td>
-                                                <button type="submit" class="btn btn-sm btn-primary">Lưu</button>
-                                            </td>
+                                            @if (auth()->user()->hasPermissionTo('Sửa quản lý điện nước'))
+                                                <td>
+
+
+                                                    @if ($dn->trang_thai_chot)
+                                                        <button class="btn btn-sm btn-primary" disabled>Đã chốt</button>
+                                                    @else
+                                                        <button type="submit" class="btn btn-sm btn-primary">Lưu</button>
+                                                    @endif
+                                                </td>
                                             @endif
                                         </form>
+                                        @if (!$dn->trang_thai_chot)
+                                            <td>
+                                                <form method="POST" action="{{ route('diennuoc.chot', $dn->id) }}"
+                                                    class="d-inline">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <button class="btn btn-sm btn-outline-success"
+                                                        onclick="return confirm('Xác nhận chốt dữ liệu?')">Chốt</button>
+                                                </form>
+                                            </td>
+                                        @endif
                                     </tr>
                                 @endforeach
+
                             </tbody>
 
                         </table>

@@ -230,4 +230,17 @@ class DienNuocController extends Controller
 
         return $congTo?->chi_so_dau ?? 0;
     }
+    public function chot($id)
+{
+    $dienNuoc = DienNuocTheoPhong::findOrFail($id);
+
+    if ($dienNuoc->trang_thai_chot) {
+        return back()->with('warning', 'Dữ liệu đã chốt trước đó.');
+    }
+
+    $dienNuoc->update(['trang_thai_chot' => true]);
+
+    return back()->with('success', 'Đã chốt dữ liệu thành công.');
+}
+
 }
