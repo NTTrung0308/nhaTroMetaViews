@@ -15,14 +15,15 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('nha_tro_id');
             $table->unsignedBigInteger('room_id');
-            $table->integer('thang');
+             $table->integer('thang');
             $table->integer('nam');
-
-            $table->integer('chi_so_dien')->nullable();     // Nhập tay
-            $table->integer('so_m3_nuoc')->nullable();       // Nếu tính theo nước
-            $table->integer('so_nguoi')->nullable();         // Nếu tính theo đầu người
- $table->integer('tieu_thu_dien')->nullable();
-        $table->integer('tieu_thu_nuoc')->nullable();
+            $table->integer('chi_so_dien_truoc')->default(0);
+            $table->integer('chi_so_dien')->default(0);
+            $table->integer('so_m3_nuoc_truoc')->default(0);
+            $table->integer('so_m3_nuoc_sau')->default(0);
+            $table->integer('so_nguoi')->default(1);
+            $table->integer('dien_tieu_thu')->default(0);
+            $table->integer('nuoc_tieu_thu')->default(0);
             $table->timestamps();
 
             $table->unique(['nha_tro_id', 'room_id', 'thang', 'nam']); // Một dòng duy nhất mỗi phòng/tháng/năm

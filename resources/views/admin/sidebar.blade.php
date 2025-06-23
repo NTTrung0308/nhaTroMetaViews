@@ -87,7 +87,7 @@
              <li class="nav-item">
                  <a class="nav-link {{ in_array(Request::route()->getName(), ['diennuoc.index']) ? '' : 'collapsed' }}"
                      href="{{ route('diennuoc.index') }}">
-                     <i class="bi bi-cash-coin"></i>
+                     <i class="bi bi-droplet"></i> 
                      <span>Quản lý điện nước</span>
                  </a>
              </li>

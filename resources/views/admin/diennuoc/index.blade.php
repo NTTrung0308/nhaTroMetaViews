@@ -81,19 +81,32 @@
                             <button class="btn btn-success">Tạo dữ liệu điện nước</button>
                         </form>
                     @endif
-
-                    @if (!empty($dienNuocs))
+                    @php
+                        $hasValidItems = $dienNuocs
+                            ->filter(function ($dn) {
+                                return $dn && optional($dn->room)->id;
+                            })
+                            ->isNotEmpty();
+                    @endphp
+                    @if ($hasValidItems)
                         <table class="table table-bordered mt-3">
                             <thead>
                                 <tr>
                                     <th>Phòng</th>
-                                    <th>Số điện (kWh)</th>
+                                    <th>Chỉ số điện</th>
+                                    <th>Chỉ số đầu ĐIỆN</th>
+                                    <th>
+                                        @if ($kieuTinhNuoc == 'cong_to')
+                                            Chỉ số nước (m³)
+                                        @elseif($kieuTinhNuoc == 'dau_nguoi')
+                                            Nước (đầu người)
+                                        @else
+                                            Nước (cố định)
+                                        @endif
+                                    </th>
+
                                     @if ($kieuTinhNuoc == 'cong_to')
-                                        <th>Số nước (m³)</th>
-                                    @elseif($kieuTinhNuoc == 'dau_nguoi')
-                                        <th>Số nước (Tính theo đầu người)</th>
-                                    @elseif($kieuTinhNuoc == 'co_dinh')
-                                        <th>Số nước (Tính theo phòng)</th>
+                                        <th>Chỉ số đầu NƯỚC</th>
                                     @endif
                                     <th>Số người</th>
                                     <th>Hành động</th>
@@ -105,31 +118,54 @@
                                         <form method="POST" action="{{ route('diennuoc.update', $dn->id) }}">
                                             @csrf
                                             @method('PUT')
+
                                             <td>{{ optional($dn->room)->ten_phong }}</td>
 
                                             {{-- Chỉ số điện --}}
                                             <td>
-                                                <input type="number" step="0.1" name="chi_so_dien" class="form-control"
-                                                    value="{{ $dn->chi_so_dien }}">
+                                                <input type="number" name="chi_so_dien" step="0.1"
+                                                    class="form-control text-end" value="{{ $dn->chi_so_dien }}">
                                             </td>
 
-                                            {{-- Số nước --}}
+                                            {{-- Chỉ số đầu điện --}}
+                                            <td>
+                                                <input type="text" name="chi_so_dien_dau" readonly
+                                                    class="form-control bg-light text-end"
+                                                    value="{{ number_format($dn->chi_so_dien_dau) ?? 0 }}">
+                                            </td>
+
+                                            {{-- Nước --}}
                                             <td>
                                                 @if ($kieuTinhNuoc == 'cong_to')
+                                                    {{-- Số nước cuối kỳ --}}
+
                                                     <input type="number" step="0.1" name="so_m3_nuoc"
-                                                        class="form-control" value="{{ $dn->so_m3_nuoc }}">
+                                                        class="form-control mb-1"
+                                                        value="{{ number_format($dn->so_m3_nuoc_truoc) }}">
                                                 @elseif($kieuTinhNuoc == 'dau_nguoi')
                                                     <input type="number" class="form-control" name="so_m3_nuoc"
                                                         value="{{ $dn->so_nguoi }}" readonly>
+                                                    <small class="text-muted">Tính theo đầu người</small>
                                                 @elseif($kieuTinhNuoc == 'co_dinh')
                                                     <input type="text" class="form-control" value="1"
                                                         name="so_m3_nuoc" readonly>
+                                                    <small class="text-muted">Tính cố định</small>
                                                 @endif
                                             </td>
 
+
+
+                                            {{-- Chỉ số đầu nước (nếu là công tơ) --}}
+                                            @if ($kieuTinhNuoc == 'cong_to')
+                                                <td>
+                                                    <input type="text" readonly class="form-control bg-light text-end"
+                                                        value="{{ number_format($dn->chi_so_nuoc_dau) ?? 0 }}">
+                                                </td>
+                                            @endif
+
                                             {{-- Số người --}}
                                             <td>
-                                                <input type="number" name="so_nguoi" class="form-control"
+                                                <input type="number" name="so_nguoi" class="form-control text-end"
                                                     value="{{ $dn->so_nguoi }}">
                                             </td>
 
@@ -140,7 +176,12 @@
                                     </tr>
                                 @endforeach
                             </tbody>
+
                         </table>
+                    @else
+                        <div class="alert alert-warning mt-3">
+                            Vui lòng chọn điện nước bạn muốn tìm.
+                        </div>
                     @endif
                 </div>
 

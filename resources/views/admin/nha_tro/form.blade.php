@@ -144,6 +144,7 @@
             $isDefault = in_array($dv->ma_dich_vu, ['nuoc', 'dien_sinh_hoat', 'mang']);
             $donGia = old("don_gia.$index", $pivot['don_gia'] ?? 0);
             $kieuTinh = old("kieu_tinh.$index", $pivot['kieu_tinh'] ?? 'cong_to');
+                $isDien = $dv->ma_dich_vu === 'dien_sinh_hoat';
         @endphp
         <div class="col-lg-6">
             <div class="border rounded p-3 mb-2 ">
@@ -177,18 +178,26 @@
                         @enderror
                     </div>
 
-                    <div class="col-md-6">
-                        <label>Kiểu tính</label>
-                        <select name="kieu_tinh[]" class="form-control">
-                            <option value="cong_to" {{ $kieuTinh == 'cong_to' ? 'selected' : '' }}>Công tơ</option>
-                            <option value="dau_nguoi" {{ $kieuTinh == 'dau_nguoi' ? 'selected' : '' }}>Đầu người
-                            </option>
-                            <option value="co_dinh" {{ $kieuTinh == 'co_dinh' ? 'selected' : '' }}>Cố định</option>
-                        </select>
-                        @error("kieu_tinh.$index")
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
-                    </div>
+                   <div class="col-md-6">
+    <label>Kiểu tính</label>
+    @if ($isDien)
+        <select class="form-control" disabled>
+            <option value="cong_to" selected>Công tơ</option>
+        </select>
+        <input type="hidden" name="kieu_tinh[]" value="cong_to">
+    @else
+        <select name="kieu_tinh[]" class="form-control">
+            <option value="cong_to" {{ $kieuTinh == 'cong_to' ? 'selected' : '' }}>Công tơ</option>
+            <option value="dau_nguoi" {{ $kieuTinh == 'dau_nguoi' ? 'selected' : '' }}>Đầu người</option>
+            <option value="co_dinh" {{ $kieuTinh == 'co_dinh' ? 'selected' : '' }}>Cố định</option>
+        </select>
+    @endif
+
+    @error("kieu_tinh.$index")
+        <div class="text-danger">{{ $message }}</div>
+    @enderror
+</div>
+
                 </div>
             </div>
         </div>

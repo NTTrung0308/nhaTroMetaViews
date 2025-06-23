@@ -53,8 +53,9 @@ class Rooms extends Model
 
 public function congTos()
 {
-    return $this->hasMany(CongTo::class);
+    return $this->hasMany(CongTo::class, 'room_id');
 }
+
 
 public function congToDien()
 {
