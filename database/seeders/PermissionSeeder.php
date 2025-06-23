@@ -87,6 +87,9 @@ class PermissionSeeder extends Seeder
             'Sửa hợp đồng',
             'Thêm hợp đồng',
             'Xóa hợp đồng',
+            'Xem quản lý điện nước',
+            'Sửa quản lý điện nước',
+            'Thêm quản lý điện nước',
 
 
         ];

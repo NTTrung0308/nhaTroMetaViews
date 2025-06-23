@@ -1,11 +1,11 @@
 @extends('admin.index')
 @section('contentadmin')
     <div class="pagetitle">
-        <h1>Người quản trị</h1>
+        <h1>Quản lý điện nước</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">Home</li>
-                <li class="breadcrumb-item active">Người quản trị</li>
+                <li class="breadcrumb-item active">Quản lý điện nước</li>
             </ol>
         </nav>
     </div>
@@ -20,9 +20,19 @@
             <div class="card">
                 <div class="card-body">
                     <div class="col-12 d-sm-flex justify-content-between align-items-center">
-                        <h5 class="card-title">Nội dung Người quản trị</h5>
-                        <a href="{{ route('admin.quanly.create') }}" class="btn btn-success rounded-pill">Thêm Người quản
-                            trị</a>
+                        <h5 class="card-title">Nội dung Quản lý điện nước</h5>
+                        @if (auth()->user()->hasPermissionTo('Thêm quản lý điện nước'))
+                            @if ($canTao)
+                                <form method="POST" action="{{ route('diennuoc.store') }}">
+                                    @csrf
+                                    <input type="hidden" name="nha_tro_id" value="{{ $selectedNhaTroId }}">
+                                    <input type="hidden" name="thang" value="{{ $thang }}">
+                                    <input type="hidden" name="nam" value="{{ $nam }}">
+                                    <button class="btn btn-success">Tạo dữ liệu điện nước</button>
+                                </form>
+                            @endif
+                        @endif
+
                     </div>
 
                     <form method="GET" action="{{ route('diennuoc.index') }}" class="mb-3">
@@ -72,15 +82,6 @@
                         </div>
                     </form>
 
-                    @if ($canTao)
-                        <form method="POST" action="{{ route('diennuoc.store') }}">
-                            @csrf
-                            <input type="hidden" name="nha_tro_id" value="{{ $selectedNhaTroId }}">
-                            <input type="hidden" name="thang" value="{{ $thang }}">
-                            <input type="hidden" name="nam" value="{{ $nam }}">
-                            <button class="btn btn-success">Tạo dữ liệu điện nước</button>
-                        </form>
-                    @endif
                     @php
                         $hasValidItems = $dienNuocs
                             ->filter(function ($dn) {
@@ -168,10 +169,11 @@
                                                 <input type="number" name="so_nguoi" class="form-control text-end"
                                                     value="{{ $dn->so_nguoi }}">
                                             </td>
-
+ @if (auth()->user()->hasPermissionTo('Sửa quản lý điện nước'))
                                             <td>
                                                 <button type="submit" class="btn btn-sm btn-primary">Lưu</button>
                                             </td>
+                                            @endif
                                         </form>
                                     </tr>
                                 @endforeach

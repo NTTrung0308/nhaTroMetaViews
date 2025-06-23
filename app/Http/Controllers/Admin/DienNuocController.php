@@ -13,6 +13,14 @@ use Illuminate\Http\Request;
 
 class DienNuocController extends Controller
 {
+     public function __construct()
+    {
+        // Kiểm tra quyền của người dùng để tạo, sửa, xóa hợp đồng
+        $this->middleware('can:Xem quản lý điện nước')->only(['index']);
+        $this->middleware('can:Thêm quản lý điện nước')->only([ 'store']);
+        $this->middleware('can:Sửa quản lý điện nước')->only([ 'update']);
+      
+    }
     public function index(Request $request)
     {
         $nhaTros = NhaTros::all();

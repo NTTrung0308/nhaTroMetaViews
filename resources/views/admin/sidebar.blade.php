@@ -83,14 +83,17 @@
                  </a>
              </li>
          @endif
-
+         @if (auth()->user()->hasPermissionTo('Xem quản lý điện nước') ||
+                 auth()->user()->hasPermissionTo('Thêm quản lý điện nước') ||
+                 auth()->user()->hasPermissionTo('Sửa quản lý điện nước'))
              <li class="nav-item">
                  <a class="nav-link {{ in_array(Request::route()->getName(), ['diennuoc.index']) ? '' : 'collapsed' }}"
                      href="{{ route('diennuoc.index') }}">
-                     <i class="bi bi-droplet"></i> 
+                     <i class="bi bi-droplet"></i>
                      <span>Quản lý điện nước</span>
                  </a>
              </li>
+         @endif
          <li class="nav-heading">Phân quyền</li>
          @if (auth()->user()->hasPermissionTo('Xem vai trò') ||
                  auth()->user()->hasPermissionTo('Thêm vai trò') ||
@@ -149,7 +152,7 @@
              <li class="nav-item">
                  <a class="nav-link {{ in_array(Request::route()->getName(), ['admin.hop_dong.index', 'admin.hop_dong.create', 'admin.hop_dong.edit']) ? '' : 'collapsed' }}"
                      href="{{ route('admin.hop_dong.index') }}">
-                     <i class="bi bi-person-circle"></i>
+                     <i class="bi bi-file-earmark"></i>
                      <span>Hợp đồng</span>
                  </a>
              </li>
