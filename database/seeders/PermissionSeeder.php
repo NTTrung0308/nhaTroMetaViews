@@ -101,8 +101,10 @@ class PermissionSeeder extends Seeder
         $adminRole = Role::firstOrCreate(['name' => 'Super Admin', 'guard_name' => 'web']);
         $adminRole->syncPermissions($permissions);
 
-        Role::firstOrCreate(['name' => 'nguoi-thue-tro']);
+        // Role::firstOrCreate(['name' => 'nguoi-thue-tro']);
+$role = Role::firstOrCreate(['name' => 'nguoi-thue-tro']);
 
+      
         // Gán Super Admin cho User ID 1
         $admin = User::find(1);
         if ($admin) {
@@ -120,5 +122,16 @@ class PermissionSeeder extends Seeder
         );
 
         $superAdmin->assignRole('Super Admin');
+
+
+
+          // 2. Tạo user và gán vai trò
+        $user1 = User::create([
+            'name' => 'Nguyễn Văn A',
+            'email' => 'test@gmail.com',
+            'password' => Hash::make('12345678'),
+        ]);
+        $user1->assignRole($role); // Gán vai trò đã tạo
+
     }
 }
