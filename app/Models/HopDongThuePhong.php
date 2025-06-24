@@ -60,4 +60,8 @@ class HopDongThuePhong extends Model
 {
     return $this->belongsTo(NhaTros::class);
 }
+ public function hoaDons()
+    {
+        return $this->hasMany(HoaDon::class, 'hop_dong_thue_phong_id');
+    }
 }

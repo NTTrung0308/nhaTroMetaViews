@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DichVuController;
 use App\Http\Controllers\Admin\DienNuocController;
 use App\Http\Controllers\Admin\FeedbackController;
+use App\Http\Controllers\Admin\HoaDonController;
 use App\Http\Controllers\Admin\HopDongController;
 use App\Http\Controllers\Admin\NhaTroController;
 use App\Http\Controllers\Admin\PhuongTienController;
@@ -195,8 +196,19 @@ Route::prefix('hop-dong')->name('admin.hop_dong.')->group(function () {
     Route::put('/{hopDong}', [HopDongController::class, 'update'])->name('update');
     Route::delete('/{hopDong}', [HopDongController::class, 'destroy'])->name('destroy');
 });
+Route::prefix('hoa-dons')->name('hoa-dons.')->group(function () {
+    Route::get('/', [HoaDonController::class, 'index'])->name('index');
+    Route::get('/create', [HoaDonController::class, 'showGenerateForm'])->name('create');
+    Route::post('/', [HoaDonController::class, 'store'])->name('store');
+    Route::get('/{hoaDon}/edit', [HoaDonController::class, 'edit'])->name('edit');
+    Route::put('/{hoaDon}', [HoaDonController::class, 'update'])->name('update');
+    Route::get('/{hoaDon}', [HoaDonController::class, 'show'])->name('show');
+    Route::delete('/{hoaDon}', [HoaDonController::class, 'destroy'])->name('destroy');
+});
 
-
+// 3. Route để tạo một hóa đơn duy nhất trực tiếp từ một hợp đồng cụ thể
+Route::post('/hop-dongs/{hop_dong}/tao-hoa-don', [HoaDonController::class, 'taoHoaDonChoHopDong'])
+    ->name('hop-dongs.tao-hoa-don');
 
 
 Route::post('/upload-image', [UploadController::class, 'uploadImage'])->name('upload-image');

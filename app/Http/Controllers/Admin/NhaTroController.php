@@ -62,22 +62,22 @@ class NhaTroController extends Controller
     {
         $validatedData = $request->validate([
             'ten_toa_nha' => 'required|string|max:255',
-            'ma_toa_nha' => 'nullable|string|max:255|unique:nha_tros,ma_toa_nha',
-            'dia_chi' => 'nullable|string|max:255',
-            'phuong' => 'nullable|string|max:255',
-            'quan' => 'nullable|string|max:255',
-            'thanh_pho' => 'nullable|string|max:255',
-            'so_tang' => 'nullable|integer|min:0',
-            'so_phong_tang' => 'nullable|integer|min:0',
-            'dien_tich' => 'nullable|integer|min:0',
-            'chu_so_huu' => 'nullable|string|max:255',
+            'ma_toa_nha' => 'required|string|max:255|unique:nha_tros,ma_toa_nha',
+            'dia_chi' => 'required|string|max:255',
+            'phuong' => 'required|string|max:255',
+            'quan' => 'required|string|max:255',
+            'thanh_pho' => 'required|string|max:255',
+            'so_tang' => 'required|integer|min:0',
+            'so_phong_tang' => 'required|integer|min:0',
+            'dien_tich' => 'required|integer|min:0',
+            'chu_so_huu' => 'required|string|max:255',
             'mo_ta' => 'nullable|string',
             'status' => 'required|in:Hoạt động,Ngưng hoạt động',
-            'quoc_gia' => 'nullable|string|max:255',
-            'dich_vu_ids' => 'nullable|array',
+            'quoc_gia' => 'required|string|max:255',
+            'dich_vu_ids' => 'required|array',
             'dich_vu_ids.*' => 'exists:dich_vus,id',
-            'don_gia.*' => 'nullable|numeric|min:0',
-            'kieu_tinh.*' => 'nullable|in:cong_to,dau_nguoi,co_dinh',
+            'don_gia.*' => 'required|numeric|min:0',
+            'kieu_tinh.*' => 'required|in:cong_to,dau_nguoi,co_dinh',
         ], $this->messages());
         $defaultServiceCodes = ['nuoc', 'dien_sinh_hoat', 'mang'];
         $defaultServiceIds = DichVu::whereIn('ma_dich_vu', $defaultServiceCodes)->pluck('id')->toArray();
@@ -161,26 +161,26 @@ class NhaTroController extends Controller
         $validatedData = $request->validate([
             'ten_toa_nha' => 'required|string|max:255',
             'ma_toa_nha' => [
-                'nullable',
+                'required',
                 'string',
                 'max:255',
                 Rule::unique('nha_tros', 'ma_toa_nha')->ignore($nhaTro->id),
             ],
-            'dia_chi' => 'nullable|string|max:255',
-            'phuong' => 'nullable|string|max:255',
-            'quan' => 'nullable|string|max:255',
-            'thanh_pho' => 'nullable|string|max:255',
-            'so_tang' => 'nullable|integer|min:0',
-            'so_phong_tang' => 'nullable|integer|min:0',
-            'dien_tich' => 'nullable|integer|min:0',
-            'chu_so_huu' => 'nullable|string|max:255',
+            'dia_chi' => 'required|string|max:255',
+            'phuong' => 'required|string|max:255',
+            'quan' => 'required|string|max:255',
+            'thanh_pho' => 'required|string|max:255',
+            'so_tang' => 'required|integer|min:0',
+            'so_phong_tang' => 'required|integer|min:0',
+            'dien_tich' => 'required|integer|min:0',
+            'chu_so_huu' => 'required|string|max:255',
             'mo_ta' => 'nullable|string',
             'status' => 'required|in:Hoạt động,Ngưng hoạt động',
-            'quoc_gia' => 'nullable|string|max:255',
-            'dich_vu_ids' => 'nullable|array',
+            'quoc_gia' => 'required|string|max:255',
+            'dich_vu_ids' => 'required|array',
             'dich_vu_ids.*' => 'exists:dich_vus,id',
-            'don_gia.*' => 'nullable|numeric|min:0',
-            'kieu_tinh.*' => 'nullable|in:cong_to,dau_nguoi,co_dinh',
+            'don_gia.*' => 'required|numeric|min:0',
+            'kieu_tinh.*' => 'required|in:cong_to,dau_nguoi,co_dinh',
         ], $this->messages());
         $defaultServiceCodes = ['nuoc', 'dien_sinh_hoat', 'mang'];
         $defaultServiceIds = DichVu::whereIn('ma_dich_vu', $defaultServiceCodes)->pluck('id')->toArray();
@@ -231,31 +231,61 @@ class NhaTroController extends Controller
         LogHelper::ghi('Xóa nhà trọ với id ' . $nhaTro->id, 'Nhà Trọ', 'Xóa nhà trọ trong quản trị viên');
         return redirect()->route('nha_tro.index')->with('success', 'Xóa nhà trọ thành công');
     }
-    private function messages()
-    {
-        return [
-            'ten_toa_nha.required' => 'Vui lòng nhập tên tòa nhà.',
-            'ten_toa_nha.max' => 'Tên tòa nhà không được vượt quá 255 ký tự.',
+   private function messages()
+{
+    return [
+        // Thông tin tòa nhà
+        'ten_toa_nha.required' => 'Vui lòng nhập tên tòa nhà.',
+        'ten_toa_nha.max' => 'Tên tòa nhà không được vượt quá 255 ký tự.',
 
-            'ma_toa_nha.unique' => 'Mã tòa nhà đã tồn tại.',
-            'ma_toa_nha.max' => 'Mã tòa nhà không được vượt quá 255 ký tự.',
+        'ma_toa_nha.required' => 'Vui lòng nhập mã tòa nhà.',
+        'ma_toa_nha.max' => 'Mã tòa nhà không được vượt quá 255 ký tự.',
+        'ma_toa_nha.unique' => 'Mã tòa nhà đã tồn tại trong hệ thống.',
 
-            'so_tang.integer' => 'Số tầng phải là số.',
-            'so_tang.min' => 'Số tầng không được nhỏ hơn 0.',
-            'so_phong_tang.integer' => 'Số tầng phải là số.',
-            'so_phong_tang.min' => 'Số tầng không được nhỏ hơn 0.',
+        'dia_chi.required' => 'Vui lòng nhập địa chỉ.',
+        'dia_chi.max' => 'Địa chỉ không được vượt quá 255 ký tự.',
+        'phuong.required' => 'Vui lòng nhập phường.',
+        'phuong.max' => 'Phường không được vượt quá 255 ký tự.',
+        'quan.required' => 'Vui lòng nhập quận.',
+        'quan.max' => 'Quận không được vượt quá 255 ký tự.',
+        'thanh_pho.required' => 'Vui lòng nhập thành phố.',
+        'thanh_pho.max' => 'Thành phố không được vượt quá 255 ký tự.',
+        'quoc_gia.required' => 'Vui lòng nhập quốc gia.',
+        'quoc_gia.max' => 'Quốc gia không được vượt quá 255 ký tự.',
 
-            'dien_tich.integer' => 'Diện tích phải là số.',
-            'dien_tich.min' => 'Diện tích không được nhỏ hơn 0.',
+        // Thông số kỹ thuật
+        'so_tang.required' => 'Vui lòng nhập số tầng.',
+        'so_tang.integer' => 'Số tầng phải là số nguyên.',
+        'so_tang.min' => 'Số tầng không được nhỏ hơn 0.',
 
-            'status.required' => 'Vui lòng chọn trạng thái.',
-            'status.in' => 'Trạng thái không hợp lệ.',
+        'so_phong_tang.required' => 'Vui lòng nhập số phòng mỗi tầng.',
+        'so_phong_tang.integer' => 'Số phòng mỗi tầng phải là số nguyên.',
+        'so_phong_tang.min' => 'Số phòng mỗi tầng không được nhỏ hơn 0.',
 
-            'dich_vu_ids.array' => 'Dịch vụ phải là danh sách hợp lệ.',
-            'dich_vu_ids.*.exists' => 'Dịch vụ được chọn không tồn tại.',
-            'don_gia.*.numeric' => 'Đơn giá phải là một số.',
-            'don_gia.*.min' => 'Đơn giá không được nhỏ hơn 0.',
-            'kieu_tinh.*.in' => 'Kiểu tính không hợp lệ. Chỉ chấp nhận: công tơ, đầu người, hoặc cố định.',
-        ];
-    }
+        'dien_tich.required' => 'Vui lòng nhập diện tích.',
+        'dien_tich.integer' => 'Diện tích phải là số nguyên.',
+        'dien_tich.min' => 'Diện tích không được nhỏ hơn 0.',
+
+        'chu_so_huu.required' => 'Vui lòng nhập tên chủ sở hữu.',
+        'chu_so_huu.max' => 'Tên chủ sở hữu không được vượt quá 255 ký tự.',
+
+        // Trạng thái
+        'status.required' => 'Vui lòng chọn trạng thái.',
+        'status.in' => 'Trạng thái không hợp lệ. Chỉ chấp nhận: Hoạt động hoặc Ngưng hoạt động.',
+
+        // Dịch vụ
+        'dich_vu_ids.required' => 'Vui lòng chọn ít nhất một dịch vụ.',
+        'dich_vu_ids.array' => 'Danh sách dịch vụ không hợp lệ.',
+        'dich_vu_ids.*.exists' => 'Dịch vụ được chọn không tồn tại trong hệ thống.',
+
+        // Đơn giá & kiểu tính
+        'don_gia.*.required' => 'Vui lòng nhập đơn giá cho từng dịch vụ.',
+        'don_gia.*.numeric' => 'Đơn giá phải là một số.',
+        'don_gia.*.min' => 'Đơn giá không được nhỏ hơn 0.',
+
+        'kieu_tinh.*.required' => 'Vui lòng chọn kiểu tính cho từng dịch vụ.',
+        'kieu_tinh.*.in' => 'Kiểu tính không hợp lệ. Chỉ chấp nhận: công tơ, đầu người hoặc cố định.',
+    ];
+}
+
 }

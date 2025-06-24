@@ -23,7 +23,7 @@
                         <h5 class="card-title">Nội dung Quản lý điện nước</h5>
                         @if (auth()->user()->hasPermissionTo('Thêm quản lý điện nước'))
                             @if ($canTao)
-                                <form method="POST" action="{{ route('diennuoc.store') }}">
+                                <form method="POST" action="{{ route('diennuoc.store') }}" class="">
                                     @csrf
                                     <input type="hidden" name="nha_tro_id" value="{{ $selectedNhaTroId }}">
                                     <input type="hidden" name="thang" value="{{ $thang }}">
@@ -36,10 +36,10 @@
                     </div>
 
                     <form method="GET" action="{{ route('diennuoc.index') }}" class="mb-3">
-                        <div class="row g-2">
-                            <div class="col-md-4">
+                        <div class="row align-items-end g-3 mb-4">
+                            <div class="col-md-3">
                                 <label>Tòa nhà</label>
-                                <select name="nha_tro_id" class="form-select" required>
+                                <select name="nha_tro_id" class="form-select select_ted" required>
                                     <option value="">-- Chọn tòa nhà --</option>
                                     @foreach ($nhaTros as $nt)
                                         <option value="{{ $nt->id }}"
@@ -49,7 +49,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <label>Tháng</label>
                                 <select name="thang" class="form-select" required>
                                     @for ($i = 1; $i <= 12; $i++)
@@ -64,7 +64,7 @@
                                 $endYear = $currentYear + 5;
                             @endphp
 
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <label>Năm</label>
                                 <select name="nam" class="form-select" required>
                                     @for ($year = $startYear; $year <= $endYear; $year++)
@@ -76,7 +76,7 @@
                                 </select>
                             </div>
 
-                            <div class="col-md-2 align-self-end">
+                            <div class="col-md-3 d-flex gap-2">
                                 <button class="btn btn-primary w-100">Xem dữ liệu</button>
                             </div>
                         </div>
@@ -199,7 +199,7 @@
 
                         </table>
                     @else
-                        <div class="alert alert-warning mt-3">
+                        <div class="alert alert-warning mt-3 text-center">
                             Vui lòng chọn điện nước bạn muốn tìm.
                         </div>
                     @endif

@@ -80,5 +80,9 @@ public function hopDongThuePhongs()
 {
     return $this->hasMany(HopDongThuePhong::class);
 }
+public function hoaDon()
+{
+    return $this->hasMany(HoaDon::class);
+}
 
 }

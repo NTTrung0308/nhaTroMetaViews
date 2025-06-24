@@ -29,7 +29,7 @@
 <div class="row mb-3">
     <div class="col">
         <label>Thành phố</label>
-        <select name="thanh_pho" id="province-select" class="form-control"
+        <select name="thanh_pho" id="province-select" class="form-select"
             data-old="{{ old('thanh_pho', $nhaTro->thanh_pho ?? '') }}">
             <option value="">-- Chọn Tỉnh/Thành phố --</option>
         </select>
@@ -41,7 +41,7 @@
     </div>
     <div class="col">
         <label>Quận</label>
-        <select name="quan" id="district-select" class="form-control"
+        <select name="quan" id="district-select" class="form-select"
             data-old="{{ old('quan', $nhaTro->quan ?? '') }}" disabled>
             <option value="">-- Chọn Quận/Huyện --</option>
         </select>
@@ -52,7 +52,7 @@
     </div>
     <div class="col">
         <label>Phường</label>
-        <select name="phuong" id="ward-select" class="form-control"
+        <select name="phuong" id="ward-select" class="form-select"
             data-old="{{ old('phuong', $nhaTro->phuong ?? '') }}" disabled>
             <option value="">-- Chọn Phường/Xã --</option>
         </select>
@@ -138,70 +138,72 @@
 <div class="mb-3 row g-3">
 
     <label>Dịch vụ áp dụng:</label>
-    @foreach ($dichVus as $index => $dv)
-        @php
-            $pivot = $pivotData[$dv->id] ?? null;
-            $isDefault = in_array($dv->ma_dich_vu, ['nuoc', 'dien_sinh_hoat', 'mang']);
-            $donGia = old("don_gia.$index", $pivot['don_gia'] ?? 0);
-            $kieuTinh = old("kieu_tinh.$index", $pivot['kieu_tinh'] ?? 'cong_to');
-                $isDien = $dv->ma_dich_vu === 'dien_sinh_hoat';
-        @endphp
-        <div class="col-lg-6">
-            <div class="border rounded p-3 mb-2 ">
+   @foreach ($dichVus as $index => $dv)
+    @php
+        $pivot = $pivotData[$dv->id] ?? null;
+        $isDefault = in_array($dv->ma_dich_vu, ['nuoc', 'dien_sinh_hoat', 'mang']);
+        $isDien = $dv->ma_dich_vu === 'dien_sinh_hoat';
+        $isNuoc = $dv->ma_dich_vu === 'nuoc';
 
-                <div class="checkbox-wrapper-61">
-                    <input type="checkbox" class="check" name="dich_vu_ids[]" value="{{ $dv->id }}"
-                        id="dv{{ $dv->id }}"
-                        {{ (optional($nhaTro)->dichVus ?? collect())->contains($dv->id) || (is_array(old('dich_vu_ids')) && in_array($dv->id, old('dich_vu_ids', []))) ? 'checked' : '' }} />
-                    <label for="dv{{ $dv->id }}" class="label">
-                        <svg width="45" height="45" viewbox="0 0 95 95">
-                            <rect x="30" y="20" width="50" height="50" stroke="black" fill="none" />
-                            <g transform="translate(0,-952.36222)">
-                                <path
-                                    d="m 56,963 c -102,122 6,9 7,9 17,-5 -66,69 -38,52 122,-77 -7,14 18,4 29,-11 45,-43 23,-4 "
-                                    stroke="black" stroke-width="3" fill="none" class="path1" />
-                            </g>
-                        </svg>
-                        <span>{{ $dv->ten_dich_vu }} @if ($isDefault)
-                                <small class="text-danger">*</small>
-                            @endif
-                        </span>
-                    </label>
+        // Gán kiểu tính mặc định hợp lý
+        $defaultKieuTinh = $isDien ? 'cong_to' : ($isNuoc ? 'cong_to' : 'co_dinh');
+        $donGia = old("don_gia.$index", $pivot['don_gia'] ?? 0);
+        $kieuTinh = old("kieu_tinh.$index", $pivot['kieu_tinh'] ?? $defaultKieuTinh);
+    @endphp
+
+    <div class="col-lg-6">
+        <div class="border rounded p-3 mb-2">
+            {{-- Checkbox dịch vụ --}}
+            <div class="checkbox-wrapper-61">
+                <input type="checkbox" class="check" name="dich_vu_ids[]" value="{{ $dv->id }}"
+                    id="dv{{ $dv->id }}"
+                    {{ (optional($nhaTro)->dichVus ?? collect())->contains($dv->id) || (is_array(old('dich_vu_ids')) && in_array($dv->id, old('dich_vu_ids', []))) ? 'checked' : '' }} />
+                <label for="dv{{ $dv->id }}" class="label">
+                    <svg width="45" height="45" viewbox="0 0 95 95">
+                        <rect x="30" y="20" width="50" height="50" stroke="black" fill="none" />
+                        <g transform="translate(0,-952.36222)">
+                            <path d="m 56,963 c -102,122 6,9 7,9 17,-5 -66,69 -38,52 122,-77 -7,14 18,4 29,-11 45,-43 23,-4 "
+                                  stroke="black" stroke-width="3" fill="none" class="path1" />
+                        </g>
+                    </svg>
+                    <span>{{ $dv->ten_dich_vu }} @if ($isDefault)<small class="text-danger">*</small>@endif</span>
+                </label>
+            </div>
+
+            {{-- Giá và kiểu tính --}}
+            <div class="row mt-2">
+                <div class="col-md-6">
+                    <label>Đơn giá</label>
+                    <input type="number" name="don_gia[]" class="form-control" value="{{ $donGia }}">
+                    @error("don_gia.$index") <div class="text-danger">{{ $message }}</div> @enderror
                 </div>
 
-                <div class="row mt-2">
-                    <div class="col-md-6">
-                        <label>Đơn giá</label>
-                        <input type="number" name="don_gia[]" class="form-control" value="{{ $donGia }}">
-                        @error("don_gia.$index")
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                   <div class="col-md-6">
-    <label>Kiểu tính</label>
-    @if ($isDien)
-        <select class="form-control" disabled>
-            <option value="cong_to" selected>Công tơ</option>
-        </select>
-        <input type="hidden" name="kieu_tinh[]" value="cong_to">
-    @else
-        <select name="kieu_tinh[]" class="form-control">
-            <option value="cong_to" {{ $kieuTinh == 'cong_to' ? 'selected' : '' }}>Công tơ</option>
-            <option value="dau_nguoi" {{ $kieuTinh == 'dau_nguoi' ? 'selected' : '' }}>Đầu người</option>
-            <option value="co_dinh" {{ $kieuTinh == 'co_dinh' ? 'selected' : '' }}>Cố định</option>
-        </select>
-    @endif
-
-    @error("kieu_tinh.$index")
-        <div class="text-danger">{{ $message }}</div>
-    @enderror
-</div>
-
+                <div class="col-md-6">
+                    <label>Kiểu tính</label>
+                    @if ($isDien)
+                        {{-- Dịch vụ điện chỉ có "Công tơ", disable dropdown --}}
+                        <select class="form-control" disabled>
+                            <option value="cong_to" selected>Công tơ</option>
+                        </select>
+                        <input type="hidden" name="kieu_tinh[]" value="cong_to">
+                    @else
+                        {{-- Các dịch vụ khác --}}
+                        <select name="kieu_tinh[]" class="form-control">
+                            {{-- Nếu là nước thì hiển thị Công tơ, ngược lại ẩn --}}
+                            @if ($isNuoc)
+                                <option value="cong_to" {{ $kieuTinh == 'cong_to' ? 'selected' : '' }}>Công tơ</option>
+                            @endif
+                            <option value="dau_nguoi" {{ $kieuTinh == 'dau_nguoi' ? 'selected' : '' }}>Đầu người</option>
+                            <option value="co_dinh" {{ $kieuTinh == 'co_dinh' ? 'selected' : '' }}>Cố định</option>
+                        </select>
+                    @endif
+                    @error("kieu_tinh.$index") <div class="text-danger">{{ $message }}</div> @enderror
                 </div>
             </div>
         </div>
-    @endforeach
+    </div>
+@endforeach
+
 
 
 
