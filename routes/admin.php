@@ -55,8 +55,8 @@ Route::prefix('admin')->group(function () {
         Route::get('/', [NhaTroController::class, 'index'])->name('nha_tro.index');
         Route::get('/create', [NhaTroController::class, 'create'])->name('nha_tro.create');
         Route::post('/store', [NhaTroController::class, 'store'])->name('nha_tro.store');
-        Route::get('/edit/{id}', [NhaTroController::class, 'edit'])->name('nha_tro.edit');
-        Route::put('/update/{id}', [NhaTroController::class, 'update'])->name('nha_tro.update');
+        Route::get('/edit/{nhaTro}', [NhaTroController::class, 'edit'])->name('nha_tro.edit');
+        Route::put('/update/{nhaTro}', [NhaTroController::class, 'update'])->name('nha_tro.update');
         Route::delete('/delete/{id}', [NhaTroController::class, 'destroy'])->name('nha_tro.destroy');
     });
 

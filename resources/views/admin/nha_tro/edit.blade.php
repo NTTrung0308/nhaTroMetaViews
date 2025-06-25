@@ -21,7 +21,7 @@
                         <h5 class="card-title">Sửa mới Nhà trọ</h5>
 
                     </div>
-                    <form action="{{ route('nha_tro.update', $nhaTro->id) }}" method="POST">
+                   <form action="{{ route('nha_tro.update', $nhaTro) }}" method="POST">
                         @csrf @method('PUT')
                         @include('admin.nha_tro.form', ['nhaTro' => $nhaTro])
                         <div class="text-end">

@@ -203,10 +203,74 @@
                     dvContainer.innerHTML = '<em>Không có dịch vụ</em>';
                 } else {
                     dichVus.forEach(dv => {
-                        const badge = document.createElement('span');
-                        badge.className = 'badge bg-primary me-1';
-                        badge.textContent = dv.ten_dich_vu;
-                        dvContainer.appendChild(badge);
+                        // =======================================================
+                        // === SỬA LẠI PHẦN HIỂN THỊ DỊCH VỤ ===
+                        // =======================================================
+                      
+                        dvContainer.innerHTML = ''; // Xóa nội dung cũ
+
+                        if (dichVus.length === 0) {
+                            dvContainer.innerHTML =
+                                '<p class="text-muted"><em>Không có dịch vụ nào được áp dụng.</em></p>';
+                        } else {
+                            // Bắt đầu xây dựng chuỗi HTML cho bảng
+                            let tableHTML = `
+                    <table class="table table-striped table-sm">
+                        <thead class="table-light">
+                            <tr>
+                                <th>#</th>
+                                <th>Tên Dịch Vụ</th>
+                                <th class="text-end">Đơn Giá</th>
+                                <th>Kiểu Tính</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+
+                            // Lặp qua từng dịch vụ để tạo các hàng (<tr>)
+                            dichVus.forEach((dv, index) => {
+                                const donGia = dv.pivot.don_gia;
+                                const kieuTinh = dv.pivot.kieu_tinh;
+
+                                // Định dạng lại kiểu tính cho dễ đọc
+                                let kieuTinhFormatted = '';
+                                switch (kieuTinh) {
+                                    case 'cong_to':
+                                        kieuTinhFormatted =
+                                            '<span class="badge bg-info">Công tơ</span>';
+                                        break;
+                                    case 'dau_nguoi':
+                                        kieuTinhFormatted =
+                                            '<span class="badge bg-success">Đầu người</span>';
+                                        break;
+                                    case 'co_dinh':
+                                        kieuTinhFormatted =
+                                            '<span class="badge bg-secondary">Cố định</span>';
+                                        break;
+                                    default:
+                                        kieuTinhFormatted = kieuTinh;
+                                }
+
+                                // Thêm một hàng mới vào chuỗi HTML
+                                tableHTML += `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${dv.ten_dich_vu}</td>
+                            <td class="text-end">${new Intl.NumberFormat('vi-VN').format(donGia)} đ</td>
+                            <td>${kieuTinhFormatted}</td>
+                        </tr>
+                    `;
+                            });
+
+                            // Kết thúc bảng
+                            tableHTML += `
+                        </tbody>
+                    </table>
+                `;
+
+                            // Gán chuỗi HTML vừa tạo vào container
+                            dvContainer.innerHTML = tableHTML;
+                        }
                     });
                 }
             });
