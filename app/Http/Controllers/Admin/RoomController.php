@@ -73,6 +73,7 @@ class RoomController extends Controller
             'loai_phong' => 'required|in:van_phong,can_ho,phong_cho_thue,khac',
             'gia_thue' => 'nullable|integer|min:0',
             'status' => 'required|string',
+            'da_thue' => 'required|string',
             'images' => 'nullable|array',
             'images.*' => 'image|mimes:jpeg,png,jpg',
             'ghi_chu' => 'nullable|string',
@@ -160,6 +161,7 @@ class RoomController extends Controller
             'so_khach' => 'nullable|integer|min:1',
             'loai_phong' => 'required|in:van_phong,can_ho,phong_cho_thue,khac',
             'gia_thue' => 'nullable|integer|min:0',
+            'da_thue' => 'required|string',
             'status' => 'required|string',
             'images' => 'nullable|array',
             'images.*' => 'image|mimes:jpeg,png,jpg',
@@ -242,7 +244,6 @@ class RoomController extends Controller
 
         // Gán lại vào dữ liệu
         $validated['images'] = json_encode($images);
-
 
 
 
