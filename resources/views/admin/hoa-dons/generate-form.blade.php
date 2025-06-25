@@ -5,7 +5,7 @@
     <div class="card-header">Chọn kỳ để tạo hóa đơn</div>
     <div class="card-body">
         <p class="text-muted">Hệ thống sẽ tự động tạo hóa đơn cho tất cả các hợp đồng đang hoạt động trong kỳ bạn chọn. Các hóa đơn đã tồn tại hoặc phòng chưa có chỉ số điện nước trong kỳ sẽ được bỏ qua.</p>
-        <form action="{{ route('hoa-dons.generate.store') }}" method="POST">
+        <form action="{{ route('hoa-dons.store') }}" method="POST">
             @csrf
             <div class="row">
                 <div class="col-md-6 mb-3">

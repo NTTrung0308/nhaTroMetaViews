@@ -19,14 +19,15 @@ class DienNuocController extends Controller
         $this->middleware('can:Xem quản lý điện nước')->only(['index']);
         $this->middleware('can:Thêm quản lý điện nước')->only([ 'store']);
         $this->middleware('can:Sửa quản lý điện nước')->only([ 'update']);
+        $this->middleware('can:Chốt quản lý điện nước')->only([ 'chot']);
       
     }
     public function index(Request $request)
     {
         $nhaTros = NhaTros::all();
         $selectedNhaTroId = $request->get('nha_tro_id');
-        $thang = $request->get('thang');
-        $nam = $request->get('nam');
+      $thang = $request->input('thang', now()->month);
+$nam = $request->input('nam', now()->year);
 
         $dienNuocs = collect();
         $canTao = false;

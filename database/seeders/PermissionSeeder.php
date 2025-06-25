@@ -90,6 +90,7 @@ class PermissionSeeder extends Seeder
             'Xem quản lý điện nước',
             'Sửa quản lý điện nước',
             'Thêm quản lý điện nước',
+            'Chốt quản lý điện nước',
 
 
         ];

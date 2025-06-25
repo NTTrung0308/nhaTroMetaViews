@@ -21,17 +21,6 @@
                 <div class="card-body">
                     <div class="col-12 d-sm-flex justify-content-between align-items-center">
                         <h5 class="card-title">Nội dung Quản lý điện nước</h5>
-                        @if (auth()->user()->hasPermissionTo('Thêm quản lý điện nước'))
-                            @if ($canTao)
-                                <form method="POST" action="{{ route('diennuoc.store') }}" class="">
-                                    @csrf
-                                    <input type="hidden" name="nha_tro_id" value="{{ $selectedNhaTroId }}">
-                                    <input type="hidden" name="thang" value="{{ $thang }}">
-                                    <input type="hidden" name="nam" value="{{ $nam }}">
-                                    <button class="btn btn-success">Tạo dữ liệu điện nước</button>
-                                </form>
-                            @endif
-                        @endif
 
                     </div>
 
@@ -60,7 +49,7 @@
                             </div>
                             @php
                                 $currentYear = date('Y');
-                                $startYear = 1990;
+                                $startYear = $currentYear - 2;
                                 $endYear = $currentYear + 5;
                             @endphp
 
@@ -111,11 +100,15 @@
                                     @endif
                                     <th>Số người</th>
                                     <th>Hành động</th>
+                                    <th>Thao tác</th>
                                 </tr>
                             </thead>
+                            {{-- ... code phía trên giữ nguyên ... --}}
+
                             <tbody>
                                 @foreach ($dienNuocs as $dn)
-                                    <tr>
+                                    {{-- Thêm class 'row-disabled' nếu đã chốt --}}
+                                    <tr class="{{ $dn->trang_thai_chot ? 'row-disabled' : '' }}">
                                         <form method="POST" action="{{ route('diennuoc.update', $dn->id) }}">
                                             @csrf
                                             @method('PUT')
@@ -125,7 +118,8 @@
                                             {{-- Chỉ số điện --}}
                                             <td>
                                                 <input type="number" name="chi_so_dien" step="0.1"
-                                                    class="form-control text-end" value="{{ $dn->chi_so_dien }}">
+                                                    class="form-control text-end" value="{{ $dn->chi_so_dien }}"
+                                                    {{-- Thêm 'disabled' nếu đã chốt --}} {{ $dn->trang_thai_chot ? 'disabled' : '' }}>
                                             </td>
 
                                             {{-- Chỉ số đầu điện --}}
@@ -139,10 +133,10 @@
                                             <td>
                                                 @if ($kieuTinhNuoc == 'cong_to')
                                                     {{-- Số nước cuối kỳ --}}
-
                                                     <input type="number" step="0.1" name="so_m3_nuoc"
                                                         class="form-control mb-1"
-                                                        value="{{ number_format($dn->so_m3_nuoc_truoc) }}">
+                                                        value="{{ number_format($dn->so_m3_nuoc_truoc) }}"
+                                                        {{-- Thêm 'disabled' nếu đã chốt --}} {{ $dn->trang_thai_chot ? 'disabled' : '' }}>
                                                 @elseif($kieuTinhNuoc == 'dau_nguoi')
                                                     <input type="number" class="form-control" name="so_m3_nuoc"
                                                         value="{{ $dn->so_nguoi }}" readonly>
@@ -153,8 +147,6 @@
                                                     <small class="text-muted">Tính cố định</small>
                                                 @endif
                                             </td>
-
-
 
                                             {{-- Chỉ số đầu nước (nếu là công tơ) --}}
                                             @if ($kieuTinhNuoc == 'cong_to')
@@ -167,41 +159,62 @@
                                             {{-- Số người --}}
                                             <td>
                                                 <input type="number" name="so_nguoi" class="form-control text-end"
-                                                    value="{{ $dn->so_nguoi }}">
+                                                    value="{{ $dn->so_nguoi }}" {{-- Thêm 'disabled' nếu đã chốt --}}
+                                                    {{ $dn->trang_thai_chot ? 'disabled' : '' }}>
                                             </td>
-                                            @if (auth()->user()->hasPermissionTo('Sửa quản lý điện nước'))
-                                                <td>
 
-
+                                            {{-- Cột Hành động --}}
+                                            <td class="text-nowrap">
+                                                @if (auth()->user()->hasPermissionTo('Sửa quản lý điện nước'))
                                                     @if ($dn->trang_thai_chot)
-                                                        <button class="btn btn-sm btn-primary" disabled>Đã chốt</button>
+                                                        {{-- Nếu đã chốt, hiển thị nút "Đã chốt" bị vô hiệu hóa --}}
+                                                        <button type="button" class="btn btn-sm btn-success" disabled>
+                                                            <i class="bi bi-check-circle-fill"></i> Đã chốt
+                                                        </button>
                                                     @else
+                                                        {{-- Nếu chưa chốt, hiển thị nút "Lưu" --}}
                                                         <button type="submit" class="btn btn-sm btn-primary">Lưu</button>
                                                     @endif
-                                                </td>
-                                            @endif
+                                                @endif
+                                            </td>
                                         </form>
-                                        @if (!$dn->trang_thai_chot)
-                                            <td>
+
+                                        {{-- Cột Chốt (tách ra khỏi form Lưu) --}}
+                                        <td class="text-nowrap">
+                                            @if (!$dn->trang_thai_chot && auth()->user()->hasPermissionTo('Chốt quản lý điện nước'))
                                                 <form method="POST" action="{{ route('diennuoc.chot', $dn->id) }}"
                                                     class="d-inline">
                                                     @csrf
                                                     @method('PUT')
-                                                    <button class="btn btn-sm btn-outline-success"
-                                                        onclick="return confirm('Xác nhận chốt dữ liệu?')">Chốt</button>
+                                                    <button type="submit" class="btn btn-sm btn-outline-success"
+                                                        onclick="return confirm('Bạn có chắc chắn muốn chốt số liệu này? Sau khi chốt sẽ không thể sửa đổi.')">
+                                                        Chốt
+                                                    </button>
                                                 </form>
-                                            </td>
-                                        @endif
+                                            @endif
+                                        </td>
                                     </tr>
                                 @endforeach
-
                             </tbody>
 
                         </table>
                     @else
-                        <div class="alert alert-warning mt-3 text-center">
-                            Vui lòng chọn điện nước bạn muốn tìm.
-                        </div>
+                        @if ($canTao)
+                            <div class=" alert alert-warning mt-3 text-center text-center">
+                                <h5>Không tìm thấy dữ liệu tương ứng bạn có muốn tạo?</h5>
+                                <form method="POST" action="{{ route('diennuoc.store') }}" class="">
+                                    @csrf
+                                    <input type="hidden" name="nha_tro_id" value="{{ $selectedNhaTroId }}">
+                                    <input type="hidden" name="thang" value="{{ $thang }}">
+                                    <input type="hidden" name="nam" value="{{ $nam }}">
+                                    <button class="btn btn-success">Tạo dữ liệu điện nước</button>
+                                </form>
+                            </div>
+                        @else
+                            <div class="alert alert-warning mt-3 text-center">
+                                Vui lòng chọn điện nước bạn muốn tìm.
+                            </div>
+                        @endif
                     @endif
                 </div>
 

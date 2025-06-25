@@ -42,6 +42,10 @@ class Rooms extends Model
     {
         return $this->hasMany(CongViec::class, 'phong_id');
     }
+      public function hopDongHienTai()
+    {
+        return $this->hasOne(HopDongThuePhong::class, 'room_id')->where('active', true);
+    }
     public function nhaTro()
     {
         return $this->belongsTo(NhaTros::class);
