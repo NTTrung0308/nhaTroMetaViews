@@ -158,7 +158,7 @@
              </li>
          @endif
          <li class="nav-item">
-                 <a class="nav-link {{ in_array(Request::route()->getName(), ['hoa-dons.index', 'hoa-dons.create', 'hoa-dons.edit']) ? '' : 'collapsed' }}"
+                 <a class="nav-link {{ in_array(Request::route()->getName(), ['hoa-dons.index', 'hoa-dons.create', 'hoa-dons.edit', 'hoa-dons.show']) ? '' : 'collapsed' }}"
                      href="{{ route('hoa-dons.index') }}">
                   <i class="bi bi-file-earmark-text"></i>
                      <span>Hóa đơn</span>

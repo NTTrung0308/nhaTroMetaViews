@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\HopDongController;
 use App\Http\Controllers\Admin\NhaTroController;
 use App\Http\Controllers\Admin\PhuongTienController;
 use App\Http\Controllers\Admin\PolicyController;
+use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\RolesControler;
 use App\Http\Controllers\Admin\RoomController;
 use App\Http\Controllers\Admin\SliderController;
@@ -209,7 +210,9 @@ Route::prefix('hoa-dons')->name('hoa-dons.')->group(function () {
 // 3. Route để tạo một hóa đơn duy nhất trực tiếp từ một hợp đồng cụ thể
 Route::post('/hop-dongs/{hop_dong}/tao-hoa-don', [HoaDonController::class, 'taoHoaDonChoHopDong'])
     ->name('hop-dongs.tao-hoa-don');
-
+Route::prefix('thong-tin-ca-nhan')->name('admin.profile.')->group(function () {
+  Route::get('/', [ProfileController::class, 'index'])->name('index');
+});
 
 Route::post('/upload-image', [UploadController::class, 'uploadImage'])->name('upload-image');
 Route::post('/delete-image', [UploadController::class, 'deleteImage'])->name('delete-image');

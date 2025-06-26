@@ -18,53 +18,55 @@ class HoaDonController extends Controller
     /**
      * Hiển thị danh sách hóa đơn.
      */
-    public function index(Request $request)
-    {
-        // 1. Bắt đầu với câu truy vấn cơ sở
-        $query = HoaDon::query()->with(['room.nhaTro', 'user']);
+   public function index(Request $request)
+{
+    $user = auth()->user();
 
-        // 2. Áp dụng các bộ lọc nếu có
+    // 1. Bắt đầu với câu truy vấn cơ sở
+    $query = HoaDon::query()->with(['room.nhaTro', 'user']);
+
+    // Nếu là người thuê trọ, chỉ hiển thị hóa đơn của họ
+    if ($user->can('nguoi-thue-tro')) {
+        $query->where('user_id', $user->id);
+    } else {
+        // 2. Áp dụng các bộ lọc nếu có (admin hoặc người quản lý)
         if ($request->filled('nha_tro_id')) {
-            // Lọc theo Nhà trọ
             $query->where('nha_tro_id', $request->nha_tro_id);
         }
 
         if ($request->filled('room_id')) {
-            // Lọc theo Phòng
             $query->where('room_id', $request->room_id);
         }
 
         if ($request->filled('thang')) {
-            // Lọc theo Tháng
             $query->where('thang', $request->thang);
         }
 
         if ($request->filled('nam')) {
-            // Lọc theo Năm
             $query->where('nam', $request->nam);
         }
 
         if ($request->filled('trang_thai')) {
-            // Lọc theo Trạng thái hóa đơn
             $query->where('trang_thai', $request->trang_thai);
         }
-
-        // 3. Lấy dữ liệu đã lọc, sắp xếp và phân trang
-        // withQueryString() sẽ tự động thêm các tham số lọc vào link phân trang
-        $hoaDons = $query->latest()->paginate(15);
-
-        // 4. Lấy dữ liệu cho các dropdown của bộ lọc
-        $nhaTros = NhaTros::all();
-        $statuses = [
-            'chua_thanh_toan' => 'Chưa thanh toán',
-            'da_thanh_toan' => 'Đã thanh toán',
-            'qua_han' => 'Quá hạn',
-            'da_huy' => 'Đã hủy',
-        ];
-
-        // 5. Trả về view cùng với dữ liệu
-        return view('admin.hoa-dons.index', compact('hoaDons', 'nhaTros', 'statuses'));
     }
+
+    // 3. Lấy dữ liệu đã lọc, sắp xếp và phân trang
+    $hoaDons = $query->latest()->paginate(15);
+
+    // 4. Lấy dữ liệu cho các dropdown của bộ lọc (ẩn nếu là người thuê trọ)
+    $nhaTros = $user->can('nguoi-thue-tro') ? collect() : NhaTros::all();
+
+    $statuses = [
+        'chua_thanh_toan' => 'Chưa thanh toán',
+        'da_thanh_toan' => 'Đã thanh toán',
+        'qua_han' => 'Quá hạn',
+        'da_huy' => 'Đã hủy',
+    ];
+
+    // 5. Trả về view
+    return view('admin.hoa-dons.index', compact('hoaDons', 'nhaTros', 'statuses'));
+}
     /**
      * Hiển thị form để chọn tháng/năm tạo hóa đơn hàng loạt.
      */

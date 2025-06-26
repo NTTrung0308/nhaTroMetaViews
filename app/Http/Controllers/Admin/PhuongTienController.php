@@ -21,19 +21,33 @@ class PhuongTienController extends Controller
     }
     public function index(Request $request)
     {
+        $user = auth()->user();
         $query = PhuongTien::with('user');
-        $users = User::whereHas('roles', function ($q) {
-            $q->where('name', 'nguoi-thue-tro');
-        })->get();
-        // Lọc theo user_id nếu có
-        if ($request->filled('user_id')) {
-            $query->where('user_id', $request->user_id);
+
+        // Nếu là người thuê trọ thì chỉ được xem phương tiện của chính họ
+        if ($user->can('nguoi-thue-tro')) {
+            $query->where('user_id', $user->id);
+            $users = collect(); // Không cần danh sách user khác
+            $userId = $user->id;
+        } else {
+            // Admin hoặc người có quyền cao hơn
+            $users = User::whereHas('roles', function ($q) {
+                $q->where('name', 'nguoi-thue-tro');
+            })->get();
+
+            // Cho phép lọc theo user_id nếu có request
+            if ($request->filled('user_id')) {
+                $query->where('user_id', $request->user_id);
+            }
+
+            $userId = $request->user_id ?? '';
         }
 
         $phuongTiens = $query->orderBy('created_at', 'desc')->paginate(20);
-        $userId = $request->user_id ?? '';
+
         return view('admin.phuong_tien.index', compact('phuongTiens', 'userId', 'users'));
     }
+
 
     public function create(Request $request)
     {

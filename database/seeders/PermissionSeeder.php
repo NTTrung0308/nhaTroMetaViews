@@ -91,7 +91,11 @@ class PermissionSeeder extends Seeder
             'Sửa quản lý điện nước',
             'Thêm quản lý điện nước',
             'Chốt quản lý điện nước',
-           
+            'Thêm hóa đơn',
+            'Sửa hóa đơn',
+            'Xóa hóa đơn',
+            'Xem hóa đơn'
+
 
 
         ];
@@ -105,7 +109,9 @@ class PermissionSeeder extends Seeder
 
         // Role::firstOrCreate(['name' => 'nguoi-thue-tro']);
         $nguoiThueTroRole  = Role::firstOrCreate(['name' => 'nguoi-thue-tro']);
-$nguoiThueTroRole->givePermissionTo('Xem hợp đồng');
+        $nguoiThueTroRole->givePermissionTo('Xem hợp đồng');
+        $nguoiThueTroRole->givePermissionTo('Xem hóa đơn');
+        $nguoiThueTroRole->givePermissionTo('Xem phương tiện');
 
         // Gán Super Admin cho User ID 1
         $admin = User::find(1);
@@ -133,7 +139,7 @@ $nguoiThueTroRole->givePermissionTo('Xem hợp đồng');
             'email' => 'test@gmail.com',
             'password' => Hash::make('12345678'),
         ]);
-        $user1->assignRole($nguoiThueTroRole ); // Gán vai trò đã tạo
+        $user1->assignRole($nguoiThueTroRole); // Gán vai trò đã tạo
 
     }
 }
