@@ -91,6 +91,7 @@ class PermissionSeeder extends Seeder
             'Sửa quản lý điện nước',
             'Thêm quản lý điện nước',
             'Chốt quản lý điện nước',
+           
 
 
         ];
@@ -103,9 +104,9 @@ class PermissionSeeder extends Seeder
         $adminRole->syncPermissions($permissions);
 
         // Role::firstOrCreate(['name' => 'nguoi-thue-tro']);
-$role = Role::firstOrCreate(['name' => 'nguoi-thue-tro']);
+        $nguoiThueTroRole  = Role::firstOrCreate(['name' => 'nguoi-thue-tro']);
+$nguoiThueTroRole->givePermissionTo('Xem hợp đồng');
 
-      
         // Gán Super Admin cho User ID 1
         $admin = User::find(1);
         if ($admin) {
@@ -126,13 +127,13 @@ $role = Role::firstOrCreate(['name' => 'nguoi-thue-tro']);
 
 
 
-          // 2. Tạo user và gán vai trò
+        // 2. Tạo user và gán vai trò
         $user1 = User::create([
             'name' => 'Nguyễn Văn A',
             'email' => 'test@gmail.com',
             'password' => Hash::make('12345678'),
         ]);
-        $user1->assignRole($role); // Gán vai trò đã tạo
+        $user1->assignRole($nguoiThueTroRole ); // Gán vai trò đã tạo
 
     }
 }

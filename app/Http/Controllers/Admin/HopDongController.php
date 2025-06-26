@@ -22,10 +22,25 @@ class HopDongController extends Controller
         $this->middleware('can:Xóa hợp đồng')->only(['destroy']);
     }
     public function index()
-    {
-        $hopDongs = HopDongThuePhong::with(['user', 'room', 'nhaTro'])->latest()->paginate(10);
-        return view('admin.hop_dong.index', compact('hopDongs'));
+{
+    // Lấy user hiện tại
+    $user = auth()->user();
+
+    // Nếu user có quyền 'nguoi-thue-tro' => chỉ hiển thị hợp đồng của chính họ
+    if ($user->can('nguoi-thue-tro')) {
+        $hopDongs = HopDongThuePhong::with(['user', 'room', 'nhaTro'])
+            ->where('user_id', $user->id)
+            ->latest()
+            ->paginate(10);
+    } else {
+        // Nếu không thì là admin hoặc người có quyền cao hơn => xem tất cả
+        $hopDongs = HopDongThuePhong::with(['user', 'room', 'nhaTro'])
+            ->latest()
+            ->paginate(10);
     }
+
+    return view('admin.hop_dong.index', compact('hopDongs'));
+}
 
     public function create()
     {
