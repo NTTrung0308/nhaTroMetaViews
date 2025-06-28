@@ -212,6 +212,8 @@ Route::post('/hop-dongs/{hop_dong}/tao-hoa-don', [HoaDonController::class, 'taoH
     ->name('hop-dongs.tao-hoa-don');
 Route::prefix('thong-tin-ca-nhan')->name('admin.profile.')->group(function () {
   Route::get('/', [ProfileController::class, 'index'])->name('index');
+    Route::put('profile', [ProfileController::class, 'update'])->name('update');
+    Route::post('change-password', [ProfileController::class, 'updatePassword'])->name('change_password');
 });
 
 Route::post('/upload-image', [UploadController::class, 'uploadImage'])->name('upload-image');

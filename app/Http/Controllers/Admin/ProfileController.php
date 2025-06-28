@@ -3,18 +3,153 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\File;
 
 class ProfileController extends Controller
 {
-    public function index(Request $request){
+    public function index(Request $request)
+    {
         if (auth()->check()) {
-           $user = auth()->user();
-           return view('admin.profile.index', compact('user'));
+            $user = auth()->user();
+            return view('admin.profile.index', compact('user'));
         } else {
-           return redirect()->route('login')->with('warning', 'Vui lòng đăng nhập');
+            return redirect()->route('login')->with('warning', 'Vui lòng đăng nhập');
         }
-        
+    }
+
+
+
+    public function update(Request $request)
+    {
+        $user = Auth::user();
+
+        $request->validate([
+            'name'          => 'nullable|string|max:255',
+            'email'         => 'nullable|email|max:255|unique:users,email,' . $user->id,
+            'phone'         => 'nullable|string|max:11',
+            'avatar'        => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
+            'birthday'      => 'nullable|date',
+            'cmnd'          => 'nullable|string',
+            'ho_chieu'      => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
+            'cmt_mat_truoc' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
+            'cmt_mat_sau'   => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
+            'gioi_tinh'     => 'nullable|string',
+            'ngay_cap_cmnd' => 'nullable|date',
+            'noi_cap_cmnd'  => 'nullable|string|max:255',
+            'thanh_pho'     => 'nullable|string|max:255',
+            'huyen'         => 'nullable|string|max:255',
+            'xa'            => 'nullable|string|max:255',
+            'address'       => 'nullable|string|max:255',
+            'stk'           => 'nullable|string|max:50',
+            'ngan_hang'     => 'nullable|string|max:255',
+            'nghe_nghiep'   => 'nullable|string|max:255',
+            'noi_lam_viec'  => 'nullable|string|max:255',
+            'note'          => 'nullable|string',
+            'facebook'      => 'nullable|string|max:255',
+            'zalo'          => 'nullable|string|max:255',
+            'instar'        => 'nullable|string|max:255',
+            'twitter'       => 'nullable|string|max:255',
+            'linkdin'       => 'nullable|string|max:255',
+        ], [
+           
+            'phone.max' => 'Số điện thoại k hợp lệ',
+            'username.required'     => 'Vui lòng nhập tên đăng nhập.',
+            'username.unique'       => 'Tên đăng nhập đã tồn tại.',
+            'email.email'           => 'Email không hợp lệ.',
+            'email.unique'          => 'Email đã được sử dụng.',
+            'avatar.image'          => 'Ảnh đại diện phải là tập tin hình ảnh.',
+            'avatar.mimes'          => 'Ảnh đại diện chỉ chấp nhận định dạng: jpeg, png, jpg, gif, svg.',
+            'birthday.date'         => 'Ngày sinh không hợp lệ.',
+            'ho_chieu.image'        => 'Hộ chiếu phải là hình ảnh.',
+            'ho_chieu.mimes'        => 'Hộ chiếu chỉ chấp nhận định dạng: jpeg, png, jpg, gif, svg.',
+            'cmt_mat_truoc.image'   => 'CMND mặt trước phải là hình ảnh.',
+            'cmt_mat_truoc.mimes'   => 'CMND mặt trước chỉ chấp nhận định dạng: jpeg, png, jpg, gif, svg.',
+            'cmt_mat_sau.image'     => 'CMND mặt sau phải là hình ảnh.',
+            'cmt_mat_sau.mimes'     => 'CMND mặt sau chỉ chấp nhận định dạng: jpeg, png, jpg, gif, svg.',
+            'ngay_cap_cmnd.date'    => 'Ngày cấp CMND không hợp lệ.',
+            'noi_cap_cmnd.max'      => 'Nơi cấp CMND không được vượt quá 255 ký tự.',
+            'thanh_pho.max'         => 'Thành phố không được vượt quá 255 ký tự.',
+            'huyen.max'             => 'Huyện không được vượt quá 255 ký tự.',
+            'xa.max'                => 'Xã không được vượt quá 255 ký tự.',
+            'address.max'           => 'Địa chỉ không được vượt quá 255 ký tự.',
+            'stk.max'               => 'Số tài khoản không được vượt quá 50 ký tự.',
+            'ngan_hang.max'         => 'Tên ngân hàng không được vượt quá 255 ký tự.',
+            'nghe_nghiep.max'       => 'Nghề nghiệp không được vượt quá 255 ký tự.',
+            'noi_lam_viec.max'      => 'Nơi làm việc không được vượt quá 255 ký tự.',
+            'facebook.max'          => 'Facebook không được vượt quá 255 ký tự.',
+            'zalo.max'              => 'Zalo không được vượt quá 255 ký tự.',
+            'instar.max'            => 'Instagram không được vượt quá 255 ký tự.',
+            'twitter.max'           => 'Twitter không được vượt quá 255 ký tự.',
+            'linkdin.max'           => 'LinkedIn không được vượt quá 255 ký tự.',
+        ]);
+
+
+
+
+
+
+        // Bắt đầu xử lý dữ liệu sau khi đã validate thành công
+        $data = $request->except(['avatar', 'ho_chieu', 'cmt_mat_truoc', 'cmt_mat_sau']);
+
+        // Hàm trợ giúp để xử lý upload file
+        $uploadFile = function ($fileKey, $user, $request) {
+            if ($request->hasFile($fileKey)) {
+                $destinationPath = 'uploads/' . $fileKey; // Ví dụ: uploads/avatar, uploads/ho_chieu
+
+                // Xóa file cũ
+                if ($user->$fileKey && File::exists(public_path($user->$fileKey))) {
+                    File::delete(public_path($user->$fileKey));
+                }
+
+                // Upload file mới
+                $file = $request->file($fileKey);
+                $fileName = time() . '_' . $file->getClientOriginalName();
+                $file->move(public_path($destinationPath), $fileName);
+                return $destinationPath . '/' . $fileName;
+            }
+            return $user->$fileKey; // Giữ lại giá trị cũ nếu không có file mới
+        };
+
+        // Xử lý upload cho từng file ảnh
+        $data['avatar'] = $uploadFile('avatar', $user, $request);
+        $data['ho_chieu'] = $uploadFile('ho_chieu', $user, $request);
+        $data['cmt_mat_truoc'] = $uploadFile('cmt_mat_truoc', $user, $request);
+        $data['cmt_mat_sau'] = $uploadFile('cmt_mat_sau', $user, $request);
+
+
+        // Cập nhật thông tin người dùng
+        $user->update($data);
+
+        return redirect()->back()->with('success', 'Cập nhật thông tin thành công!');
+    }
+
+
+
+    /**
+     * Xử lý việc đổi mật khẩu.
+     */
+    public function updatePassword(Request $request)
+    {
+        // Validate mật khẩu
+        $request->validate([
+            'current_password' => 'required|string',
+            'password'         => 'required|string|min:8|confirmed', // 'confirmed' sẽ kiểm tra với 'password_confirmation'
+        ]);
+
+        $user = Auth::user();
+
+        // Kiểm tra mật khẩu hiện tại có đúng không
+        if (!Hash::check($request->current_password, $user->password)) {
+            return back()->withErrors(['current_password' => 'Mật khẩu hiện tại không chính xác.']);
+        }
+
+        // Cập nhật mật khẩu mới
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return redirect()->route('profile.change-password.form')->with('success', 'Đổi mật khẩu thành công!');
     }
 }

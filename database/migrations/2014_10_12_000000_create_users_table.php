@@ -21,12 +21,17 @@ return new class extends Migration
             // Thông tin mở rộng
             $table->string('phone')->nullable();
             $table->string('avatar')->nullable(); // Ảnh đại diện (lưu path)
-            $table->date('birthday')->nullable();
+            $table->string('birthday')->nullable();
             $table->boolean('active')->default(true); // Hoạt động hay không
             $table->string('cmt_mat_truoc')->nullable();
             $table->string('cmt_mat_sau')->nullable();
             $table->string('cmnd')->nullable(); //số cmnd
             $table->string('ho_chieu')->nullable();
+            $table->string('facebook')->nullable();
+            $table->string('zalo')->nullable();
+            $table->string('instar')->nullable();
+            $table->string('linkdin')->nullable();
+            $table->string('twitter')->nullable();
             $table->string('gioi_tinh')->nullable();
             $table->string('ngay_cap_cmnd')->nullable();
             $table->string('noi_cap_cmnd')->nullable();

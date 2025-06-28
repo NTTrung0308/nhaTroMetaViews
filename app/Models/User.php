@@ -47,6 +47,11 @@ class User extends Authenticatable
         'noi_lam_viec',
         'ma_van_tay',
         'note',
+        'facebook',
+        'zalo',
+        'instar',
+        'twitter',
+        'linkdin',
     ];
 
     /**
@@ -69,7 +74,6 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'birthday' => 'date',
         'active' => 'boolean',
     ];
     public function congViecs()
