@@ -107,7 +107,6 @@
                             <p><strong>Tên dịch vụ:</strong> <span id="ct-ten"></span></p>
                             <p><strong>Mã dịch vụ:</strong> <span id="ct-ma"></span></p>
                             <p><strong>Đơn vị tính:</strong> <span id="ct-donvi"></span></p>
-                            <p><strong>Đơn giá:</strong> <span id="ct-dongia"></span></p>
                             <p><strong>Mô tả:</strong> <span id="ct-mota"></span></p>
                         </div>
                         <div class="modal-footer">
@@ -130,7 +129,6 @@
                     document.getElementById('ct-ten').textContent = this.dataset.ten;
                     document.getElementById('ct-ma').textContent = this.dataset.ma;
                     document.getElementById('ct-donvi').textContent = this.dataset.donvi;
-                    document.getElementById('ct-dongia').textContent = this.dataset.dongia;
                     document.getElementById('ct-mota').textContent = this.dataset.mota;
                 });
             });

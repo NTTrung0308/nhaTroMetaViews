@@ -58,7 +58,7 @@ Route::prefix('admin')->group(function () {
         Route::post('/store', [NhaTroController::class, 'store'])->name('nha_tro.store');
         Route::get('/edit/{nhaTro}', [NhaTroController::class, 'edit'])->name('nha_tro.edit');
         Route::put('/update/{nhaTro}', [NhaTroController::class, 'update'])->name('nha_tro.update');
-        Route::delete('/delete/{id}', [NhaTroController::class, 'destroy'])->name('nha_tro.destroy');
+        Route::delete('/delete/{nhaTro}', [NhaTroController::class, 'destroy'])->name('nha_tro.destroy');
     });
 
 
