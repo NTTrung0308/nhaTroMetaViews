@@ -169,7 +169,6 @@ $nam = $request->input('nam', now()->year);
         ];
 
         if ($kieuTinhNuoc === 'cong_to') {
-            
             $updateData['so_m3_nuoc_sau'] = $request->so_m3_nuoc;
             // $updateData['nuoc_tieu_thu'] = $request->so_m3_nuoc;
             $updateData['nuoc_tieu_thu'] = max(0, $request->so_m3_nuoc - $chiSoNuocTruoc);

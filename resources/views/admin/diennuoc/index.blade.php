@@ -135,7 +135,7 @@
                                                     {{-- Số nước cuối kỳ --}}
                                                     <input type="number" step="0.1" name="so_m3_nuoc"
                                                         class="form-control mb-1"
-                                                        value="{{ number_format($dn->so_m3_nuoc_truoc) }}"
+                                                        value="{{ number_format($dn->so_m3_nuoc_sau) }}"
                                                         {{-- Thêm 'disabled' nếu đã chốt --}} {{ $dn->trang_thai_chot ? 'disabled' : '' }}>
                                                 @elseif($kieuTinhNuoc == 'dau_nguoi')
                                                     <input type="number" class="form-control" name="so_m3_nuoc"
