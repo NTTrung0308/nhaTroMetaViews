@@ -27,7 +27,7 @@
                     @endif
                 </div>
                 <div class="col-lg-12">
-                    <form method="GET" action="{{ route('tai-sans.index') }}" class="row align-items-end g-3 mb-4">
+                    <form method="GET" action="{{ route('admin.phuong_tiens.index') }}" class="row align-items-end g-3 mb-4">
                         <div class="col-md-11">
                             <label class="form-label">Người dùng</label>
                             <select name="user_id" class="form-select select_ted">

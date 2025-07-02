@@ -49,7 +49,7 @@
 
                         <div class="col-md-2 d-flex gap-2">
                                 <button type="submit" class="btn btn-primary w-100">Tìm kiếm</button>
-                                <a href="{{ route('admin.users.index') }}" class="btn btn-secondary w-100">Xoá lọc</a>
+                                <a href="{{ route('admin.cong_tos.index') }}" class="btn btn-secondary w-100">Xoá lọc</a>
                             </div>
                     </form>
 
