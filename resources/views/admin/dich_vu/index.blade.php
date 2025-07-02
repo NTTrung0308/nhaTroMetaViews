@@ -52,19 +52,20 @@
                                             @if (auth()->user()->hasPermissionTo('Xóa dịch vụ'))
                                                 @php
                                                     $maKhongXoa = ['dien_sinh_hoat', 'nuoc', 'mang'];
+                                                    $isDisabled = in_array($dichvu->ma_dich_vu, $maKhongXoa);
                                                 @endphp
 
-                                                @if (!in_array($dichvu->ma_dich_vu, $maKhongXoa))
-                                                    <form action="{{ route('dichvus.destroy', $dichvu->id) }}"
-                                                        method="POST" style="display:inline-block" class="btn btn-danger"
-                                                        onsubmit="return confirm('Bạn có chắc muốn xóa dịch vụ này?');">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit"
-                                                            style="background:none;border:none;color:red;cursor:pointer;padding:0;"><i
-                                                                class="bi bi-trash text-white"></i></button>
-                                                    </form>
-                                                @endif
+                                                <form action="{{ route('dichvus.destroy', $dichvu->id) }}" method="POST"
+                                                    style="display:inline-block" class="btn btn-danger"
+                                                    onsubmit="return {{ $isDisabled ? 'false' : 'confirm(\'Bạn có chắc muốn xóa dịch vụ này?\')' }};">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit"
+                                                        {{ $isDisabled ? 'disabled title=Không thể xóa dịch vụ mặc định' : '' }}
+                                                        style="background:none;border:none;{{ $isDisabled ? 'opacity:0.5;cursor:not-allowed;' : 'color:red;cursor:pointer;' }}padding:0;">
+                                                        <i class="bi bi-trash text-white"></i>
+                                                    </button>
+                                                </form>
                                             @endif
                                             <button type="button" class="btn btn-info btn-xem-chi-tiet"
                                                 data-ten="{{ $dichvu->ten_dich_vu }}" data-ma="{{ $dichvu->ma_dich_vu }}"
