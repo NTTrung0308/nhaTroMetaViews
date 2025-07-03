@@ -113,8 +113,8 @@
                  auth()->user()->hasPermissionTo('Sửa vai trò') ||
                  auth()->user()->hasPermissionTo('Xóa vai trò'))
              <li class="nav-item">
-                 <a class="nav-link {{ in_array(Request::route()->getName(), ['roles.index', 'roles.create', 'roles.edit']) ? '' : 'collapsed' }}"
-                     href="{{ route('roles.index') }}">
+                 <a class="nav-link {{ in_array(Request::route()->getName(), ['admin.roles.index', 'admin.roles.create', 'admin.roles.edit']) ? '' : 'collapsed' }}"
+                     href="{{ route('admin.roles.index') }}">
                      <i class="bi bi-shield-lock"></i>
                      <span>Vai trò</span>
                  </a>

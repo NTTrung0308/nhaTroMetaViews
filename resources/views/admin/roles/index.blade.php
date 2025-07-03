@@ -21,7 +21,7 @@
                         <div class="col-12 d-sm-flex justify-content-between align-items-center">
                             <h5 class="card-title">Quản lý vai trò web </h5>
                             @if (auth()->user()->hasPermissionTo('Thêm vai trò'))
-                                <a href="{{ route('roles.create') }}" class="btn btn-success">
+                                <a href="{{ route('admin.roles.create') }}" class="btn btn-success">
 
                                     <i class="bi bi-check-circle"></i>
 
@@ -74,10 +74,10 @@
                                             <td colspan="2">
                                                 @if (auth()->user()->hasPermissionTo('Sửa vai trò'))
                                                     <a class="btn btn-warning"
-                                                        href="{{ route('roles.edit', $role->id) }}">Chỉnh sửa</a>
+                                                        href="{{ route('admin.roles.edit', $role->id) }}">Chỉnh sửa</a>
                                                 @endif
                                                 @if (auth()->user()->hasPermissionTo('Xóa vai trò'))
-                                                    <form action="{{ route('roles.destroy', $role->id) }}"
+                                                    <form action="{{ route('admin.roles.destroy', $role->id) }}"
                                                         method="POST" style="display:inline;">
                                                         @csrf
                                                         @method('DELETE')

@@ -160,7 +160,7 @@ Route::prefix('admin')->group(function () {
     Route::get('/lien-he', [ContactController::class, 'index'])->name('lien_he.index.admin');
 
 
-    Route::prefix('vai-tro')->name('roles.')->group(function () {
+    Route::prefix('vai-tro')->name('admin.roles.')->group(function () {
         Route::get('/', [RolesControler::class, 'index'])->name('index');
         Route::get('/create', [RolesControler::class, 'create'])->name('create');
         Route::post('/', [RolesControler::class, 'store'])->name('store');

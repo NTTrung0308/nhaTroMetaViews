@@ -81,12 +81,22 @@ class RolesControler extends Controller
 
     // Remove the specified role from storage
     public function destroy(Role $role)
-    {
-        // Delete the role
-        $role->delete();
-                      LogHelper::ghi( Auth::user()->name . 'Đã xóa vai trò mới ' . $role->name, 'Vai trò', Auth::user()->name . 'Đã xóa vai trò ' . $role->name . 'trong quản trị viên');
-
-        // Redirect back with success message
-        return redirect()->route('admin.roles.index')->with('success', 'Xóa vai trò thành công.');
+{
+    // Không cho xóa vai trò đặc biệt
+    if ($role->name === 'nguoi-thue-tro') {
+        return redirect()->route('admin.roles.index')->with('error', 'Không được phép xóa vai trò người thuê trọ.');
     }
+
+    // Thực hiện xóa vai trò
+    $role->delete();
+
+    LogHelper::ghi(
+        Auth::user()->name . ' đã xóa vai trò ' . $role->name,
+        'Vai trò',
+        Auth::user()->name . ' đã xóa vai trò ' . $role->name . ' trong quản trị viên'
+    );
+
+    return redirect()->route('admin.roles.index')->with('success', 'Xóa vai trò thành công.');
+}
+
 }

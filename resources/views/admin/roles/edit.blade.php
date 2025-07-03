@@ -42,11 +42,11 @@
                                     <tbody>
                                         <tr>
                                             @foreach ($permissions as $index => $permission)
-                                                @if ($index % 6 === 0 && $index > 0)
+                                                @if ($index % 4 === 0 && $index > 0)
                                         </tr>
                                         <tr> <!-- Mở một dòng mới sau mỗi 12 vai trò -->
                                             @endif
-                                            <td class="col-md-2">
+                                            <td class="col-md-3">
                                                 <div>
                                                     <div class="checkbox-wrapper-61">
                                                         <input type="checkbox" name="permissions[]" class="check"
