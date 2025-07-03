@@ -69,6 +69,10 @@ class PermissionSeeder extends Seeder
             'Xem cảm nghĩ',
             'Sửa cảm nghĩ',
             'Xóa cảm nghĩ',
+            'Thêm câu hỏi thường gặp',
+            'Xóa câu hỏi thường gặp',
+            'Sửa câu hỏi thường gặp',
+            'Xem câu hỏi thường gặp',
             'Cài đặt web',
             'Về chúng tôi',
             'Xem tài khoản quản trị',
@@ -94,7 +98,8 @@ class PermissionSeeder extends Seeder
             'Thêm hóa đơn',
             'Sửa hóa đơn',
             'Xóa hóa đơn',
-            'Xem hóa đơn'
+            'Xem hóa đơn',
+
 
 
 

@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DichVuController;
 use App\Http\Controllers\Admin\DienNuocController;
+use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\FeedbackController;
 use App\Http\Controllers\Admin\HoaDonController;
 use App\Http\Controllers\Admin\HopDongController;
@@ -75,7 +76,6 @@ Route::prefix('admin')->group(function () {
         Route::post('/tao-du-lieu', [DienNuocController::class, 'store'])->name('diennuoc.store');
         Route::put('/{id}', [DienNuocController::class, 'update'])->name('diennuoc.update');
         Route::put('/chot/{id}', [DienNuocController::class, 'chot'])->name('diennuoc.chot');
-
     });
 
     Route::prefix('tai-sans')->group(function () {
@@ -169,53 +169,64 @@ Route::prefix('admin')->group(function () {
         Route::delete('/{role}', [RolesControler::class, 'destroy'])->name('destroy');
     });
 
-// Routes chính cho quản lý phương tiện
-Route::prefix('phuong-tiens')->name('admin.phuong_tiens.')->group(function () {
-    Route::get('/', [PhuongTienController::class, 'index'])->name('index');
-    Route::get('/create', [PhuongTienController::class, 'create'])->name('create');
-    Route::post('/', [PhuongTienController::class, 'store'])->name('store');
-    Route::get('/{phuong_tien}/edit', [PhuongTienController::class, 'edit'])->name('edit');
-    Route::put('/{phuong_tien}', [PhuongTienController::class, 'update'])->name('update');
-    Route::delete('/{phuong_tien}', [PhuongTienController::class, 'destroy'])->name('destroy');
-});
-Route::prefix('cong-to')->name('admin.cong_tos.')->group(function(){
-      Route::get('/', [CongtoController::class, 'index'])->name('index');
-    Route::get('/create', [CongtoController::class, 'create'])->name('create');
-    Route::post('/', [CongtoController::class, 'store'])->name('store');
-    Route::get('/{congTo}/edit', [CongtoController::class, 'edit'])->name('edit');
-    Route::put('/{congTo}', [CongtoController::class, 'update'])->name('update');
-    Route::delete('/{congTo}', [CongtoController::class, 'destroy'])->name('destroy');
-});
+    // Routes chính cho quản lý phương tiện
+    Route::prefix('phuong-tiens')->name('admin.phuong_tiens.')->group(function () {
+        Route::get('/', [PhuongTienController::class, 'index'])->name('index');
+        Route::get('/create', [PhuongTienController::class, 'create'])->name('create');
+        Route::post('/', [PhuongTienController::class, 'store'])->name('store');
+        Route::get('/{phuong_tien}/edit', [PhuongTienController::class, 'edit'])->name('edit');
+        Route::put('/{phuong_tien}', [PhuongTienController::class, 'update'])->name('update');
+        Route::delete('/{phuong_tien}', [PhuongTienController::class, 'destroy'])->name('destroy');
+    });
+    Route::prefix('cong-to')->name('admin.cong_tos.')->group(function () {
+        Route::get('/', [CongtoController::class, 'index'])->name('index');
+        Route::get('/create', [CongtoController::class, 'create'])->name('create');
+        Route::post('/', [CongtoController::class, 'store'])->name('store');
+        Route::get('/{congTo}/edit', [CongtoController::class, 'edit'])->name('edit');
+        Route::put('/{congTo}', [CongtoController::class, 'update'])->name('update');
+        Route::delete('/{congTo}', [CongtoController::class, 'destroy'])->name('destroy');
+    });
 
-// routes/web.php
+    // routes/web.php
 
-Route::prefix('hop-dong')->name('admin.hop_dong.')->group(function () {
-    Route::get('/', [HopDongController::class, 'index'])->name('index');
-    Route::get('/create', [HopDongController::class, 'create'])->name('create');
-    Route::post('/', [HopDongController::class, 'store'])->name('store');
-    Route::get('/{hopDong}/edit', [HopDongController::class, 'edit'])->name('edit');
-    Route::put('/{hopDong}', [HopDongController::class, 'update'])->name('update');
-    Route::delete('/{hopDong}', [HopDongController::class, 'destroy'])->name('destroy');
-});
-Route::prefix('hoa-dons')->name('hoa-dons.')->group(function () {
-    Route::get('/', [HoaDonController::class, 'index'])->name('index');
-    Route::get('/create', [HoaDonController::class, 'showGenerateForm'])->name('create');
-    Route::post('/', [HoaDonController::class, 'generateInvoices'])->name('store');
-    Route::get('/{hoaDon}/edit', [HoaDonController::class, 'edit'])->name('edit');
-    Route::put('/{hoaDon}', [HoaDonController::class, 'update'])->name('update');
-    Route::get('/{hoaDon}', [HoaDonController::class, 'show'])->name('show');
-    Route::delete('/{hoaDon}', [HoaDonController::class, 'destroy'])->name('destroy');
-});
+    Route::prefix('hop-dong')->name('admin.hop_dong.')->group(function () {
+        Route::get('/', [HopDongController::class, 'index'])->name('index');
+        Route::get('/create', [HopDongController::class, 'create'])->name('create');
+        Route::post('/', [HopDongController::class, 'store'])->name('store');
+        Route::get('/{hopDong}/edit', [HopDongController::class, 'edit'])->name('edit');
+        Route::put('/{hopDong}', [HopDongController::class, 'update'])->name('update');
+        Route::delete('/{hopDong}', [HopDongController::class, 'destroy'])->name('destroy');
+    });
+    Route::prefix('hoa-dons')->name('hoa-dons.')->group(function () {
+        Route::get('/', [HoaDonController::class, 'index'])->name('index');
+        Route::get('/create', [HoaDonController::class, 'showGenerateForm'])->name('create');
+        Route::post('/', [HoaDonController::class, 'generateInvoices'])->name('store');
+        Route::get('/{hoaDon}/edit', [HoaDonController::class, 'edit'])->name('edit');
+        Route::put('/{hoaDon}', [HoaDonController::class, 'update'])->name('update');
+        Route::get('/{hoaDon}', [HoaDonController::class, 'show'])->name('show');
+        Route::delete('/{hoaDon}', [HoaDonController::class, 'destroy'])->name('destroy');
+    });
 
-// 3. Route để tạo một hóa đơn duy nhất trực tiếp từ một hợp đồng cụ thể
-Route::post('/hop-dongs/{hop_dong}/tao-hoa-don', [HoaDonController::class, 'taoHoaDonChoHopDong'])
-    ->name('hop-dongs.tao-hoa-don');
-Route::prefix('thong-tin-ca-nhan')->name('admin.profile.')->group(function () {
-  Route::get('/', [ProfileController::class, 'index'])->name('index');
-    Route::put('profile', [ProfileController::class, 'update'])->name('update');
-    Route::post('change-password', [ProfileController::class, 'updatePassword'])->name('change_password');
-});
+    // 3. Route để tạo một hóa đơn duy nhất trực tiếp từ một hợp đồng cụ thể
+    Route::post('/hop-dongs/{hop_dong}/tao-hoa-don', [HoaDonController::class, 'taoHoaDonChoHopDong'])
+        ->name('hop-dongs.tao-hoa-don');
+    Route::prefix('thong-tin-ca-nhan')->name('admin.profile.')->group(function () {
+        Route::get('/', [ProfileController::class, 'index'])->name('index');
+        Route::put('profile', [ProfileController::class, 'update'])->name('update');
+        Route::post('change-password', [ProfileController::class, 'updatePassword'])->name('change_password');
+    });
+    Route::prefix('faqs')->name('admin.faqs.')->group(function () {
+        Route::get('/', [FaqController::class, 'index'])->name('index');
+        Route::get('/create', [FaqController::class, 'create'])->name('create');
+        Route::post('/', [FaqController::class, 'store'])->name('store');
+        Route::get('/{faq}/edit', [FaqController::class, 'edit'])->name('edit');
+        Route::put('/{faq}', [FaqController::class, 'update'])->name('update');
+        Route::delete('/{faq}', [FaqController::class, 'destroy'])->name('destroy');
 
-Route::post('/upload-image', [UploadController::class, 'uploadImage'])->name('upload-image');
-Route::post('/delete-image', [UploadController::class, 'deleteImage'])->name('delete-image');
+    });
+
+
+
+    Route::post('/upload-image', [UploadController::class, 'uploadImage'])->name('upload-image');
+    Route::post('/delete-image', [UploadController::class, 'deleteImage'])->name('delete-image');
 });

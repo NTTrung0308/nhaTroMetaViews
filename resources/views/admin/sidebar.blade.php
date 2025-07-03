@@ -263,6 +263,15 @@
                  </a>
              </li>
          @endif
+         @if (auth()->user()->hasAnyPermission('Xem câu hỏi thường gặp','Sửa câu hỏi thường gặp','Xóa câu hỏi thường gặp','Thêm câu hỏi thường gặp'))
+             <li class="nav-item">
+                 <a class="nav-link {{ in_array(Request::route()->getName(), ['admin.faqs.index','admin.faqs.create', 'admin.faqs.edit']) ? '' : 'collapsed' }}"
+                     href="{{ route('admin.faqs.index') }}">
+                   	<i class="bi bi-question-circle me-2"></i>
+                     <span>Câu hỏi thường gặp</span>
+                 </a>
+             </li>
+         @endif
 
      </ul>
 
