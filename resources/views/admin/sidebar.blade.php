@@ -8,8 +8,19 @@
                  <span>Dashboard</span>
              </a>
          </li><!-- End Dashboard Nav -->
+         @if (auth()->user()->hasAnyPermission([
+                     'Xem dịch vụ',
+                     'Xem nhà trọ',
+                     'Xem phòng trọ',
+                     'Xem công tơ',
+                     'Xem tài sản trọ',
+                     'Xem tài sản',
+                     'Xem quản lý điện nước',
+                 ]))
+             <li class="nav-heading">Quản lý vận hành</li>
+         @endif
 
-         <li class="nav-heading">Quản lý vận hành</li>
+
          @if (auth()->user()->hasPermissionTo('Xem dịch vụ') ||
                  auth()->user()->hasPermissionTo('Thêm dịch vụ') ||
                  auth()->user()->hasPermissionTo('Sửa dịch vụ') ||
@@ -94,7 +105,9 @@
                  </a>
              </li>
          @endif
-         <li class="nav-heading">Phân quyền</li>
+         @if (auth()->user()->hasAnyPermission(['Xem vai trò', 'Xem tài khoản quản trị']))
+             <li class="nav-heading">Phân quyền</li>
+         @endif
          @if (auth()->user()->hasPermissionTo('Xem vai trò') ||
                  auth()->user()->hasPermissionTo('Thêm vai trò') ||
                  auth()->user()->hasPermissionTo('Sửa vai trò') ||
@@ -119,8 +132,9 @@
                  </a>
              </li>
          @endif
-
-         <li class="nav-heading">Khách hàng</li>
+         @if (auth()->user()->hasAnyPermission(['Xem người dùng', 'Xem phương tiện', 'Xem hợp đồng', 'Xem hóa đơn']))
+             <li class="nav-heading">Khách hàng</li>
+         @endif
          @if (auth()->user()->hasPermissionTo('Xem người dùng') ||
                  auth()->user()->hasPermissionTo('Thêm người dùng') ||
                  auth()->user()->hasPermissionTo('Sửa người dùng') ||
@@ -157,18 +171,27 @@
                  </a>
              </li>
          @endif
-         <li class="nav-item">
+         @if (auth()->user()->hasAnyPermission(['Xem hóa đơn', 'Thêm hóa đơn', 'Sửa hóa đơn', 'Xóa hóa đơn']))
+             <li class="nav-item">
                  <a class="nav-link {{ in_array(Request::route()->getName(), ['hoa-dons.index', 'hoa-dons.create', 'hoa-dons.edit', 'hoa-dons.show']) ? '' : 'collapsed' }}"
                      href="{{ route('hoa-dons.index') }}">
-                  <i class="bi bi-file-earmark-text"></i>
+                     <i class="bi bi-file-earmark-text"></i>
                      <span>Hóa đơn</span>
                  </a>
              </li>
-         <li class="nav-heading">Hiện thị trang chủ</li>
-         @if (auth()->user()->hasPermissionTo('Xem tin tức') ||
-                 auth()->user()->hasPermissionTo('Thêm tin tức') ||
-                 auth()->user()->hasPermissionTo('Sửa tin tức') ||
-                 auth()->user()->hasPermissionTo('Xóa tin tức'))
+         @endif
+         @if (auth()->user()->hasAnyPermission([
+                     'Xem tin tức',
+                     'Xem liên hệ',
+                     'Xem chính sách',
+                     'Xem slider',
+                     'Xem cảm nghĩ',
+                     'Cài đặt web',
+                     'Về chúng tôi',
+                 ]))
+             <li class="nav-heading">Hiện thị trang chủ</li>
+         @endif
+         @if (auth()->user()->hasAnyPermission(['Xem tin tức', 'Thêm tin tức', 'Sửa tin tức', 'Xóa tin tức']))
              <li class="nav-item">
                  <a class="nav-link {{ in_array(Request::route()->getName(), ['tin_tuc.index', 'tin_tuc.create', 'tin_tuc.edit']) ? '' : 'collapsed' }}"
                      href="{{ route('tin_tuc.index') }}">
