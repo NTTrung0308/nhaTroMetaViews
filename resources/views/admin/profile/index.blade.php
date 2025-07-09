@@ -50,7 +50,7 @@
 
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview"
-                                    aria-selected="true" role="tab">Overview</button>
+                                    aria-selected="true" role="tab">Tổng quan</button>
                             </li>
 
                             <li class="nav-item" role="presentation">
@@ -563,23 +563,35 @@
 
                             <div class="tab-pane fade pt-3" id="profile-change-password" role="tabpanel">
                                 <!-- Change Password Form -->
-                                <form action="{{ route('admin.profile.update.password') }}" method="POST">
+                                <form action="{{ route('admin.profile.change_password') }}" method="POST">
                                     @csrf
                                     @method('PUT')
                                     <div class="row mb-3">
                                         <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Mật khẩu
                                             hiện tại</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="current_password" type="password" class="form-control"
+                                            <input name="current_password" type="password"
+                                                class="form-control @error('current_password') is-invalid @enderror"
                                                 id="currentPassword">
+                                            @error('current_password')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="row mb-3">
                                         <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">Mật khẩu
                                             mới</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="password" type="password" class="form-control"
+                                            <input name="password" type="password"
+                                                class="form-control @error('password') is-invalid @enderror"
                                                 id="newPassword">
+                                            @error('password')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="row mb-3">

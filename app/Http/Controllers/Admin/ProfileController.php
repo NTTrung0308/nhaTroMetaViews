@@ -131,25 +131,34 @@ class ProfileController extends Controller
     /**
      * Xử lý việc đổi mật khẩu.
      */
-    public function updatePassword(Request $request)
+   public function updatePassword(Request $request)
     {
-        // Validate mật khẩu
+        // 1. Validate dữ liệu đầu vào với các thông báo tùy chỉnh
         $request->validate([
-            'current_password' => 'required|string',
-            'password'         => 'required|string|min:8|confirmed', // 'confirmed' sẽ kiểm tra với 'password_confirmation'
+            'current_password' => ['required', 'string'],
+            'password'         => ['required', 'string', 'min:8', 'confirmed'],
+        ], [
+            'current_password.required' => 'Vui lòng nhập mật khẩu hiện tại.',
+            'password.required'         => 'Vui lòng nhập mật khẩu mới.',
+            'password.min'              => 'Mật khẩu mới phải có ít nhất 8 ký tự.',
+            'password.confirmed'        => 'Xác nhận mật khẩu mới không khớp.',
         ]);
 
         $user = Auth::user();
 
-        // Kiểm tra mật khẩu hiện tại có đúng không
+        // 2. Kiểm tra mật khẩu hiện tại có đúng không
         if (!Hash::check($request->current_password, $user->password)) {
+            // Trả về trang trước với một lỗi cụ thể cho trường 'current_password'
+            // View sẽ có thể bắt lỗi này bằng @error('current_password')
             return back()->withErrors(['current_password' => 'Mật khẩu hiện tại không chính xác.']);
         }
 
-        // Cập nhật mật khẩu mới
-        $user->password = Hash::make($request->password);
-        $user->save();
+        // 3. Cập nhật mật khẩu mới nếu mọi thứ hợp lệ
+        $user->update([
+            'password' => Hash::make($request->password)
+        ]);
 
-        return redirect()->route('profile.change-password.form')->with('success', 'Đổi mật khẩu thành công!');
+        // 4. Trả về với thông báo thành công
+        return back()->with('success', 'Đổi mật khẩu thành công!');
     }
 }

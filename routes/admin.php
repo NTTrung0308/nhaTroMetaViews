@@ -3,6 +3,8 @@
 use App\Http\Controllers\Admin\AboutUsController;
 use App\Http\Controllers\Admin\AdministratorController;
 use App\Http\Controllers\Admin\CongtoController;
+use App\Http\Controllers\Admin\CongtoDienController;
+use App\Http\Controllers\Admin\CongtoNuocController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DichVuController;
@@ -186,6 +188,22 @@ Route::prefix('admin')->group(function () {
         Route::put('/{congTo}', [CongtoController::class, 'update'])->name('update');
         Route::delete('/{congTo}', [CongtoController::class, 'destroy'])->name('destroy');
     });
+    Route::prefix('cong-to-dien')->name('admin.cong_tos.dien.')->group(function () {
+        Route::get('/', [CongtoDienController::class, 'index'])->name('index');
+        Route::get('/create', [CongtoDienController::class, 'create'])->name('create');
+        Route::post('/', [CongtoDienController::class, 'store'])->name('store');
+        Route::get('/{congTo}/edit', [CongtoDienController::class, 'edit'])->name('edit');
+        Route::put('/{congTo}', [CongtoDienController::class, 'update'])->name('update');
+        Route::delete('/{congTo}', [CongtoDienController::class, 'destroy'])->name('destroy');
+    });
+    Route::prefix('cong-to-nuoc')->name('admin.cong_tos.nuoc.')->group(function () {
+        Route::get('/', [CongtoNuocController::class, 'index'])->name('index');
+        Route::get('/create', [CongtoNuocController::class, 'create'])->name('create');
+        Route::post('/', [CongtoNuocController::class, 'store'])->name('store');
+        Route::get('/{congTo}/edit', [CongtoNuocController::class, 'edit'])->name('edit');
+        Route::put('/{congTo}', [CongtoNuocController::class, 'update'])->name('update');
+        Route::delete('/{congTo}', [CongtoNuocController::class, 'destroy'])->name('destroy');
+    });
 
     // routes/web.php
 
@@ -213,7 +231,7 @@ Route::prefix('admin')->group(function () {
     Route::prefix('thong-tin-ca-nhan')->name('admin.profile.')->group(function () {
         Route::get('/', [ProfileController::class, 'index'])->name('index');
         Route::put('profile', [ProfileController::class, 'update'])->name('update');
-        Route::post('change-password', [ProfileController::class, 'updatePassword'])->name('change_password');
+        Route::put('change-password', [ProfileController::class, 'updatePassword'])->name('change_password');
     });
     Route::prefix('faqs')->name('admin.faqs.')->group(function () {
         Route::get('/', [FaqController::class, 'index'])->name('index');

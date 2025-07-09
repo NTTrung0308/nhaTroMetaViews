@@ -12,7 +12,8 @@
                      'Xem dịch vụ',
                      'Xem nhà trọ',
                      'Xem phòng trọ',
-                     'Xem công tơ',
+                     'Xem công tơ điện',
+                     'Xem công tơ nước',
                      'Xem tài sản trọ',
                      'Xem tài sản',
                      'Xem quản lý điện nước',
@@ -57,15 +58,27 @@
                  </a>
              </li>
          @endif
-         @if (auth()->user()->hasPermissionTo('Xem công tơ') ||
-                 auth()->user()->hasPermissionTo('Thêm công tơ') ||
-                 auth()->user()->hasPermissionTo('Sửa công tơ') ||
-                 auth()->user()->hasPermissionTo('Xóa công tơ'))
+         @if (auth()->user()->hasPermissionTo('Xem công tơ điện') ||
+                 auth()->user()->hasPermissionTo('Thêm công tơ điện') ||
+                 auth()->user()->hasPermissionTo('Sửa công tơ điện') ||
+                 auth()->user()->hasPermissionTo('Xóa công tơ điện'))
              <li class="nav-item">
-                 <a class="nav-link {{ in_array(Request::route()->getName(), ['admin.cong_tos.index', 'admin.cong_tos.create', 'admin.cong_tos.edit']) ? '' : 'collapsed' }}"
-                     href="{{ route('admin.cong_tos.index') }}">
+                 <a class="nav-link {{ in_array(Request::route()->getName(), ['admin.cong_tos.dien.index', 'admin.cong_tos.dien.create', 'admin.cong_tos.dien.edit']) ? '' : 'collapsed' }}"
+                     href="{{ route('admin.cong_tos.dien.index') }}">
                      <i class="bi bi-lightning"></i>
-                     <span>Công tơ</span>
+                     <span>Công tơ điện</span>
+                 </a>
+             </li>
+         @endif
+         @if (auth()->user()->hasPermissionTo('Xem công tơ nước') ||
+                 auth()->user()->hasPermissionTo('Thêm công tơ nước') ||
+                 auth()->user()->hasPermissionTo('Sửa công tơ nước') ||
+                 auth()->user()->hasPermissionTo('Xóa công tơ nước'))
+             <li class="nav-item">
+                 <a class="nav-link {{ in_array(Request::route()->getName(), ['admin.cong_tos.nuoc.index', 'admin.cong_tos.nuoc.create', 'admin.cong_tos.nuoc.edit']) ? '' : 'collapsed' }}"
+                     href="{{ route('admin.cong_tos.nuoc.index') }}">
+                   <i class="bi bi-droplet"></i>
+                     <span>Công tơ nước</span>
                  </a>
              </li>
          @endif
