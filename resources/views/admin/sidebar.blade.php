@@ -145,7 +145,7 @@
                  </a>
              </li>
          @endif
-         @if (auth()->user()->hasAnyPermission(['Xem người dùng', 'Xem phương tiện', 'Xem hợp đồng', 'Xem hóa đơn']))
+         @if (auth()->user()->hasAnyPermission(['Xem người dùng', 'Xem hợp đồng', 'Xem hóa đơn']))
              <li class="nav-heading">Khách hàng</li>
          @endif
          @if (auth()->user()->hasPermissionTo('Xem người dùng') ||
@@ -160,7 +160,7 @@
                  </a>
              </li>
          @endif
-         @if (auth()->user()->hasPermissionTo('Xem phương tiện') ||
+         {{-- @if (auth()->user()->hasPermissionTo('Xem phương tiện') ||
                  auth()->user()->hasPermissionTo('Thêm phương tiện') ||
                  auth()->user()->hasPermissionTo('Sửa phương tiện') ||
                  auth()->user()->hasPermissionTo('Xóa phương tiện'))
@@ -171,7 +171,7 @@
                      <span>Phương tiện</span>
                  </a>
              </li>
-         @endif
+         @endif --}}
          @if (auth()->user()->hasPermissionTo('Xem hợp đồng') ||
                  auth()->user()->hasPermissionTo('Thêm hợp đồng') ||
                  auth()->user()->hasPermissionTo('Sửa hợp đồng') ||

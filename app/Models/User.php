@@ -18,7 +18,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-   /**
+    /**
      * Các trường có thể gán giá trị hàng loạt.
      */
     protected $fillable = [
@@ -77,16 +77,19 @@ class User extends Authenticatable
         'active' => 'boolean',
     ];
     public function congViecs()
-{
-    return $this->hasMany(CongViec::class, 'user_thuc_hien');
-}
-public function hopDongThuePhongs()
-{
-    return $this->hasMany(HopDongThuePhong::class);
-}
-public function hoaDon()
-{
-    return $this->hasMany(HoaDon::class);
-}
-
+    {
+        return $this->hasMany(CongViec::class, 'user_thuc_hien');
+    }
+    public function hopDongThuePhongs()
+    {
+        return $this->hasMany(HopDongThuePhong::class);
+    }
+    public function hoaDon()
+    {
+        return $this->hasMany(HoaDon::class);
+    }
+    public function phuongTiens()
+    {
+        return $this->hasMany(PhuongTien::class);
+    }
 }

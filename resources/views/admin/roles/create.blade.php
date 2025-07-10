@@ -19,11 +19,11 @@
                         <div class="col-12 d-sm-flex justify-content-between align-items-center">
                             <h5 class="card-title">Tạo mới quyền người dùng</h5>
 
-                            <a href="{{ route('roles.index') }}" class="btn btn-success">
+                            <a href="{{ route('admin.roles.index') }}" class="btn btn-success">
                                 <i class="bi bi-arrow-left-circle-fill"></i>
                                 Trở lại danh sách Quyền</a>
                         </div>
-                        <form action="{{ route('roles.store') }}" method="POST" class="row g-3">
+                        <form action="{{ route('admin.roles.store') }}" method="POST" class="row g-3">
                             @csrf
                             <div class="col-md-12">
                                 <div class="form-floating">
@@ -49,11 +49,11 @@
                                                 <div>
                                                     <div class="checkbox-wrapper-61">
                                                         <input type="checkbox" name="permissions[]"
-                                                            value="{{ $permission->name }}" class="check" id="check" />
+                                                            value="{{ $permission->name }}" class="check" id="check-{{$permission}}" />
 
 
 
-                                                        <label for="check" class="label">
+                                                        <label for="check-{{$permission}}" class="label">
                                                             <svg width="45" height="45" viewbox="0 0 95 95">
                                                                 <rect x="30" y="20" width="50" height="50"
                                                                     stroke="black" fill="none" />
@@ -68,14 +68,7 @@
                                                         </label>
 
 
-                                                        {{-- <svg viewBox="0 0 35.6 35.6">
-                                                            <circle class="background" cx="17.8" cy="17.8"
-                                                                r="17.8"></circle>
-                                                            <circle class="stroke" cx="17.8" cy="17.8" r="14.37">
-                                                            </circle>
-                                                            <polyline class="check"
-                                                                points="11.78 18.12 15.55 22.23 25.17 12.87"></polyline>
-                                                        </svg> --}}
+                                                      
 
                                                     </div>
                                                     {{-- {{ $permission->name }} --}}

@@ -15,7 +15,7 @@
     </div>
     <div class="col-lg-4">
         <label class="form-label">Chọn tòa nhà</label>
-        <select name="nha_tro_id" id="nha_tro_id" class="form-select" required data-selected="{{ $selectedNhaTroId }}">
+        <select name="nha_tro_id" id="nha_tro_id" class="form-select select_ted" required data-selected="{{ $selectedNhaTroId }}">
             <option value="">-- Chọn tòa nhà --</option>
             @foreach ($nhaTros as $nhaTro)
                 <option value="{{ $nhaTro->id }}" data-so-tang="{{ $nhaTro->so_tang }}"

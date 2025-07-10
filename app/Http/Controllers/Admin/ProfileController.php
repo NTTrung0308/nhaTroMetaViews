@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\PhuongTien;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\File;
-
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 class ProfileController extends Controller
 {
     public function index(Request $request)
@@ -160,5 +162,87 @@ class ProfileController extends Controller
 
         // 4. Trả về với thông báo thành công
         return back()->with('success', 'Đổi mật khẩu thành công!');
+    }
+
+
+     //==================================================================
+    // CÁC PHƯƠNG THỨC XỬ LÝ AJAX CHO PHƯƠNG TIỆN - ĐÃ CẬP NHẬT
+    //==================================================================
+
+    public function getVehicles()
+    {
+        // THAY ĐỔI: Dùng đúng tên quan hệ đã định nghĩa ở User model
+        $vehicles = Auth::user()->phuongTiens; 
+        return response()->json($vehicles);
+    }
+
+    // THAY ĐỔI: Type-hint thành PhuongTien $phuongTien
+    public function showVehicle(PhuongTien $phuongTien)
+    {
+        if ($phuongTien->user_id !== Auth::id()) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+        return response()->json($phuongTien);
+    }
+
+    public function storeVehicle(Request $request)
+    {
+        // Danh sách các giá trị enum cho phép
+        $loaiPhuongTienOptions = ['o_to', 'o_to_dien', 'xe_may', 'xe_may_dien', 'xe_dap', 'xe_dap_dien'];
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'bien_so' => 'required|string|max:20|unique:phuong_tiens,bien_so',
+            // CẬP NHẬT VALIDATION: Phải là một trong các giá trị cho phép
+            'loai_phuong_tien' => ['required', Rule::in($loaiPhuongTienOptions)],
+            'ten_chu_xe' => 'required|string|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $data = $request->all();
+        $data['user_id'] = Auth::id();
+        $vehicle = PhuongTien::create($data);
+
+        return response()->json($vehicle, 201);
+    }
+
+    public function updateVehicle(Request $request, PhuongTien $phuongTien)
+    {
+        if ($phuongTien->user_id !== Auth::id()) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
+        // Danh sách các giá trị enum cho phép
+        $loaiPhuongTienOptions = ['o_to', 'o_to_dien', 'xe_may', 'xe_may_dien', 'xe_dap', 'xe_dap_dien'];
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'bien_so' => 'required|string|max:20|unique:phuong_tiens,bien_so,' . $phuongTien->id,
+            // CẬP NHẬT VALIDATION: Phải là một trong các giá trị cho phép
+            'loai_phuong_tien' => ['required', Rule::in($loaiPhuongTienOptions)],
+            'ten_chu_xe' => 'required|string|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $phuongTien->update($request->all());
+        return response()->json($phuongTien);
+    }
+
+    // THAY ĐỔI: Type-hint thành PhuongTien $phuongTien
+    public function destroyVehicle(PhuongTien $phuongTien)
+    {
+        if ($phuongTien->user_id !== Auth::id()) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
+        // THAY ĐỔI: Xóa đối tượng $phuongTien
+        $phuongTien->delete();
+        return response()->json(['message' => 'Xóa phương tiện thành công!']);
     }
 }

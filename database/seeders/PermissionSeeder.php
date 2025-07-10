@@ -79,10 +79,6 @@ class PermissionSeeder extends Seeder
             'Sửa tài khoản quản trị',
             'Xóa tài khoản quản trị',
             'Thêm tài khoản quản trị',
-            'Xem phương tiện',
-            'Sửa phương tiện',
-            'Xóa phương tiện',
-            'Thêm phương tiện',
             'Xem công tơ điện',
             'Sửa công tơ điện',
             'Thêm công tơ điện',
@@ -120,7 +116,7 @@ class PermissionSeeder extends Seeder
         $nguoiThueTroRole  = Role::firstOrCreate(['name' => 'nguoi-thue-tro']);
         $nguoiThueTroRole->givePermissionTo('Xem hợp đồng');
         $nguoiThueTroRole->givePermissionTo('Xem hóa đơn');
-        $nguoiThueTroRole->givePermissionTo('Xem phương tiện');
+        // $nguoiThueTroRole->givePermissionTo('Xem phương tiện');
 
         // Gán Super Admin cho User ID 1
         $admin = User::find(1);

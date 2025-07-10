@@ -43,6 +43,9 @@ class RolesControler extends Controller
         $request->validate([
             'name' => 'required|unique:roles,name',
             'permissions' => 'required|array', // Kiểm tra nếu có ít nhất 1 quyền
+        ],[
+            'name.unique' => 'Tên đã tồn tại',
+            'permissions.required' => 'Vui lòng chọn 1 quyền'
         ]);
 
         // Tạo vai trò mới
@@ -85,6 +88,9 @@ class RolesControler extends Controller
     // Không cho xóa vai trò đặc biệt
     if ($role->name === 'nguoi-thue-tro') {
         return redirect()->route('admin.roles.index')->with('error', 'Không được phép xóa vai trò người thuê trọ.');
+    }
+    if ($role->name === 'Super Admin') {
+        return redirect()->route('admin.roles.index')->with('error', 'Không được phép xóa vai trò này.');
     }
 
     // Thực hiện xóa vai trò

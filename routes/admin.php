@@ -232,6 +232,15 @@ Route::prefix('admin')->group(function () {
         Route::get('/', [ProfileController::class, 'index'])->name('index');
         Route::put('profile', [ProfileController::class, 'update'])->name('update');
         Route::put('change-password', [ProfileController::class, 'updatePassword'])->name('change_password');
+
+
+
+          Route::get('vehicles', [ProfileController::class, 'getVehicles'])->name('vehicles.index');
+        Route::post('vehicles', [ProfileController::class, 'storeVehicle'])->name('vehicles.store');
+        // THAY ĐỔI Ở ĐÂY: {vehicle} -> {phuongTien}
+        Route::get('vehicles/{phuongTien}', [ProfileController::class, 'showVehicle'])->name('vehicles.show');
+        Route::put('vehicles/{phuongTien}', [ProfileController::class, 'updateVehicle'])->name('vehicles.update');
+        Route::delete('vehicles/{phuongTien}', [ProfileController::class, 'destroyVehicle'])->name('vehicles.destroy');
     });
     Route::prefix('faqs')->name('admin.faqs.')->group(function () {
         Route::get('/', [FaqController::class, 'index'])->name('index');
