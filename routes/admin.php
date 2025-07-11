@@ -24,8 +24,10 @@ use App\Http\Controllers\Admin\TaiSanChungRiengController;
 use App\Http\Controllers\Admin\TaiSanController;
 use App\Http\Controllers\Admin\TintucController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\VnpayController;
 use App\Http\Controllers\Admin\WebConfigController;
 use App\Http\Controllers\UploadController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -257,3 +259,12 @@ Route::prefix('admin')->group(function () {
     Route::post('/upload-image', [UploadController::class, 'uploadImage'])->name('upload-image');
     Route::post('/delete-image', [UploadController::class, 'deleteImage'])->name('delete-image');
 });
+Route::post('/payment/vnpay/create/{hoaDon}', [VnpayController::class, 'createPayment'])
+    ->name('payment.vnpay.create')
+    ->middleware('auth'); // BẮT BUỘC có middleware này
+
+// Route để người dùng được chuyển về sau khi thanh toán trên trang VNPay
+Route::get('/payment/vnpay/return', [VnpayController::class, 'handleReturn'])
+    ->name('payment.vnpay.return')
+    ->middleware('auth'); // BẮT BUỘC có middleware này
+

@@ -35,7 +35,7 @@
                             <div class="col-md-6 mb-3">
                                 <label for="nha_tro_id" class="form-label">Tòa nhà <span
                                         class="text-danger">*</span></label></label>
-                                <select name="nha_tro_id" id="nha_tro_id" class="form-select select_ted">
+                                <select name="nha_tro_id" id="nha_tro_id" class="form-select">
                                     <option value="">-- Tất cả --</option>
                                     @foreach ($nhaTros as $nhaTro)
                                         <option value="{{ $nhaTro->id }}"
@@ -124,47 +124,85 @@
             </div>
         </div>
     </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const nhaTroSelect = document.getElementById('nha_tro_id');
-            const roomSelect = document.getElementById('room_id');
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const nhaTroSelect = document.getElementById('nha_tro_id');
+        const roomSelect = document.getElementById('room_id');
+        
+        // Lấy room_id đã chọn trước đó (khi validation fail hoặc khi edit)
+        const selectedRoomId = '{{ old('room_id', $congTo->room_id ?? '') }}';
 
-            const selectedRoomId = '{{ old('room_id', $congTo->room_id ?? '') }}';
+        function loadRooms(nhaTroId, selectedRoom = null) {
+            // Nếu không có tòa nhà nào được chọn, reset danh sách phòng và dừng lại
+            if (!nhaTroId) {
+                roomSelect.innerHTML = '<option value="">-- Chọn tòa nhà trước --</option>';
+                return;
+            }
 
+            // Hiển thị trạng thái đang tải và vô hiệu hóa dropdown
+            roomSelect.innerHTML = '<option value="">-- Đang tải danh sách phòng... --</option>';
+            roomSelect.disabled = true;
 
-            function loadRooms(nhaTroId, selected = null) {
-                roomSelect.innerHTML = '<option value="">-- Tất cả --</option>';
+            // Gọi API bằng fetch
+            fetch(`/api/rooms-by-nha-tro/${nhaTroId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        // Nếu server trả về lỗi (4xx, 5xx), ném ra một lỗi để khối .catch() bắt được
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(rooms => {
+                    // Xóa trạng thái đang tải
+                    roomSelect.innerHTML = '<option value="">-- Chọn phòng --</option>';
 
-                if (!nhaTroId) return;
+                    if (rooms.length === 0) {
+                        roomSelect.innerHTML = '<option value="">-- Tòa nhà này chưa có phòng --</option>';
+                    } else {
+                        // Lặp qua danh sách phòng và tạo các option
+                        rooms.forEach(room => {
+                            const option = document.createElement('option');
+                            option.value = room.id;
+                    
+                            
+                            // Hiển thị cả mã phòng và tên phòng cho dễ nhận biết
+                            option.textContent = `Phòng ${room.ma_phong} (${room.ten_phong})`;
 
-                fetch(`/api/rooms-by-nha-tro/${nhaTroId}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        data.forEach(room => {
-                            const opt = document.createElement('option');
-                            opt.value = room.id;
-                            opt.textContent = room.ma_phong;
-
-                            // ĐÁNH DẤU ĐÃ CHỌN
-                            if (selected && selected == room.id) {
-                                opt.selected = true;
+                            // Nếu có phòng được chọn sẵn, đánh dấu nó là selected
+                            if (selectedRoom && selectedRoom == room.id) {
+                                option.selected = true;
                             }
-
-                            roomSelect.appendChild(opt);
+                            roomSelect.appendChild(option);
                         });
+                    }
+                })
+                .catch(error => {
+                    // **BẮT LỖI VÀ HIỂN THỊ**
+                    console.error('Lỗi khi tải danh sách phòng:', error);
+                    roomSelect.innerHTML = '<option value="">-- Lỗi khi tải dữ liệu --</option>';
+                })
+                .finally(() => {
+                    // Luôn luôn kích hoạt lại dropdown sau khi fetch xong (dù thành công hay thất bại)
+                    roomSelect.disabled = false;
+                });
+        }
 
-                    });
-            }
+        // --- Gắn các sự kiện ---
 
-            // Khi thay đổi nhà trọ → cập nhật danh sách phòng
-            nhaTroSelect.addEventListener('change', function() {
-                loadRooms(this.value);
-            });
-
-            // Khi trang load lần đầu (nếu có sẵn nha_tro_id) → load danh sách phòng tương ứng
-            if (nhaTroSelect.value) {
-                loadRooms(nhaTroSelect.value, selectedRoomId);
-            }
+        // 1. Khi người dùng thay đổi lựa chọn Tòa nhà
+        nhaTroSelect.addEventListener('change', function() {
+            // Gọi hàm loadRooms với giá trị mới, không cần truyền selectedRoomId
+            loadRooms(this.value);
         });
-    </script>
+
+        // 2. Khi trang tải lần đầu
+        // Nếu đã có một tòa nhà được chọn sẵn (trường hợp edit hoặc validation fail)
+        if (nhaTroSelect.value) {
+            // Gọi hàm loadRooms và truyền vào cả selectedRoomId để tự động chọn lại phòng
+            loadRooms(nhaTroSelect.value, selectedRoomId);
+        } else {
+             roomSelect.innerHTML = '<option value="">-- Chọn tòa nhà trướcs --</option>';
+        }
+    });
+</script>
 @endsection

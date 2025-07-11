@@ -89,4 +89,65 @@
         </div>
     </div>
 </div>
+{{-- Hiển thị thông báo từ session --}}
+@if (session('success'))
+    <div class="alert alert-success">{{ session('success') }}</div>
+@endif
+@if (session('error'))
+    <div class="alert alert-danger">{{ session('error') }}</div>
+@endif
+
+
+
+    <div class="payment-gateway-section">
+        <h4>Thanh toán trực tuyến</h4>
+        <form action="{{ route('payment.vnpay.create', ['hoaDon' => $hoaDon->id]) }}" method="POST">
+            @csrf
+            <button type="submit" class="btn btn-primary">
+                <img src="https://vnpay.vn/s1/images/logo-vnpay.png" height="20" alt="VNPay Logo">
+                Thanh toán bằng VNPay QR
+            </button>
+        </form>
+    </div>
+
+
+
+{{-- (Tùy chọn) Hiển thị lịch sử giao dịch liên quan đến hóa đơn này --}}
+<h3>Lịch sử Giao dịch</h3>
+@php
+    // Bạn cần load relationship này trong controller: $hoaDon->load('transactions');
+    $transactions = $hoaDon->transactions()->orderBy('created_at', 'desc')->get();
+@endphp
+
+@if($transactions->isNotEmpty())
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Thời gian</th>
+                <th>Phương thức</th>
+                <th>Số tiền</th>
+                <th>Trạng thái</th>
+                <th>Mã GD Cổng</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($transactions as $trans)
+            <tr>
+                <td>{{ $trans->created_at->format('d/m/Y H:i') }}</td>
+                <td>{{ strtoupper($trans->gateway) }}</td>
+                <td>{{ number_format($trans->amount) }} VNĐ</td>
+                <td>
+                    @if($trans->status == 'completed') <span class="badge bg-success">Thành công</span>
+                    @elseif($trans->status == 'pending') <span class="badge bg-warning">Đang chờ</span>
+                    @else <span class="badge bg-danger">Thất bại</span>
+                    @endif
+                </td>
+                <td>{{ $trans->gateway_transaction_code }}</td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+@else
+    <p>Chưa có giao dịch nào cho hóa đơn này.</p>
+@endif
 @endsection

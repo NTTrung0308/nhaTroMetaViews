@@ -173,10 +173,10 @@ $nam = $request->input('nam', now()->year);
             // $updateData['nuoc_tieu_thu'] = $request->so_m3_nuoc;
             $updateData['nuoc_tieu_thu'] = max(0, $request->so_m3_nuoc - $chiSoNuocTruoc);
         } elseif ($kieuTinhNuoc === 'dau_nguoi') {
-            $updateData['so_m3_nuoc'] = $request->so_nguoi;
+            $updateData['so_m3_nuoc_sau'] = $request->so_nguoi;
             $updateData['nuoc_tieu_thu'] = 0;
         } else {
-            $updateData['so_m3_nuoc'] = 1;
+            $updateData['so_m3_nuoc_sau'] = 1;
             $updateData['nuoc_tieu_thu'] = 1;
         }
 
@@ -220,7 +220,7 @@ $nam = $request->input('nam', now()->year);
             ->orderByDesc('nam')->orderByDesc('thang')->first();
 
         if ($truoc) {
-            return $truoc->so_m3_nuoc;
+            return $truoc->so_m3_nuoc_truoc;
         }
 
         $congTo = CongTo::where('nha_tro_id', $nhaTroId)

@@ -15,7 +15,7 @@
     </div>
     <div class="col-lg-4">
         <label class="form-label">Chọn tòa nhà</label>
-        <select name="nha_tro_id" id="nha_tro_id" class="form-select select_ted" required data-selected="{{ $selectedNhaTroId }}">
+        <select name="nha_tro_id" id="nha_tro_id" class="form-select" required data-selected="{{ $selectedNhaTroId }}">
             <option value="">-- Chọn tòa nhà --</option>
             @foreach ($nhaTros as $nhaTro)
                 <option value="{{ $nhaTro->id }}" data-so-tang="{{ $nhaTro->so_tang }}"
@@ -198,56 +198,88 @@
 </script>
 
 
-
-
-
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const nhaTroSelect = document.getElementById('nha_tro_id');
         const maPhongSelect = document.getElementById('ma_phong');
 
-        // Gọi lại logic tạo danh sách phòng khi form sửa được mở
-        if (nhaTroSelect.value) {
-            generateMaPhongOptions(nhaTroSelect);
-        }
+        function generateMaPhongOptions(selectElement) {
+            // Lấy các giá trị cần thiết từ option được chọn
+            const selectedOption = selectElement.options[selectElement.selectedIndex];
+            const nhaTroId = selectElement.value;
+            const soTang = selectedOption.getAttribute('data-so-tang');
+            const soPhong = selectedOption.getAttribute('data-so-phong');
+            const selectedMaPhongOnLoad = maPhongSelect.getAttribute('data-selected');
 
-        nhaTroSelect.addEventListener('change', function() {
-            generateMaPhongOptions(this);
-        });
+            // Xóa các option cũ
+            maPhongSelect.innerHTML = '<option value="">-- Vui lòng chọn tòa nhà --</option>';
 
-        function generateMaPhongOptions(select) {
-            const nhaTroId = select.value;
-            const soTang = select.options[select.selectedIndex].getAttribute('data-so-tang');
-            const soPhong = select.options[select.selectedIndex].getAttribute('data-so-phong');
-            const selectedMaPhong = maPhongSelect.getAttribute('data-selected');
+            // Nếu không có tòa nhà được chọn hoặc thiếu thông tin, dừng lại
+            if (!nhaTroId || !soTang || !soPhong) {
+                return;
+            }
 
-            maPhongSelect.innerHTML = '<option value="">-- Chọn mã phòng --</option>';
+            maPhongSelect.innerHTML = '<option value="">-- Đang tải danh sách phòng... --</option>';
+            maPhongSelect.disabled = true; // Vô hiệu hóa trong khi tải
 
-            if (!nhaTroId || !soTang || !soPhong) return;
-
+            // Gọi API để lấy các mã phòng đã được sử dụng
             fetch(`/api/get-used-room-codes/${nhaTroId}`)
-                .then(response => response.json())
+                .then(response => {
+                    // Kiểm tra xem request có thành công không
+                    if (!response.ok) {
+                        throw new Error(`Lỗi mạng hoặc server: ${response.statusText}`);
+                    }
+                    return response.json();
+                })
                 .then(usedCodes => {
+                    maPhongSelect.innerHTML = '<option value="">-- Chọn mã phòng --</option>'; // Reset lại
+                    
                     for (let tang = 1; tang <= soTang; tang++) {
                         for (let phong = 1; phong <= soPhong; phong++) {
+                            // Định dạng mã phòng, ví dụ: tầng 1 phòng 5 -> 105
                             const maPhong = `${tang}${String(phong).padStart(2, '0')}`;
                             const option = document.createElement('option');
                             option.value = maPhong;
                             option.textContent = `Phòng ${maPhong}`;
 
-                            if (usedCodes.includes(maPhong)) {
+                            // Kiểm tra nếu mã phòng đã có trong DB
+                            // Cho phép chọn mã phòng đang được sửa
+                            if (usedCodes.includes(maPhong) && maPhong !== selectedMaPhongOnLoad) {
                                 option.disabled = true;
-                                option.textContent += ' (đã tồn tại)';
+                                option.textContent += ' (đã có)';
                             }
 
-                            if (maPhong === selectedMaPhong) {
+                            // Tự động chọn lại mã phòng cũ khi sửa
+                            if (maPhong === selectedMaPhongOnLoad) {
                                 option.selected = true;
                             }
 
                             maPhongSelect.appendChild(option);
                         }
                     }
+                })
+                .catch(error => {
+                    // **QUAN TRỌNG: Bắt và hiển thị lỗi**
+                    console.error('Lỗi khi fetch mã phòng:', error);
+                    maPhongSelect.innerHTML = '<option value="">-- Lỗi khi tải dữ liệu --</option>';
+                })
+                .finally(() => {
+                    maPhongSelect.disabled = false; // Bật lại select sau khi tải xong
                 });
         }
+
+        // --- Event Listeners ---
+
+        // Khi trang được tải, nếu có tòa nhà được chọn sẵn (trường hợp edit) thì chạy hàm
+        if (nhaTroSelect.value) {
+            generateMaPhongOptions(nhaTroSelect);
+        }
+
+        // Khi người dùng thay đổi lựa chọn tòa nhà
+        nhaTroSelect.addEventListener('change', function() {
+            // Reset data-selected của mã phòng vì đã chọn tòa nhà mới
+            maPhongSelect.setAttribute('data-selected', ''); 
+            generateMaPhongOptions(this);
+        });
     });
 </script>

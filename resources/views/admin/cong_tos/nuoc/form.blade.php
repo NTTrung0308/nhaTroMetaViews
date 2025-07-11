@@ -35,7 +35,7 @@
                             <div class="col-md-6 mb-3">
                                 <label for="nha_tro_id" class="form-label">Tòa nhà <span
                                         class="text-danger">*</span></label></label>
-                                <select name="nha_tro_id" id="nha_tro_id" class="form-select select_ted">
+                                <select name="nha_tro_id" id="nha_tro_id" class="form-select">
                                     <option value="">-- Tất cả --</option>
                                     @foreach ($nhaTros as $nhaTro)
                                         <option value="{{ $nhaTro->id }}"

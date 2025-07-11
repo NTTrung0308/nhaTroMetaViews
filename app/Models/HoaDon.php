@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class HoaDon extends Model
 {
@@ -68,5 +69,11 @@ class HoaDon extends Model
     public function hopDong()
     {
         return $this->belongsTo(HopDongThuePhong::class, 'hop_dong_thue_phong_id');
+    }
+     public function transactions(): HasMany
+    {
+        // 'hoa_don_id' là khóa ngoại trong bảng 'transactions'
+        // 'id' là khóa chính trong bảng 'hoa_dons' (bảng hiện tại)
+        return $this->hasMany(Transaction::class, 'hoa_don_id', 'id');
     }
 }
