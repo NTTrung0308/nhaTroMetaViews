@@ -169,10 +169,9 @@ class VnpayController extends Controller
         if (!$hoaDon) return; // Kiểm tra nếu không tìm thấy hóa đơn
 
         $hoaDon->da_thanh_toan += $transaction->amount;
-
-        if ($hoaDon->con_no <= 0) {
+       
             $hoaDon->trang_thai = 'da_thanh_toan';
-        }
+      
 
         $hoaDon->ghi_chu = ($hoaDon->ghi_chu ? $hoaDon->ghi_chu . "\n" : "") .
             "Thanh toan VNPay luc " . now()->format('d/m/Y H:i:s') .

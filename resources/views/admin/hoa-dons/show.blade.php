@@ -98,7 +98,7 @@
 @endif
 
 
-
+@if ($hoaDon->con_no > 0)
     <div class="payment-gateway-section">
         <h4>Thanh toán trực tuyến</h4>
         <form action="{{ route('payment.vnpay.create', ['hoaDon' => $hoaDon->id]) }}" method="POST">
@@ -109,7 +109,9 @@
             </button>
         </form>
     </div>
-
+@else
+    <div class="alert alert-success">Hóa đơn này đã được thanh toán đầy đủ.</div>
+@endif
 
 
 {{-- (Tùy chọn) Hiển thị lịch sử giao dịch liên quan đến hóa đơn này --}}
