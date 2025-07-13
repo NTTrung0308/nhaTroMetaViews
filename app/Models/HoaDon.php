@@ -76,4 +76,13 @@ class HoaDon extends Model
         // 'id' là khóa chính trong bảng 'hoa_dons' (bảng hiện tại)
         return $this->hasMany(Transaction::class, 'hoa_don_id', 'id');
     }
+     public function dienNuoc()
+    {
+        // Eloquent sẽ:
+        // 1. Lấy `DienNuocTheoPhong` có `room_id` bằng với `room_id` của hóa đơn này.
+        // 2. Thêm điều kiện `where` để lọc chính xác theo tháng và năm của hóa đơn.
+        return $this->hasOne(DienNuocTheoPhong::class, 'room_id', 'room_id')
+                    ->where('thang', $this->thang)
+                    ->where('nam', $this->nam);
+    }
 }

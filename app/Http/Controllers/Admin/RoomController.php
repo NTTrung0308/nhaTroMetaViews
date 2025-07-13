@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Helpers\LogHelper;
 use App\Http\Controllers\Controller;
+use App\Models\CongTo;
 use App\Models\NhaTros;
 use App\Models\Rooms;
 use Illuminate\Http\Request;
@@ -129,9 +130,26 @@ class RoomController extends Controller
                 $images[] = 'rooms/' . $fileName; // Lưu đường dẫn tương đối
             }
         }
-
+//  CongTo::create([
+//             'nha_tro_id' => $validated->nha_tro_id,
+//             'room_id' => $validated->room_id,
+//             'loai' => 'dien',
+//             'chi_so_dau' => $request->chi_so_dau,
+//         ]);
         $validated['images'] = json_encode($images);
         $room = Rooms::create($validated);
+         CongTo::create([
+            'nha_tro_id' => $validated['nha_tro_id'],
+            'room_id' => $room->id,
+            'loai' => 'dien',
+            'chi_so_dau' => 0,
+        ]);
+         CongTo::create([
+            'nha_tro_id' => $validated['nha_tro_id'],
+            'room_id' => $room->id,
+            'loai' => 'nuoc',
+            'chi_so_dau' => 0,
+        ]);
         LogHelper::ghi(
             'Thêm phòng trọ mới: ' . $room->ten_phong,
             'Phòng Trọ',

@@ -281,8 +281,19 @@ class HoaDonController extends Controller
      */
     public function show(HoaDon $hoaDon)
     {
-        $hoaDon->load(['room.nhaTro', 'user', 'hopDong']);
-        return view('admin.hoa-dons.show', compact('hoaDon'));
+        $hoaDon->load(['room.nhaTro.dichVus', 'user', 'hopDong']);
+      $dichVuDien = null;
+    $dichVuNuoc = null;
+
+    // Sử dụng optional chaining (?->) để tránh lỗi nếu room hoặc nhaTro không tồn tại
+    if ($services = $hoaDon->room?->nhaTro?->dichVus) {
+        // Tìm dịch vụ điện và nước dựa trên tên hoặc một slug/id cố định.
+        // !!! QUAN TRỌNG: Bạn cần thay 'Điện' và 'Nước' bằng tên chính xác trong bảng 'dich_vus' của bạn.
+        $dichVuDien = $services->firstWhere('ma_dich_vu', 'dien_sinh_hoat'); // Hoặc 'Điện sinh hoạt'
+        $dichVuNuoc = $services->firstWhere('ma_dich_vu', 'nuoc'); // Hoặc 'Nước sinh hoạt'
+    }
+
+    return view('admin.hoa-dons.show', compact('hoaDon', 'dichVuDien', 'dichVuNuoc'));
     }
 
     /**

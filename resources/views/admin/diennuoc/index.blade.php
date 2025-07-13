@@ -19,11 +19,15 @@
 
             <div class="card">
                 <div class="card-body">
-                    <div class="col-12 d-sm-flex justify-content-between align-items-center">
+                    {{-- <div class="col-12 d-sm-flex justify-content-between align-items-center">
                         <h5 class="card-title">Nội dung Quản lý điện nước</h5>
 
+                    </div> --}}
+                    <div class="alert alert-warning mt-3" role="alert">
+                        <b>*Lưu ý:</b> Khi bạn hoàn thành các thông số cần thiết và nhấn nút "Lưu lại", hệ thống sẽ tự động
+                        tính toán và cập nhật các chỉ số điện, nước cho từng phòng trong tòa nhà đã chọn. Nếu bạn muốn chốt
+                        số liệu, hãy sử dụng nút "Chốt" bên cạnh mỗi phòng (đã chốt thì không thể sửa).
                     </div>
-
                     <form method="GET" action="{{ route('diennuoc.index') }}" class="mb-3">
                         <div class="row align-items-end g-3 mb-4">
                             <div class="col-md-3">
@@ -100,7 +104,9 @@
                                     @endif
                                     <th>Số người</th>
                                     <th>Hành động</th>
+
                                     <th>Thao tác</th>
+
                                 </tr>
                             </thead>
                             {{-- ... code phía trên giữ nguyên ... --}}
@@ -164,7 +170,7 @@
                                             </td>
 
                                             {{-- Cột Hành động --}}
-                                            <td class="text-nowrap">
+                                            <td class="text-nowrap text-center">
                                                 @if (auth()->user()->hasPermissionTo('Sửa quản lý điện nước'))
                                                     @if ($dn->trang_thai_chot)
                                                         {{-- Nếu đã chốt, hiển thị nút "Đã chốt" bị vô hiệu hóa --}}
@@ -173,14 +179,16 @@
                                                         </button>
                                                     @else
                                                         {{-- Nếu chưa chốt, hiển thị nút "Lưu" --}}
-                                                        <button type="submit" class="btn btn-sm btn-primary">Lưu</button>
+                                                        <button type="submit" class="btn btn-sm btn-primary">Lưu
+                                                            lại</button>
                                                     @endif
                                                 @endif
                                             </td>
                                         </form>
 
                                         {{-- Cột Chốt (tách ra khỏi form Lưu) --}}
-                                        <td class="text-nowrap">
+                                        <td class="text-nowrap text-center">
+                                            {{-- Chỉ hiển thị nút chốt nếu người dùng có quyền và chưa chốt --}}
                                             @if (!$dn->trang_thai_chot && auth()->user()->hasPermissionTo('Chốt quản lý điện nước'))
                                                 <form method="POST" action="{{ route('diennuoc.chot', $dn->id) }}"
                                                     class="d-inline">
@@ -191,6 +199,8 @@
                                                         Chốt
                                                     </button>
                                                 </form>
+                                            @elseif ($dn->trang_thai_chot)
+                                                <span class="text-success">Đã chốt</span>
                                             @endif
                                         </td>
                                     </tr>

@@ -13,21 +13,20 @@ use Illuminate\Http\Request;
 
 class DienNuocController extends Controller
 {
-     public function __construct()
+    public function __construct()
     {
         // Kiểm tra quyền của người dùng để tạo, sửa, xóa hợp đồng
         $this->middleware('can:Xem quản lý điện nước')->only(['index']);
-        $this->middleware('can:Thêm quản lý điện nước')->only([ 'store']);
-        $this->middleware('can:Sửa quản lý điện nước')->only([ 'update']);
-        $this->middleware('can:Chốt quản lý điện nước')->only([ 'chot']);
-      
+        $this->middleware('can:Thêm quản lý điện nước')->only(['store']);
+        $this->middleware('can:Sửa quản lý điện nước')->only(['update']);
+        $this->middleware('can:Chốt quản lý điện nước')->only(['chot']);
     }
     public function index(Request $request)
     {
         $nhaTros = NhaTros::all();
         $selectedNhaTroId = $request->get('nha_tro_id');
-      $thang = $request->input('thang', now()->month);
-$nam = $request->input('nam', now()->year);
+        $thang = $request->input('thang', now()->month);
+        $nam = $request->input('nam', now()->year);
 
         $dienNuocs = collect();
         $canTao = false;
@@ -50,14 +49,13 @@ $nam = $request->input('nam', now()->year);
                     $nam
                 ));
                 // Thêm chỉ số nước đầu kỳ nếu kiểu công tơ
-            
-                    $dn->setAttribute('chi_so_nuoc_dau', $this->getChiSoNuocDauKy(
-                        $dn->room_id,
-                        $selectedNhaTroId,
-                        $thang,
-                        $nam
-                    ));
-             
+
+                $dn->setAttribute('chi_so_nuoc_dau', $this->getChiSoNuocDauKy(
+                    $dn->room_id,
+                    $selectedNhaTroId,
+                    $thang,
+                    $nam
+                ));
             }
 
             // Lấy kiểu tính nước của tòa nhà
@@ -231,16 +229,15 @@ $nam = $request->input('nam', now()->year);
         return $congTo?->chi_so_dau ?? 0;
     }
     public function chot($id)
-{
-    $dienNuoc = DienNuocTheoPhong::findOrFail($id);
+    {
+        $dienNuoc = DienNuocTheoPhong::findOrFail($id);
 
-    if ($dienNuoc->trang_thai_chot) {
-        return back()->with('warning', 'Dữ liệu đã chốt trước đó.');
+        if ($dienNuoc->trang_thai_chot) {
+            return back()->with('warning', 'Dữ liệu đã chốt trước đó.');
+        }
+
+        $dienNuoc->update(['trang_thai_chot' => true]);
+
+        return back()->with('success', 'Đã chốt dữ liệu thành công.');
     }
-
-    $dienNuoc->update(['trang_thai_chot' => true]);
-
-    return back()->with('success', 'Đã chốt dữ liệu thành công.');
-}
-
 }

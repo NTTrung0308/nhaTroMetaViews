@@ -189,7 +189,7 @@
                 <div class="row mt-2">
                     <div class="col-md-6">
                         <label>Đơn giá</label>
-                        <input type="number" name="dich_vu_data[{{ $dv->id }}][don_gia]" class="form-control" value="{{ $donGia }}">
+                        <input type="number" min="0" name="dich_vu_data[{{ $dv->id }}][don_gia]" class="form-control" value="{{ $donGia }}">
                         @error("dich_vu_data.{$dv->id}.don_gia") <div class="text-danger mt-1">{{ $message }}</div> @enderror
                     </div>
                     <div class="col-md-6">

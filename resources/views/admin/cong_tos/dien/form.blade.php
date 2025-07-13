@@ -201,7 +201,7 @@
             // Gọi hàm loadRooms và truyền vào cả selectedRoomId để tự động chọn lại phòng
             loadRooms(nhaTroSelect.value, selectedRoomId);
         } else {
-             roomSelect.innerHTML = '<option value="">-- Chọn tòa nhà trướcs --</option>';
+             roomSelect.innerHTML = '<option value="">-- Chọn tòa nhà trước --</option>';
         }
     });
 </script>
