@@ -22,6 +22,15 @@ return new class extends Migration
             $table->integer('gia_thue')->default(0);
             $table->integer('tien_coc')->nullable();
            
+   // Các thông tin này được lưu trực tiếp vào hợp đồng
+            $table->string('landlord_ho_ten')->comment('Họ tên người cho thuê');
+            $table->string('landlord_sdt')->comment('SĐT người cho thuê');
+            $table->string('landlord_cccd', 12)->comment('Số CCCD của người cho thuê');
+            $table->date('landlord_cccd_ngay_cap')->comment('Ngày cấp CCCD');
+            $table->string('landlord_cccd_noi_cap')->comment('Nơi cấp CCCD');
+            $table->text('landlord_hktt')->comment('Hộ khẩu thường trú của người cho thuê');
+
+
             $table->text('ghi_chu')->nullable();
 
             $table->boolean('active')->default(true); // còn hiệu lực

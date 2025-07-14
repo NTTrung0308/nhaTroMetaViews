@@ -67,7 +67,7 @@
                                 <tr>
                                     <th>Họ tên</th>
                                     <th>Email</th>
-                                    <th>Phương tiện</th>
+                                 
                                     <th>Ngày sinh</th>
                                     <th>Hoạt động</th>
                                     <th>Thao tác</th>
@@ -78,13 +78,7 @@
                                     <tr>
                                         <td>{{ $user->name }}</td>
                                         <td>{{ $user->email }}</td>
-                                        <td>
-                                            <a href="{{ route('admin.phuong_tiens.index', ['user_id' => $user->id]) }}"
-                                                class="btn btn-info btn-sm">
-                                                <i class="bi bi-car-front"></i> Phương tiện
-                                            </a>
-
-                                        </td>
+                                        
                                         <td>{{ $user->birthday ?? 'Chưa có ngày sinh' }}</td>
                                         <td>{{ $user->active ? 'Có' : 'Không' }}</td>
                                         <td>

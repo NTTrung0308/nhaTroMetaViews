@@ -56,44 +56,27 @@ class HopDongController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'room_id' => 'required|exists:rooms,id',
-            'nha_tro_id' => 'required|exists:nha_tros,id',
-            'ngay_bat_dau' => 'required|date',
-            'ngay_het_han' => 'nullable|date|after:ngay_bat_dau',
-            'gia_thue' => 'required|integer|min:0',
-            'tien_coc' => 'nullable|integer|min:0',
-        ], [
-            'user_id.required' => 'Vui lòng chọn người thuê.',
-            'user_id.exists' => 'Người thuê không hợp lệ.',
-            'room_id.required' => 'Vui lòng chọn phòng.',
-            'room_id.exists' => 'Phòng không tồn tại.',
-            'nha_tro_id.required' => 'Vui lòng chọn tòa nhà.',
-            'nha_tro_id.exists' => 'Tòa nhà không tồn tại.',
-            'ngay_bat_dau.required' => 'Vui lòng chọn ngày bắt đầu.',
-            'ngay_bat_dau.date' => 'Ngày bắt đầu không hợp lệ.',
-            'ngay_het_han.date' => 'Ngày hết hạn không hợp lệ.',
-            'ngay_het_han.after' => 'Ngày hết hạn phải sau ngày bắt đầu.',
-            'gia_thue.required' => 'Vui lòng nhập giá thuê.',
-            'gia_thue.integer' => 'Giá thuê phải là số.',
-            'gia_thue.min' => 'Giá thuê phải lớn hơn hoặc bằng 0.',
-            'tien_coc.integer' => 'Tiền cọc phải là số.',
-            'tien_coc.min' => 'Tiền cọc phải lớn hơn hoặc bằng 0.',
-        ]);
+          // Gộp validation cho cả 2 phương thức store và update
+        $validatedData = $this->validateHopDong($request);
+        
+        // Thêm dữ liệu vào mảng validated
+        $validatedData['active'] = $request->has('active');
 
-        $hopDong = HopDongThuePhong::create([
-            'user_id' => $request->user_id,
-            'room_id' => $request->room_id,
-            'nha_tro_id' => $request->nha_tro_id,
-            'ngay_bat_dau' => $request->ngay_bat_dau,
-            'ngay_het_han' => $request->ngay_het_han,
-            'gia_thue' => $request->gia_thue,
-            'tien_coc' => $request->tien_coc,
-            'ghi_chu' => $request->ghi_chu,
-            'active' => $request->has('active'),
-        ]);
-        $room = Rooms::findOrFail($request->room_id);
+        // Tạo hợp đồng
+        $hopDong = HopDongThuePhong::create($validatedData);
+
+        // $hopDong = HopDongThuePhong::create([
+        //     'user_id' => $request->user_id,
+        //     'room_id' => $request->room_id,
+        //     'nha_tro_id' => $request->nha_tro_id,
+        //     'ngay_bat_dau' => $request->ngay_bat_dau,
+        //     'ngay_het_han' => $request->ngay_het_han,
+        //     'gia_thue' => $request->gia_thue,
+        //     'tien_coc' => $request->tien_coc,
+        //     'ghi_chu' => $request->ghi_chu,
+        //     'active' => $request->has('active'),
+        // ]);
+      $room = Rooms::findOrFail($hopDong->room_id);
 
         // Cập nhật trạng thái phòng
         $room->update([
@@ -122,50 +105,25 @@ class HopDongController extends Controller
 
     public function update(Request $request, HopDongThuePhong $hopDong)
     {
-        $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'room_id' => 'required|exists:rooms,id',
-            'nha_tro_id' => 'required|exists:nha_tros,id',
-            'ngay_bat_dau' => 'required|date',
-            'ngay_het_han' => 'nullable|date|after:ngay_bat_dau',
-            'gia_thue' => 'required|integer|min:0',
-            'tien_coc' => 'nullable|integer|min:0',
-        ], [
-            'user_id.required' => 'Vui lòng chọn người thuê.',
-            'user_id.exists' => 'Người thuê không tồn tại.',
+         // Sử dụng lại hàm validate
+        $validatedData = $this->validateHopDong($request);
+        
+        $validatedData['active'] = $request->has('active');
 
-            'room_id.required' => 'Vui lòng chọn phòng.',
-            'room_id.exists' => 'Phòng không tồn tại.',
+        // Cập nhật hợp đồng
+        $hopDong->update($validatedData);
 
-            'nha_tro_id.required' => 'Vui lòng chọn tòa nhà.',
-            'nha_tro_id.exists' => 'Tòa nhà không tồn tại.',
-
-            'ngay_bat_dau.required' => 'Vui lòng nhập ngày bắt đầu.',
-            'ngay_bat_dau.date' => 'Ngày bắt đầu không hợp lệ.',
-
-            'ngay_het_han.date' => 'Ngày hết hạn không hợp lệ.',
-            'ngay_het_han.after' => 'Ngày hết hạn phải sau ngày bắt đầu.',
-
-            'gia_thue.required' => 'Vui lòng nhập giá thuê.',
-            'gia_thue.integer' => 'Giá thuê phải là số.',
-            'gia_thue.min' => 'Giá thuê phải lớn hơn hoặc bằng 0.',
-
-            'tien_coc.integer' => 'Tiền cọc phải là số.',
-            'tien_coc.min' => 'Tiền cọc phải lớn hơn hoặc bằng 0.',
-        ]);
-
-
-        $hopDong->update([
-            'user_id' => $request->user_id,
-            'room_id' => $request->room_id,
-            'nha_tro_id' => $request->nha_tro_id,
-            'ngay_bat_dau' => $request->ngay_bat_dau,
-            'ngay_het_han' => $request->ngay_het_han,
-            'gia_thue' => $request->gia_thue,
-            'tien_coc' => $request->tien_coc,
-            'ghi_chu' => $request->ghi_chu,
-            'active' => $request->has('active'),
-        ]);
+        // $hopDong->update([
+        //     'user_id' => $request->user_id,
+        //     'room_id' => $request->room_id,
+        //     'nha_tro_id' => $request->nha_tro_id,
+        //     'ngay_bat_dau' => $request->ngay_bat_dau,
+        //     'ngay_het_han' => $request->ngay_het_han,
+        //     'gia_thue' => $request->gia_thue,
+        //     'tien_coc' => $request->tien_coc,
+        //     'ghi_chu' => $request->ghi_chu,
+        //     'active' => $request->has('active'),
+        // ]);
 
         // Cập nhật lại trạng thái phòng
         $hopDong->room->update([
@@ -215,5 +173,36 @@ class HopDongController extends Controller
         );
 
         return redirect()->route('admin.hop_dong.index')->with('success', 'Xoá hợp đồng thành công');
+    }
+       private function validateHopDong(Request $request)
+    {
+        return $request->validate([
+            // --- Thông tin chung ---
+            'tenant_id' => 'required|exists:users,id',
+            'room_id' => 'required|exists:rooms,id',
+            'nha_tro_id' => 'required|exists:nha_tros,id',
+
+            // --- Thông tin bên cho thuê ---
+            'landlord_ho_ten' => 'required|string|max:255',
+            'landlord_sdt' => 'required|string|max:15',
+            'landlord_cccd' => 'required|string|size:12',
+            'landlord_cccd_ngay_cap' => 'required|date',
+            'landlord_cccd_noi_cap' => 'required|string|max:255',
+            'landlord_hktt' => 'required|string',
+
+            // --- Chi tiết hợp đồng ---
+            'ngay_bat_dau' => 'required|date',
+            'ngay_het_han' => 'nullable|date|after_or_equal:ngay_bat_dau',
+            'gia_thue' => 'required|integer|min:0',
+            'tien_coc' => 'nullable|integer|min:0',
+            'ghi_chu' => 'nullable|string',
+        ], [
+            // Custom messages
+            'tenant_id.required' => 'Vui lòng chọn người thuê.',
+            'landlord_ho_ten.required' => 'Vui lòng nhập họ tên người cho thuê.',
+            'landlord_cccd.size' => 'Số CCCD phải có đúng 12 ký tự.',
+            'ngay_het_han.after_or_equal' => 'Ngày hết hạn phải sau hoặc bằng ngày bắt đầu.',
+            // Thêm các message khác nếu cần
+        ]);
     }
 }

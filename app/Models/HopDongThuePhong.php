@@ -18,6 +18,12 @@ class HopDongThuePhong extends Model
         'tien_coc',
         'ghi_chu',
         'active',
+         'landlord_ho_ten',
+        'landlord_sdt',
+        'landlord_cccd',
+        'landlord_cccd_ngay_cap',
+        'landlord_cccd_noi_cap',
+        'landlord_hktt',
     ];
 
     public function user()

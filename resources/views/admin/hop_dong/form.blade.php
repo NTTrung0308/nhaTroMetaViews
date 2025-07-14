@@ -81,7 +81,59 @@
                                     @enderror
                                 </div>
                             </div>
+{{-- THÔNG TIN BÊN CHO THUÊ (NHẬP TAY) --}}
+                <h4 class="mb-3">II. Thông tin bên cho thuê</h4>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Họ tên người cho thuê</label>
+                        <input type="text" name="landlord_ho_ten" class="form-control"
+                               value="{{ old('landlord_ho_ten', $hopDong->landlord_ho_ten ?? '') }}" required>
+                        @error('landlord_ho_ten')
+                            <div class="text-danger mt-1">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Số điện thoại</label>
+                        <input type="text" name="landlord_sdt" class="form-control"
+                               value="{{ old('landlord_sdt', $hopDong->landlord_sdt ?? '') }}" required>
+                        @error('landlord_sdt')
+                            <div class="text-danger mt-1">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Số CCCD</label>
+                        <input type="text" name="landlord_cccd" class="form-control"
+                               value="{{ old('landlord_cccd', $hopDong->landlord_cccd ?? '') }}" required>
+                        @error('landlord_cccd')
+                            <div class="text-danger mt-1">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Ngày cấp</label>
+                        <input type="date" name="landlord_cccd_ngay_cap" class="form-control"
+                               value="{{ old('landlord_cccd_ngay_cap', optional($hopDong->landlord_cccd_ngay_cap ?? null)->format('Y-m-d')) }}" required>
+                        @error('landlord_cccd_ngay_cap')
+                            <div class="text-danger mt-1">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Nơi cấp</label>
+                        <input type="text" name="landlord_cccd_noi_cap" class="form-control"
+                               value="{{ old('landlord_cccd_noi_cap', $hopDong->landlord_cccd_noi_cap ?? '') }}" required>
+                        @error('landlord_cccd_noi_cap')
+                            <div class="text-danger mt-1">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label class="form-label">Hộ khẩu thường trú</label>
+                        <textarea name="landlord_hktt" class="form-control" required>{{ old('landlord_hktt', $hopDong->landlord_hktt ?? '') }}</textarea>
+                        @error('landlord_hktt')
+                            <div class="text-danger mt-1">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
 
+                <hr>
                             <div class="mb-3">
                                 <label>Ngày bắt đầu</label>
                                 <input type="date" name="ngay_bat_dau" class="form-control"
