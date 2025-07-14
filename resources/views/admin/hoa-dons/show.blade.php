@@ -134,6 +134,7 @@
                     </div>
                 </div>
                 <div class="card-footer text-end no-print">
+                    <button class="btn btn-success">Lịch sử giao dịch</button>
                     <a href="{{ route('hoa-dons.edit', $hoaDon->id) }}" class="btn btn-warning"><i class="fa fa-edit"></i>
                         Cập
                         nhật thanh toán</a>

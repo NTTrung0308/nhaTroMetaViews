@@ -25,7 +25,7 @@
 
 
                         <form
-                            action="{{ isset($congTo) ? route('admin.cong_tos.dien.update', $congTo) : route('admin.cong_tos.dien.store') }}"
+                            action="{{ isset($congTo) ? route('admin.cong_tos.dien.update',['congTo' => $congTo]) : route('admin.cong_tos.dien.store') }}"
                             method="POST" class="row">
                             @csrf
                             @if (isset($congTo))

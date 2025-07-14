@@ -90,14 +90,14 @@ class CongtoNuocController extends Controller
         return redirect()->route('admin.cong_tos.nuoc.index')->with('success', 'Thêm công tơ nước thành công');
     }
 
-    public function edit(CongTo $nuoc) // Sử dụng route model binding với tên biến mới
+    public function edit(CongTo $congTo) // Sử dụng route model binding với tên biến mới
     {
         $nhaTros = NhaTros::all();
         $rooms = Rooms::all();
-        return view('admin.cong_tos.nuoc.form', ['congTo' => $nuoc, 'nhaTros' => $nhaTros, 'rooms' => $rooms]);
+        return view('admin.cong_tos.nuoc.form', ['congTo' => $congTo, 'nhaTros' => $nhaTros, 'rooms' => $rooms]);
     }
 
-    public function update(Request $request, CongTo $nuoc)
+    public function update(Request $request, CongTo $congTo)
     {
         $request->validate([
             'nha_tro_id'   => 'required|exists:nha_tros,id',
@@ -112,14 +112,14 @@ class CongtoNuocController extends Controller
         // Kiểm tra công tơ loại đó đã tồn tại chưa, ngoại trừ bản ghi hiện tại
         $exists = CongTo::where('room_id', $request->room_id)
             ->where('loai', $this->loai)
-            ->where('id', '!=', $nuoc->id)
+            ->where('id', '!=', $congTo->id)
             ->exists();
 
         if ($exists) {
             return back()->with('error', 'Phòng này đã có công tơ nước.');
         }
 
-        $nuoc->update([
+        $congTo->update([
             'nha_tro_id' => $request->nha_tro_id,
             'room_id' => $request->room_id,
             'loai' => $this->loai, // Luôn đảm bảo đúng loại
@@ -130,10 +130,10 @@ class CongtoNuocController extends Controller
         return redirect()->route('admin.cong_tos.nuoc.index')->with('success', 'Cập nhật công tơ nước thành công');
     }
 
-    public function destroy(CongTo $nuoc)
+    public function destroy(CongTo $congTo)
     {
-        $ten_phong = $nuoc->room->ten_phong;
-        $nuoc->delete();
+        $ten_phong = $congTo->room->ten_phong;
+        $congTo->delete();
         LogHelper::ghi('Xóa công tơ nước phòng ' . $ten_phong, 'Công tơ', 'Xóa công tơ nước bởi ' . Auth::user()->name);
 
         return redirect()->route('admin.cong_tos.nuoc.index')->with('success', 'Xóa công tơ nước thành công');
