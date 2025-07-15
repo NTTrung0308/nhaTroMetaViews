@@ -214,7 +214,7 @@ Route::prefix('admin')->group(function () {
         Route::get('/', [HopDongController::class, 'index'])->name('index');
         Route::get('/create', [HopDongController::class, 'create'])->name('create');
         Route::post('/', [HopDongController::class, 'store'])->name('store');
-           Route::get('/{hopDong}/print', [HopDongController::class, 'printContract'])->name('hop_dong.print');
+           Route::get('/{hopDong}/print', [HopDongController::class, 'printContract'])->name('print');
         Route::get('/{hopDong}/edit', [HopDongController::class, 'edit'])->name('edit');
         Route::put('/{hopDong}', [HopDongController::class, 'update'])->name('update');
         Route::delete('/{hopDong}', [HopDongController::class, 'destroy'])->name('destroy');

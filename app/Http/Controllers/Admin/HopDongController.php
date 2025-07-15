@@ -240,19 +240,18 @@ class HopDongController extends Controller
      */
     public function printContract(HopDongThuePhong $hopDong)
     {
-        try {
-            $templatePath = storage_path('app/templates/mau_hop_dong.docx');
-
+         try {
+            $templatePath = public_path('templates/mau_hop_dong.docx');
             if (!file_exists($templatePath)) {
                 return redirect()->back()->with('error', 'Lỗi: Không tìm thấy file mẫu hợp đồng!');
             }
 
             $templateProcessor = new TemplateProcessor($templatePath);
-            $converter = new VConverter();
-
+            
             $ngayBatDau = Carbon::parse($hopDong->ngay_bat_dau);
             $ngayHetHan = Carbon::parse($hopDong->ngay_het_han);
             
+            // Điền dữ liệu vào các biến trong file Word
             $templateProcessor->setValue('id', $hopDong->id);
             $templateProcessor->setValue('ngay_lap_hop_dong', Carbon::now()->format('d/m/Y'));
             $templateProcessor->setValue('dia_chi_nha_tro', $hopDong->nhaTro->ten_toa_nha ?? 'N/A');
@@ -269,15 +268,25 @@ class HopDongController extends Controller
             $templateProcessor->setValue('thoi_han_thue', $ngayBatDau->diffInMonths($ngayHetHan));
             $templateProcessor->setValue('ngay_bat_dau', $ngayBatDau->format('d/m/Y'));
             $templateProcessor->setValue('ngay_het_han', $ngayHetHan->format('d/m/Y'));
-            $templateProcessor->setValue('gia_thue_so', number_format($hopDong->gia_thue, 0, ',', '.'));
-            $templateProcessor->setValue('tien_coc_so', number_format($hopDong->tien_coc, 0, ',', '.'));
-            $templateProcessor->setValue('gia_thue_chu', ucfirst($converter->convert($hopDong->gia_thue)) . ' đồng');
-            $templateProcessor->setValue('tien_coc_chu', ucfirst($converter->convert($hopDong->tien_coc)) . ' đồng');
             $templateProcessor->setValue('ghi_chu', $hopDong->ghi_chu ?? 'Không có');
 
-            $safeUserName = preg_replace('/[^A-Za-z0-9\-]/', '_', $hopDong->user->name);
+            // SỬA ĐỔI Ở ĐÂY: Ghi hẳn số tiền đã được định dạng vào cả hai biến
+            $giaThueFormatted = number_format($hopDong->gia_thue, 0, ',', '.') . ' đồng';
+            $tienCocFormatted = number_format($hopDong->tien_coc, 0, ',', '.') . ' đồng';
+
+            $templateProcessor->setValue('gia_thue_so', $giaThueFormatted);
+            $templateProcessor->setValue('tien_coc_so', $tienCocFormatted);
+
+            // Gán giá trị tương tự cho biến "bằng chữ"
+            $templateProcessor->setValue('gia_thue_chu', $giaThueFormatted);
+            $templateProcessor->setValue('tien_coc_chu', $tienCocFormatted);
+
+
+            // Tạo tên file và gửi cho người dùng tải về (phần này giữ nguyên)
+            $safeUserName = preg_replace('/[^A-Za-z0-9\-]/', '_', $hopDong->user->name ?? 'User');
             $fileName = 'HopDong_P' . ($hopDong->room->ma_phong ?? 'XXX') . '_' . $safeUserName . '.docx';
 
+            // Stream file thẳng về trình duyệt (phần này giữ nguyên)
             return response()->streamDownload(function () use ($templateProcessor) {
                 $templateProcessor->saveAs('php://output');
             }, $fileName, [
@@ -285,7 +294,7 @@ class HopDongController extends Controller
             ]);
 
         } catch (\Exception $e) {
-            Log::error('Lỗi khi xuất hợp đồng Word: ' . $e->getMessage());
+            Log::error('Lỗi khi xuất hợp đồng Word: ' . $e->getMessage() . ' - File: ' . $e->getFile() . ' - Line: ' . $e->getLine());
             return redirect()->back()->with('error', 'Có lỗi xảy ra trong quá trình tạo file hợp đồng.');
         }
     }
