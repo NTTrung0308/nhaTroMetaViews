@@ -28,44 +28,140 @@
                         </div>
                     </div>
                     <div class="row mb-4">
-
-                        <div class="col-md-6 text-md-end">
-                            <h5>Bên thuê (Khách hàng):</h5>
-                            <p class="mb-1"><strong>Khách thuê:</strong> {{ $hoaDon->user->name }}</p>
-                            <p class="mb-1"><strong>Phòng:</strong> {{ $hoaDon->room->ten_phong }}</p>
-                            <p class="mb-1"><strong>Mã hóa đơn:</strong> {{ $hoaDon->ma_hoa_don }}</p>
-                            <p class="mb-1"><strong>Ngày tạo:</strong> {{ $hoaDon->ngay_tao_hoa_don->format('d/m/Y') }}
-                            </p>
-                            <p class="mb-1"><strong>Hạn thanh toán:</strong>
-                                {{ $hoaDon->han_thanh_toan->format('d/m/Y') }}
-                            </p>
+                        <div class="col-lg-6">
+                            <div class="card">
+                                <div class="card-body p-3">
+                                    <h6><b>Bên thuê (Khách hàng):</b></h6>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <p class="mb-1"><strong>Khách thuê:</strong> {{ $hoaDon->user->name }}</p>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <p class="mb-1"><strong>Phòng:</strong> {{ $hoaDon->room->ten_phong }}</p>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <p class="mb-1"><strong>Mã hóa đơn:</strong> {{ $hoaDon->ma_hoa_don }}</p>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <p class="mb-1"><strong>Ngày tạo:</strong>
+                                                {{ $hoaDon->ngay_tao_hoa_don->format('d/m/Y') }}</p>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <p class="mb-1"><strong>Hạn thanh toán:</strong>
+                                                {{ $hoaDon->han_thanh_toan->format('d/m/Y') }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-lg-6">
-                            @if ($hoaDon->room->nhaTro->dichVus && $hoaDon->room->nhaTro->dichVus->isNotEmpty())
-                                <ul>
-                                    @foreach ($hoaDon->room->nhaTro->dichVus as $dichVu)
-                                        <li>
-                                            {{ $dichVu->ten_dich_vu }}: {{ number_format($dichVu->don_gia) }} VNĐ
-                                            @if ($dichVu->kieu_tinh == 'dau_nguoi')
-                                                (Tính theo đầu người)
-                                            @elseif ($dichVu->kieu_tinh == 'cong_to')
-                                                (Tính theo công tơ)
-                                            @else
-                                                (Tính theo tháng)
-                                            @endif
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            @else
-                                <p>Nhà trọ này không có dịch vụ chung nào được cấu hình.</p>
-                            @endif
+                            <div class="card">
+                                <div class="card-body p-3">
+                                    <h6><b>Bên cho thuê (Chủ nhà):</b></h6>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <p class="mb-1"><strong>Tên chủ trọ:</strong>
+                                                {{ $hoaDon->hopDong->landlord_ho_ten }}</p>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <p class="mb-1"><strong>Số điện thoại:</strong>
+                                                {{ $hoaDon->hopDong->landlord_so_dien_thoai }}</p>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <p class="mb-1"><strong>Chưng minh nhân dân:</strong>
+                                                {{ $hoaDon->hopDong->landlord_cmnd }}</p>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <p class="mb-1"><strong>Ngày cấp:</strong>
+                                                {{ $hoaDon->hopDong->landlord_cccd_ngay_cap }}</p>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <p class="mb-1"><strong>Hộ khẩu:</strong>
+                                                {{ $hoaDon->hopDong->landlord_hktt }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal-chitietPhi" tabindex="-1"
+                            aria-labelledby="exampleModal-chitietPhiLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModal-chitietPhiLabel">Chi tiết các khoản
+                                            phí</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        @if ($hoaDon->room->nhaTro->dichVus && $hoaDon->room->nhaTro->dichVus->isNotEmpty())
+                                            <ul>
+                                                @foreach ($hoaDon->room->nhaTro->dichVus as $dichVu)
+                                                    <li>
+                                                        {{ $dichVu->ten_dich_vu }}: {{ number_format($dichVu->don_gia) }}
+                                                        VNĐ
+                                                        @if ($dichVu->kieu_tinh == 'dau_nguoi')
+                                                            (Tính theo đầu người)
+                                                        @elseif ($dichVu->kieu_tinh == 'cong_to')
+                                                            (Tính theo công tơ)
+                                                        @else
+                                                            (Tính theo tháng)
+                                                        @endif
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        @else
+                                            <p>Nhà trọ này không có dịch vụ chung nào được cấu hình.</p>
+                                        @endif
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Đóng</button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                     <div class="col-12 d-sm-flex justify-content-between align-items-center mb-3">
-                        <h5 class="fs-6">Chi tiết các khoản phí:</h5>
-                        <div class="no-print">
+                        <!-- Nút này vẫn giữ nguyên vị trí -->
+                        <button type="button" class="btn btn-outline-secondary mb-2 mb-sm-0" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal-chitietPhi">
+                            Chi tiết các khoản phí:
+                        </button>
+
+
+                        <div class="no-print d-flex align-items-center gap-2">
+                            @if ($hoaDon->con_no > 0)
+                                <div class="payment-gateway-section">
+                                    <form action="{{ route('payment.vnpay.create', ['hoaDon' => $hoaDon->id]) }}"
+                                        method="POST" class="m-0">
+                                        @csrf
+                                        <button type="submit" class="btn btn-primary">
+                                            Thanh toán bằng VNPay QR
+                                        </button>
+                                    </form>
+                                </div>
+                                {{-- <form action="{{ route('payment.zalopay.create', ['hoaDon' => $hoaDon->id]) }}" method="POST" class="m-0">
+                @csrf
+                <button type="submit" class="btn" style="background-color: #008fe5; color: white;">Thanh toán ZaloPay</button>
+            </form> --}}
+                            @else
+                                <button type="button" class="btn btn-outline-success" disabled data-bs-toggle="popover"
+                                    data-bs-trigger="hover" data-bs-placement="top"
+                                    data-bs-content="Hóa đơn đã được thanh toán">
+                                    Hóa đơn đã được thanh toán
+                                </button>
+                            @endif
+
                             <button class="btn btn-success" type="button" data-bs-toggle="modal"
-                                data-bs-target="#exampleModal">Chi tiết điện nước</button>
+                                data-bs-target="#exampleModal">
+                                Chi tiết điện nước
+                            </button>
                         </div>
                     </div>
                     <div class="table-responsive">
@@ -134,8 +230,10 @@
                     </div>
                 </div>
                 <div class="card-footer text-end no-print">
-                    <button class="btn btn-success">Lịch sử giao dịch</button>
-                    <a href="{{ route('hoa-dons.edit', $hoaDon->id) }}" class="btn btn-warning"><i class="fa fa-edit"></i>
+                    <button class="btn btn-success" type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#staticBackCard">Lịch sử giao dịch</button>
+                    <a href="{{ route('hoa-dons.edit', $hoaDon->id) }}" class="btn btn-warning"><i
+                            class="fa fa-edit"></i>
                         Cập
                         nhật thanh toán</a>
                 </div>
@@ -221,59 +319,62 @@
 
 
 
-    @if ($hoaDon->con_no > 0)
-        <div class="payment-gateway-section">
-            <h4>Thanh toán trực tuyến</h4>
-            <form action="{{ route('payment.vnpay.create', ['hoaDon' => $hoaDon->id]) }}" method="POST">
-                @csrf
-                <button type="submit" class="btn btn-primary">
-                    <img src="https://vnpay.vn/s1/images/logo-vnpay.png" height="20" alt="VNPay Logo">
-                    Thanh toán bằng VNPay QR
-                </button>
-            </form>
+
+
+    <div class="modal fade" id="staticBackCard" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackCardLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl  modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title fs-6" id="staticBackCardLabel">Lịch sử Giao dịch</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body ">
+                    @php
+                        $transactions = $hoaDon->transactions()->orderBy('created_at', 'desc')->get();
+                    @endphp
+
+                    @if ($transactions->isNotEmpty())
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Thời gian</th>
+                                    <th>Phương thức</th>
+                                    <th>Số tiền</th>
+                                    <th>Trạng thái</th>
+                                    <th>Mã GD Cổng</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($transactions as $trans)
+                                    <tr>
+                                        <td>{{ $trans->created_at->format('d/m/Y H:i') }}</td>
+                                        <td>{{ strtoupper($trans->gateway) }}</td>
+                                        <td>{{ number_format($trans->amount) }} VNĐ</td>
+                                        <td>
+                                            @if ($trans->status == 'completed')
+                                                <span class="badge bg-success">Thành công</span>
+                                            @elseif($trans->status == 'pending')
+                                                <span class="badge bg-warning">Đang chờ</span>
+                                            @else
+                                                <span class="badge bg-danger">Thất bại</span>
+                                            @endif
+                                        </td>
+                                        <td>{{ $trans->gateway_transaction_code ?? 'N/A' }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    @else
+                        <div class="alert alert-warning text-center" role="alert">
+                            Chưa có giao dịch nào cho hóa đơn này
+                        </div>
+                    @endif
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                </div>
+            </div>
         </div>
-    @else
-        <div class="alert alert-success">Hóa đơn này đã được thanh toán đầy đủ.</div>
-    @endif
-
-
-    <h3>Lịch sử Giao dịch</h3>
-    @php
-        $transactions = $hoaDon->transactions()->orderBy('created_at', 'desc')->get();
-    @endphp
-
-    @if ($transactions->isNotEmpty())
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Thời gian</th>
-                    <th>Phương thức</th>
-                    <th>Số tiền</th>
-                    <th>Trạng thái</th>
-                    <th>Mã GD Cổng</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($transactions as $trans)
-                    <tr>
-                        <td>{{ $trans->created_at->format('d/m/Y H:i') }}</td>
-                        <td>{{ strtoupper($trans->gateway) }}</td>
-                        <td>{{ number_format($trans->amount) }} VNĐ</td>
-                        <td>
-                            @if ($trans->status == 'completed')
-                                <span class="badge bg-success">Thành công</span>
-                            @elseif($trans->status == 'pending')
-                                <span class="badge bg-warning">Đang chờ</span>
-                            @else
-                                <span class="badge bg-danger">Thất bại</span>
-                            @endif
-                        </td>
-                        <td>{{ $trans->gateway_transaction_code }}</td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    @else
-        <p>Chưa có giao dịch nào cho hóa đơn này.</p>
-    @endif
+    </div>
 @endsection

@@ -26,6 +26,7 @@ use App\Http\Controllers\Admin\TintucController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\VnpayController;
 use App\Http\Controllers\Admin\WebConfigController;
+use App\Http\Controllers\Admin\ZaloPayController;
 use App\Http\Controllers\UploadController;
 
 use Illuminate\Support\Facades\Route;
@@ -213,6 +214,7 @@ Route::prefix('admin')->group(function () {
         Route::get('/', [HopDongController::class, 'index'])->name('index');
         Route::get('/create', [HopDongController::class, 'create'])->name('create');
         Route::post('/', [HopDongController::class, 'store'])->name('store');
+           Route::get('/{hopDong}/print', [HopDongController::class, 'printContract'])->name('hop_dong.print');
         Route::get('/{hopDong}/edit', [HopDongController::class, 'edit'])->name('edit');
         Route::put('/{hopDong}', [HopDongController::class, 'update'])->name('update');
         Route::delete('/{hopDong}', [HopDongController::class, 'destroy'])->name('destroy');
@@ -234,10 +236,7 @@ Route::prefix('admin')->group(function () {
         Route::get('/', [ProfileController::class, 'index'])->name('index');
         Route::put('profile', [ProfileController::class, 'update'])->name('update');
         Route::put('change-password', [ProfileController::class, 'updatePassword'])->name('change_password');
-
-
-
-          Route::get('vehicles', [ProfileController::class, 'getVehicles'])->name('vehicles.index');
+        Route::get('vehicles', [ProfileController::class, 'getVehicles'])->name('vehicles.index');
         Route::post('vehicles', [ProfileController::class, 'storeVehicle'])->name('vehicles.store');
         // THAY ĐỔI Ở ĐÂY: {vehicle} -> {phuongTien}
         Route::get('vehicles/{phuongTien}', [ProfileController::class, 'showVehicle'])->name('vehicles.show');
@@ -251,20 +250,20 @@ Route::prefix('admin')->group(function () {
         Route::get('/{faq}/edit', [FaqController::class, 'edit'])->name('edit');
         Route::put('/{faq}', [FaqController::class, 'update'])->name('update');
         Route::delete('/{faq}', [FaqController::class, 'destroy'])->name('destroy');
-
     });
 
+// Route cho các cổng thanh toán
+Route::prefix('payment')->name('payment.')->group(function () {
+    // VNPay routes
+    Route::post('/vnpay/create/{hoaDon}', [VnpayController::class, 'createPayment'])->name('vnpay.create');
+    Route::get('/vnpay/return', [VnpayController::class, 'handleReturn'])->name('vnpay.return');
 
+    // THÊM MỚI: ZaloPay routes
+    Route::post('/zalopay/create/{hoaDon}', [ZaloPayController::class, 'createPayment'])->name('zalopay.create');
+    Route::post('/zalopay/callback', [ZaloPayController::class, 'handleCallback'])->name('zalopay.callback');
+});
 
     Route::post('/upload-image', [UploadController::class, 'uploadImage'])->name('upload-image');
     Route::post('/delete-image', [UploadController::class, 'deleteImage'])->name('delete-image');
 });
-Route::post('/payment/vnpay/create/{hoaDon}', [VnpayController::class, 'createPayment'])
-    ->name('payment.vnpay.create')
-    ->middleware('auth'); // BẮT BUỘC có middleware này
-
-// Route để người dùng được chuyển về sau khi thanh toán trên trang VNPay
-Route::get('/payment/vnpay/return', [VnpayController::class, 'handleReturn'])
-    ->name('payment.vnpay.return')
-    ->middleware('auth'); // BẮT BUỘC có middleware này
 

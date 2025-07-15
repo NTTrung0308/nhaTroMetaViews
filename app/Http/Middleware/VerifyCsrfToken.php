@@ -14,5 +14,6 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         '/upload-image',
         '/delete-image',
+          'payment/zalopay/callback',
     ];
 }
