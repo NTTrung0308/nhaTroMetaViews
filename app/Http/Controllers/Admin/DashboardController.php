@@ -129,7 +129,7 @@ class DashboardController extends Controller
     {
         $rooms = Rooms::where('nha_tro_id', $nhaTroId)
             ->orderBy('ten_phong')
-            ->get(['id', 'ten_phong']);
+            ->get();
         return response()->json($rooms);
     }
 }

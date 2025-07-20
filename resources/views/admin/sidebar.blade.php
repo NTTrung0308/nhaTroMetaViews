@@ -3,7 +3,7 @@
      <ul class="sidebar-nav" id="sidebar-nav">
 
          <li class="nav-item">
-             <a class="nav-link collapsed" href="">
+             <a class="nav-link {{ in_array(Request::route()->getName(), ['dashboard.index']) ? '' : 'collapsed' }}" href="{{route('dashboard.index')}}">
                  <i class="bi bi-grid"></i>
                  <span>Dashboard</span>
              </a>

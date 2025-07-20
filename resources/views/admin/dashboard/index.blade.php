@@ -14,16 +14,16 @@
                 <div class="row align-items-end">
                     {{-- Bộ lọc cho Admin/Quản lý --}}
                     @can('Xem toàn bộ thống kê')
-                    <div class="col-md-3 mb-3">
+                    <div class="col mb-3">
                         <label for="filter-nha-tro" class="form-label">Nhà trọ</label>
                         <select name="nha_tro_id" id="filter-nha-tro" class="form-control">
                             <option value="">-- Tất cả nhà trọ --</option>
                             @foreach($nhaTros as $nhaTro)
-                                <option value="{{ $nhaTro->id }}">{{ $nhaTro->ten_nha_tro }}</option>
+                                <option value="{{ $nhaTro->id }}">{{ $nhaTro->ten_toa_nha }}</option>
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-md-3 mb-3">
+                    <div class="col mb-3">
                         <label for="filter-room" class="form-label">Phòng</label>
                         <select name="room_id" id="filter-room" class="form-control" disabled>
                             <option value="">-- Chọn nhà trọ trước --</option>
@@ -32,7 +32,7 @@
                     @endcan
 
                     {{-- Bộ lọc chung cho mọi người --}}
-                    <div class="col-md-2 mb-3">
+                    <div class="col mb-3">
                         <label for="filter-thang" class="form-label">Tháng</label>
                         <select name="thang" id="filter-thang" class="form-control">
                             <option value="">-- Cả năm --</option>
@@ -42,7 +42,7 @@
                         </select>
                     </div>
 
-                    <div class="col-md-2 mb-3">
+                    <div class="col mb-3">
                         <label for="filter-nam" class="form-label">Năm</label>
                         <select name="nam" id="filter-nam" class="form-control">
                             <option value="">-- Tất cả năm --</option>
@@ -52,8 +52,8 @@
                         </select>
                     </div>
 
-                    <div class="col-md-2 mb-3">
-                        <button type="submit" class="btn btn-primary btn-block">
+                    <div class="col mb-3">
+                        <button type="submit" class="btn btn-primary btn-block w-100">
                             <i class="fas fa-filter"></i> Lọc
                         </button>
                     </div>
@@ -128,7 +128,7 @@
     <div class="row">
         <div class="col-xl-8 col-lg-7">
             <div class="card shadow mb-4">
-                <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Thống kê doanh thu</h6></div>
+                <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary">Thống kê</h6></div>
                 <div class="card-body"><div class="chart-area"><canvas id="revenueChart"></canvas></div></div>
             </div>
         </div>
@@ -239,7 +239,7 @@
                 }
                 
                 // Sử dụng route đã định nghĩa để lấy phòng
-                const roomUrl = `{{ route('admin.dashboard.getRooms', ['nhaTroId' => ':id']) }}`.replace(':id', nhaTroId);
+               const roomUrl = `{{ route('admin.dashboard.getRooms', ['id' => ':id']) }}`.replace(':id', nhaTroId);
 
                 fetch(roomUrl)
                     .then(response => response.json())

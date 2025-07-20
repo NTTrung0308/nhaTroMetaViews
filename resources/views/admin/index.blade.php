@@ -61,8 +61,8 @@
     <!-- Vendor JS Files -->
     {{-- <script src="{{ asset('assets/vendor/apexcharts/apexcharts.min.js') }}"></script> --}}
     <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    {{-- <script src="{{ asset('assets/vendor/chart.js/chart.umd.js') }}"></script>
-    <script src="{{ asset('assets/vendor/echarts/echarts.min.js') }}"></script> --}}
+   <script src="{{ asset('assets/vendor/chart.js/chart.umd.js') }}"></script>
+      {{--<script src="{{ asset('assets/vendor/echarts/echarts.min.js') }}"></script> --}}
 
     <!-- Template Main JS File -->
     <script src="{{ asset('assets/js/main.js') }}"></script>

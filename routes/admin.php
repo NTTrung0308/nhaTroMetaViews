@@ -47,7 +47,7 @@ Route::prefix('admin')->group(function () {
     Route::prefix('dashboard')->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
         Route::get('/dashboard/stats', [DashboardController::class, 'getStats'])->name('admin.dashboard.stats');
-        Route::get('/dashboard/getrooms', [DashboardController::class, 'getRoomsByNhaTro'])->name('admin.dashboard.getRooms');
+        Route::get('/getrooms/{id}', [DashboardController::class, 'getRoomsByNhaTro'])->name('admin.dashboard.getRooms');
     });
 
 
