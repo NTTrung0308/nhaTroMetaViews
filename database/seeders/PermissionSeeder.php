@@ -20,6 +20,7 @@ class PermissionSeeder extends Seeder
     {
 
         $permissions = [
+            'Xem toàn bộ thống kê',
             'Thêm người dùng',
             'Sửa người dùng',
             'Xóa người dùng',
