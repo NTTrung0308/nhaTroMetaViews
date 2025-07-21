@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\RoomController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\HoaDonController;
 use App\Http\Controllers\Api\HopDongController;
 use App\Models\Rooms;
 use App\Models\TaiSanChungRieng;
@@ -56,4 +57,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/hop-dong', [HopDongController::class, 'index']);
         // LẤY CHI TIẾT MỘT HỢP ĐỒNG (ROUTE MỚI)
     Route::get('/hop-dong/{hopDong}', [HopDongController::class, 'show'])->where('hopDong', '[0-9]+');
+     Route::get('/hoa-dons', [HoaDonController::class, 'index']);
 });

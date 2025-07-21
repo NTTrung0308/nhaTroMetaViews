@@ -138,10 +138,10 @@ Route::prefix('admin')->group(function () {
         Route::get('/', [WebConfigController::class, 'edit'])->name('edit');
         Route::put('/', [WebConfigController::class, 'update'])->name('update');
     });
-    Route::prefix('web-config')->name('web-config.')->group(function () {
-        Route::get('/', [WebConfigController::class, 'edit'])->name('edit');
-        Route::put('/', [WebConfigController::class, 'update'])->name('update');
-    });
+    // Route::prefix('web-config')->name('web-config.')->group(function () {
+    //     Route::get('/', [WebConfigController::class, 'edit'])->name('edit');
+    //     Route::put('/', [WebConfigController::class, 'update'])->name('update');
+    // });
     Route::prefix('about_us')->name('about_us.')->group(function () {
         Route::get('/', [AboutUsController::class, 'edit'])->name('edit');
         Route::put('/', [AboutUsController::class, 'update'])->name('update');
