@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Admin\RoomController;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\HopDongController;
 use App\Models\Rooms;
 use App\Models\TaiSanChungRieng;
 use Illuminate\Http\Request;
@@ -42,3 +44,16 @@ Route::get('/rooms-by-nha-tro/{nhaTroId}', function ($nhaTroId) {
     return \App\Models\Rooms::where('nha_tro_id', $nhaTroId)->get(['id', 'ten_phong','ma_phong', 'da_thue','gia_thue']);
 });
 
+// Route công khai, không cần xác thực
+Route::post('/login', [AuthController::class, 'login']);
+
+// Các route yêu cầu xác thực người dùng (cần gửi token)
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+
+    Route::get('/hop-dong', [HopDongController::class, 'index']);
+        // LẤY CHI TIẾT MỘT HỢP ĐỒNG (ROUTE MỚI)
+    Route::get('/hop-dong/{hopDong}', [HopDongController::class, 'show'])->where('hopDong', '[0-9]+');
+});
