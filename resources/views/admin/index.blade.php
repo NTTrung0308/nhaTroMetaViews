@@ -8,16 +8,14 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Dashboard - NiceAdmin Bootstrap Template</title>
+    <title>{{get_config()->site_name ?? 'Metasorft'}}</title>
     <meta name="robots" content="noindex, nofollow">
-    <meta content="" name="description">
-    <meta content="" name="keywords">
+    <meta content="{{get_config()->meta_description ?? 'deaacription'}}" name="description">
+    <meta content="{{get_config()->meta_keywords ?? 'deaacription'}}" name="keywords">
 
     <!-- Favicons -->
-    <link href="https://bootstrapmade.com/content/demo/NiceAdmin/assets/img/favicon.png" rel="icon">
-    <link href="https://bootstrapmade.com/content/demo/NiceAdmin/assets/img/apple-touch-icon.png"
-        rel="apple-touch-icon">
-
+   <link rel="icon" type="image/png" sizes="16x16" href="{{ asset(get_config()->favicon_16 ?? 'assets/img/icon_usser.png') }}">
+<link rel="icon" type="image/png" sizes="32x32" href="{{ asset(get_config()->favicon_32 ?? 'assets/img/icon_usser.png') }}">
  
 
     <!-- Vendor CSS Files -->

@@ -2,9 +2,10 @@
 
     <div class="d-flex align-items-center justify-content-between">
         <a href="https://bootstrapmade.com/content/demo/NiceAdmin/index.html" class="logo d-flex align-items-center">
-            <img src="https://bootstrapmade.com/content/demo/NiceAdmin/assets/img/logo.png" alt="">
-            <span class="d-none d-lg-block">NiceAdmin</span>
-        </a>
+    <img src="{{ get_config()->logo ?? '/assets/img/icon_usser.png'}}" alt="">
+    <span class="d-none d-lg-block">{{ get_config()->site_name ?? 'Metasoftware' }}</span>
+</a>
+
         <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
 

@@ -76,7 +76,7 @@ if (!empty($config->$field) && file_exists(public_path($config->$field))) {
                 $file = $request->file($field);
                 $filename = $field . '_' . time() . '.' . $file->getClientOriginalExtension();
                 $file->move(public_path('uploads'), $filename);
-                $data[$field] = 'uploads/' . $filename;
+                $data[$field] = '/uploads/' . $filename;
             }
         }
 
