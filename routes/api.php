@@ -4,6 +4,8 @@ use App\Http\Controllers\Admin\RoomController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\HoaDonController;
 use App\Http\Controllers\Api\HopDongController;
+use App\Http\Controllers\Api\PhuongTienController;
+use App\Http\Controllers\Api\UserController;
 use App\Models\Rooms;
 use App\Models\TaiSanChungRieng;
 use Illuminate\Http\Request;
@@ -37,25 +39,41 @@ Route::get('/ajax/rooms-by-nhatro/{nhaTroId}', function ($nhaTroId) {
         return [
             'id' => $room->id,
             'ma_phong' => $room->ma_phong,
-             'da_ton_tai' => $room->taiSanChungRiengs->isNotEmpty(),
+            'da_ton_tai' => $room->taiSanChungRiengs->isNotEmpty(),
         ];
     }));
 });
 Route::get('/rooms-by-nha-tro/{nhaTroId}', function ($nhaTroId) {
-    return \App\Models\Rooms::where('nha_tro_id', $nhaTroId)->get(['id', 'ten_phong','ma_phong', 'da_thue','gia_thue']);
+    return \App\Models\Rooms::where('nha_tro_id', $nhaTroId)->get(['id', 'ten_phong', 'ma_phong', 'da_thue', 'gia_thue']);
 });
 
 // Route công khai, không cần xác thực
 Route::post('/login', [AuthController::class, 'login']);
-
 // Các route yêu cầu xác thực người dùng (cần gửi token)
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
-
+  Route::post('/logout', [AuthController::class, 'logout']);
+ Route::post('/logout-all', [AuthController::class, 'logoutAllDevices']);
+ 
     Route::get('/hop-dong', [HopDongController::class, 'index']);
-        // LẤY CHI TIẾT MỘT HỢP ĐỒNG (ROUTE MỚI)
+    // LẤY CHI TIẾT MỘT HỢP ĐỒNG (ROUTE MỚI)
     Route::get('/hop-dong/{hopDong}', [HopDongController::class, 'show'])->where('hopDong', '[0-9]+');
-     Route::get('/hoa-dons', [HoaDonController::class, 'index']);
+    Route::get('/hoa-dons', [HoaDonController::class, 'index']);
+
+    // API lấy thông tin user đang đăng nhập
+    Route::get('/user', [UserController::class, 'profile']);
+
+    // API cập nhật thông tin user đang đăng nhập
+    // Sử dụng POST vì form-data không hoàn toàn hỗ trợ PUT/PATCH
+    Route::post('/user/update', [UserController::class, 'update']);
+
+    // lIST THÊM SỬA XÓA PHƯƠNG TIỆN
+    Route::get('/v-simple/phuong-tien', [PhuongTienController::class, 'index']);
+    Route::post('/v-simple/phuong-tien', [PhuongTienController::class, 'store']);
+    Route::get('/v-simple/phuong-tien/{id}', [PhuongTienController::class, 'show']);
+    Route::post('/v-simple/phuong-tien/{id}', [PhuongTienController::class, 'update']);
+    Route::delete('/v-simple/phuong-tien/{id}', [PhuongTienController::class, 'destroy']);
+    //eND
 });

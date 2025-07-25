@@ -7,9 +7,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
+
 class AuthController extends Controller
 {
-     public function login(Request $request)
+    public function login(Request $request)
     {
         // 1. Validate dữ liệu đầu vào
         $validator = Validator::make($request->all(), [
@@ -51,4 +52,16 @@ class AuthController extends Controller
             ]
         ]);
     }
+     public function logout(Request $request)
+    {
+        // Lấy người dùng đã được xác thực qua token
+        $user = $request->user();
+
+        // Xóa token đang được sử dụng để xác thực request này
+        $user->currentAccessToken()->delete();
+
+        return response()->json([
+            'message' => 'Đã đăng xuất thành công.'
+        ], 200);
     }
+}

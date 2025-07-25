@@ -11,6 +11,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use ntt249\VConverter\VConverter; // Thư viện chuyển số thành chữ
 use PhpOffice\PhpWord\TemplateProcessor;
 
@@ -286,36 +287,22 @@ class HopDongController extends Controller
             // Gán giá trị tương tự cho biến "bằng chữ"
             $templateProcessor->setValue('gia_thue_chu', $giaThueFormatted);
             $templateProcessor->setValue('tien_coc_chu', $tienCocFormatted);
+            $dichVus = $hopDong->nhaTro->dichVus()->get();
 
-            $dichVus = $hopDong->nhaTro->dichVus()->with('donViTinh')->get();
             if ($dichVus && $dichVus->count() > 0) {
-                // 2. Sao chép (clone) khối 'dich_vu_list' theo số lượng dịch vụ có
-                $templateProcessor->cloneBlock('dich_vu_list', $dichVus->count());
-
-                // 3. Lặp qua từng dịch vụ và điền dữ liệu
-
+                $templateProcessor->cloneBlock('dich_vu_list', $dichVus->count(), true, true);
                 foreach ($dichVus as $index => $dichVu) {
-                    // SỬA ĐỔI QUAN TRỌNG: Lấy giá và kiểu tính từ bảng PIVOT
-                    $donGia = $dichVu->pivot->don_gia ?? 0;
-                    // SỬA LỖI TIỀM TÀNG: Lấy tên đơn vị tính một cách an toàn
-                    // Dùng optional() để tránh lỗi nếu $dichVu->donViTinh không tồn tại
-                    $donViTinh = optional($dichVu->donViTinh)->ten_day_du ?? 'N/A';
-                    // dd($donGia, $dichVu->ten_dich_vu, $donViTinh);
-
-                    $templateProcessor->setValue("ten_dich_vu#{$index}", $dichVu->ten_dich_vu);
-                    $templateProcessor->setValue("don_gia#{$index}", $donGia);
-                    $templateProcessor->setValue("don_vi_tinh#{$index}", $donViTinh);
+                    $i = $index + 1;
+                    $templateProcessor->setValue("ten_dich_vu#{$i}", $dichVu['ten_dich_vu']);
+                    $templateProcessor->setValue("don_gia#{$i}", $dichVu->pivot->don_gia ?? 0);
+                    $templateProcessor->setValue("don_vi_tinh#{$i}", $dichVu->pivot->kieu_tinh);
                 }
             } else {
-                // Trường hợp không có dịch vụ nào, thay thế toàn bộ khối bằng một dòng thông báo
                 $templateProcessor->replaceBlock('dich_vu_list', '• Không có dịch vụ đi kèm.');
             }
-
-
             // Tạo tên file và gửi cho người dùng tải về (phần này giữ nguyên)
             $safeUserName = preg_replace('/[^A-Za-z0-9\-]/', '_', $hopDong->user->name ?? 'User');
             $fileName = 'HopDong_P' . ($hopDong->room->ma_phong ?? 'XXX') . '_' . $safeUserName . '.docx';
-
             // Stream file thẳng về trình duyệt (phần này giữ nguyên)
             return response()->streamDownload(function () use ($templateProcessor) {
                 $templateProcessor->saveAs('php://output');

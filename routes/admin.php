@@ -216,7 +216,7 @@ Route::prefix('admin')->group(function () {
         Route::get('/', [HopDongController::class, 'index'])->name('index');
         Route::get('/create', [HopDongController::class, 'create'])->name('create');
         Route::post('/', [HopDongController::class, 'store'])->name('store');
-           Route::get('/{hopDong}/print', [HopDongController::class, 'printContract'])->name('print');
+        Route::get('/{hopDong}/print', [HopDongController::class, 'printContract'])->name('print');
         Route::get('/{hopDong}/edit', [HopDongController::class, 'edit'])->name('edit');
         Route::put('/{hopDong}', [HopDongController::class, 'update'])->name('update');
         Route::delete('/{hopDong}', [HopDongController::class, 'destroy'])->name('destroy');
@@ -254,18 +254,17 @@ Route::prefix('admin')->group(function () {
         Route::delete('/{faq}', [FaqController::class, 'destroy'])->name('destroy');
     });
 
-// Route cho các cổng thanh toán
-Route::prefix('payment')->name('payment.')->group(function () {
-    // VNPay routes
-    Route::post('/vnpay/create/{hoaDon}', [VnpayController::class, 'createPayment'])->name('vnpay.create');
-    Route::get('/vnpay/return', [VnpayController::class, 'handleReturn'])->name('vnpay.return');
+    // Route cho các cổng thanh toán
+    Route::prefix('payment')->name('payment.')->group(function () {
+        // VNPay routes
+        Route::post('/vnpay/create/{hoaDon}', [VnpayController::class, 'createPayment'])->name('vnpay.create');
+        Route::get('/vnpay/return', [VnpayController::class, 'handleReturn'])->name('vnpay.return');
 
-    // THÊM MỚI: ZaloPay routes
-    Route::post('/zalopay/create/{hoaDon}', [ZaloPayController::class, 'createPayment'])->name('zalopay.create');
-    Route::post('/zalopay/callback', [ZaloPayController::class, 'handleCallback'])->name('zalopay.callback');
-});
+        // THÊM MỚI: ZaloPay routes
+        Route::post('/zalopay/create/{hoaDon}', [ZaloPayController::class, 'createPayment'])->name('zalopay.create');
+        Route::post('/zalopay/callback', [ZaloPayController::class, 'handleCallback'])->name('zalopay.callback');
+    });
 
     Route::post('/upload-image', [UploadController::class, 'uploadImage'])->name('upload-image');
     Route::post('/delete-image', [UploadController::class, 'deleteImage'])->name('delete-image');
 });
-
