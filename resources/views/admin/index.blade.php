@@ -8,15 +8,17 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>{{get_config()->site_name ?? 'Metasorft'}}</title>
+    <title>{{ get_config()->site_name ?? 'Metasorft' }}</title>
     <meta name="robots" content="noindex, nofollow">
-    <meta content="{{get_config()->meta_description ?? 'deaacription'}}" name="description">
-    <meta content="{{get_config()->meta_keywords ?? 'deaacription'}}" name="keywords">
+    <meta content="{{ get_config()->meta_description ?? 'deaacription' }}" name="description">
+    <meta content="{{ get_config()->meta_keywords ?? 'deaacription' }}" name="keywords">
 
     <!-- Favicons -->
-   <link rel="icon" type="image/png" sizes="16x16" href="{{ asset(get_config()->favicon_16 ?? 'assets/img/icon_usser.png') }}">
-<link rel="icon" type="image/png" sizes="32x32" href="{{ asset(get_config()->favicon_32 ?? 'assets/img/icon_usser.png') }}">
- 
+    <link rel="icon" type="image/png" sizes="16x16"
+        href="{{ asset(get_config()->favicon_16 ?? 'assets/img/icon_usser.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32"
+        href="{{ asset(get_config()->favicon_32 ?? 'assets/img/icon_usser.png') }}">
+
 
     <!-- Vendor CSS Files -->
     <link href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -59,8 +61,8 @@
     <!-- Vendor JS Files -->
     {{-- <script src="{{ asset('assets/vendor/apexcharts/apexcharts.min.js') }}"></script> --}}
     <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-   <script src="{{ asset('assets/vendor/chart.js/chart.umd.js') }}"></script>
-      {{--<script src="{{ asset('assets/vendor/echarts/echarts.min.js') }}"></script> --}}
+    <script src="{{ asset('assets/vendor/chart.js/chart.umd.js') }}"></script>
+    {{-- <script src="{{ asset('assets/vendor/echarts/echarts.min.js') }}"></script> --}}
 
     <!-- Template Main JS File -->
     <script src="{{ asset('assets/js/main.js') }}"></script>
@@ -93,7 +95,50 @@
     <script src="{{ asset('/assets/js/style.js') }}"></script>
     <script src="{{ asset('/assets/js/cropper.min.js') }}"></script>
     <script src="{{ asset('/source/tinymce/tinymce.min.js') }}"></script>
-    
+    @if (session('generation_status'))
+        <script>
+            // Đảm bảo rằng đoạn mã này chạy sau khi DOM đã sẵn sàng
+            document.addEventListener('DOMContentLoaded', function() {
+             
+                const status = @json(session('generation_status'));
+
+                // Cấu hình chung cho Toastr (tùy chọn)
+                toastr.options = {
+                    "closeButton": true,
+                    "progressBar": true,
+                    "positionClass": "toast-top-right",
+                    "timeOut": 5000, // 5 giây cho thông báo tóm tắt
+                };
+
+                // 1. Hiển thị TOAST TÓM TẮT
+                // Tin nhắn chính là tiêu đề, còn phần tóm tắt là nội dung
+                toastr.success(
+                    `Thành công: ${status.success_count} hóa đơn.<br>Bỏ qua: ${status.skipped_count} phòng.`,
+                    status.message // "Tạo hóa đơn hoàn tất cho tháng 8/2023!"
+                );
+
+                // 2. Nếu có lỗi, hiển thị TOAST CHI TIẾT
+                if (status.skipped_count > 0 && status.errors) {
+                    // Xây dựng chuỗi HTML chứa danh sách lỗi
+                    let errorDetailsHtml = '<ul>';
+                    // Lặp qua đối tượng lỗi
+                    for (const [roomName, reason] of Object.entries(status.errors)) {
+                        errorDetailsHtml += `<li><strong>${roomName}:</strong> ${reason}</li>`;
+                    }
+                    errorDetailsHtml += '</ul>';
+
+                    // Hiển thị toast cảnh báo với các tùy chọn đặc biệt
+                    toastr.warning(errorDetailsHtml, "Chi tiết các phòng đã bỏ qua", {
+                        "timeOut": 7000, // 0 = không tự động đóng
+                        "extendedTimeOut": 0, // 0 = không tự động đóng khi hover
+                        "escapeHtml": false, // QUAN TRỌNG: Cho phép hiển thị HTML
+                        "closeButton": true,
+                        "tapToDismiss": false
+                    });
+                }
+            });
+        </script>
+    @endif
     <script type="text/javascript">
         tinymce.init({
             selector: '#tyni',
@@ -133,14 +178,9 @@
                 });
             }
         })
-
-
-
-
-     
     </script>
     <script>
-           document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function() {
             // === PHẦN CROP ẢNH ===
             const imageInput = document.getElementById('imageInput');
             const previewImage = document.getElementById('previewImage');
@@ -261,7 +301,7 @@
             }
         });
     </script>
-     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     @stack('scripts')
 </body>
 

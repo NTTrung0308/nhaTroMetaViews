@@ -152,13 +152,15 @@ class HoaDonController extends Controller
         // XÂY DỰNG THÔNG BÁO VÀ CHUYỂN HƯỚNG
 
         // 1. Chuẩn bị thông báo thành công chung
-        $message = "Tạo hóa đơn hoàn tất! Thành công: $countSuccess. Bỏ qua: $countSkipped.";
+         $status = [
+            'message' => "Tạo hóa đơn hoàn tất cho tháng {$thang}/{$nam}!",
+            'success_count' => $countSuccess,
+            'skipped_count' => $countSkipped,
+            'errors' => $errorsByRoom // Đây là mảng lỗi chi tiết
+        ];
 
-        // 2. Chuẩn bị redirect response
-        $redirectResponse = redirect()->route('hoa-dons.index');
-
-        // 3. Đính kèm thông báo thành công vào redirect
-        $redirectResponse->with('success', $message);
+        // 2. Chuyển hướng và đính kèm mảng trạng thái này vào session
+        return redirect()->route('hoa-dons.index')->with('generation_status', $status);
 
         // 4. Nếu có lỗi, đính kèm thêm cả danh sách lỗi chi tiết
         if (!empty($errorsByRoom)) {
