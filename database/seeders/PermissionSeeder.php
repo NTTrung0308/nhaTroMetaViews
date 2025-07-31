@@ -100,6 +100,10 @@ class PermissionSeeder extends Seeder
             'Sửa hóa đơn',
             'Xóa hóa đơn',
             'Xem hóa đơn',
+            'Xem dịch vụ',
+            'Thêm dịch vụ',
+            'Sửa dịch vụ',
+            'Xóa dịch vụ'
 
 
 

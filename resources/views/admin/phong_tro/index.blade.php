@@ -148,6 +148,7 @@
                                                 data-dien-tich="{{ $room->dien_tich }}"
                                                 data-gia-thue="{{ number_format($room->gia_thue) }}"
                                                 data-loai-phong="{{ $room->loai_phong }}"
+                                                data-ban-cong="{{ $room->bancong }}"
                                                 data-trang-thai="{{ ucfirst($room->status) }}"
                                                 data-da-thue="{{ $room->da_thue ? 'Có' : 'Không' }}">
                                                 <i class="bi bi-eye"></i>
@@ -188,6 +189,7 @@
                         <li class="list-group-item"><strong>Giá thuê:</strong> <span id="modal-gia-thue"></span> VNĐ</li>
                         <li class="list-group-item"><strong>Loại phòng:</strong> <span id="modal-loai-phong"></span></li>
                         <li class="list-group-item"><strong>Trạng thái:</strong> <span id="modal-trang-thai"></span></li>
+                        <li class="list-group-item"><strong>Có ban công không:</strong> <span id="modal-ban-cong"></span></li>
                         <li class="list-group-item"><strong>Đã thuê:</strong> <span id="modal-da-thue"></span></li>
                     </ul>
                     <div id="roomImageCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
@@ -226,6 +228,7 @@
                     document.getElementById('modal-trang-thai').textContent = this.dataset
                         .trangThai;
                     document.getElementById('modal-da-thue').textContent = this.dataset.daThue;
+                    document.getElementById('modal-ban-cong').textContent = this.dataset.banCong;
 
 
                     // Hiện modal

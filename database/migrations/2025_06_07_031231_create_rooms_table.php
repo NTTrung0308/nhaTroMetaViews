@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('ten_phong');
             $table->string('ma_phong')->nullable();
             $table->integer('dien_tich')->nullable();
+            $table->string('bancong')->nullable();
             $table->integer('so_khach')->nullable();
             $table->enum('loai_phong', ['van_phong', 'can_ho', 'phong_cho_thue', 'khac'])->default('can_ho');
             $table->integer('gia_thue')->default(0); // VND

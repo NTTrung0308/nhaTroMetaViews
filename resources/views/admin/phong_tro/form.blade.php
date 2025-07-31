@@ -34,12 +34,12 @@
         <select name="ma_phong" id="ma_phong" class="form-select" required data-selected="{{ $selectedMaPhong }}">
             <option value="">-- Chọn mã phòng --</option>
         </select>
-         @error('ma_phong')
+        @error('ma_phong')
             <div class="text-danger">{{ $message }}</div>
         @enderror
     </div>
 
-    <div class="col-lg-4">
+    <div class="col-lg-3">
         <label class="form-label">Diện tích (m²)</label>
         <input type="number" name="dien_tich" class="form-control"
             value="{{ old('dien_tich', optional($room)->dien_tich) }}">
@@ -47,7 +47,7 @@
             <div class="text-danger">{{ $message }}</div>
         @enderror
     </div>
-    <div class="col-lg-4">
+    <div class="col-lg-3">
         <label class="form-label">Số khách tối đa</label>
         <input type="number" name="so_khach" class="form-control"
             value="{{ old('so_khach', optional($room)->so_khach) }}">
@@ -57,7 +57,7 @@
     </div>
 
 
-    <div class="col-lg-4">
+    <div class="col-lg-3">
         <label class="form-label">Loại phòng</label>
         <select name="loai_phong" class="form-select">
             @php
@@ -70,6 +70,20 @@
             <option value="khac" {{ $loai_phong == 'khac' ? 'selected' : '' }}>Khác</option>
         </select>
         @error('loai_phong')
+            <div class="text-danger">{{ $message }}</div>
+        @enderror
+    </div>
+    <div class="col-lg-3">
+        <label class="form-label">Ban công</label>
+        <select name="bancong" class="form-select">
+            @php
+                $bancong = old('bancong', optional($room)->bancong);
+            @endphp
+            <option value="co" {{ $bancong == 'co' ? 'selected' : '' }}>Có ban công</option>
+            <option value="khong" {{ $bancong == 'khong' ? 'selected' : '' }}>Không ban công</option>
+           
+        </select>
+        @error('bancong')
             <div class="text-danger">{{ $message }}</div>
         @enderror
     </div>
@@ -233,7 +247,7 @@
                 })
                 .then(usedCodes => {
                     maPhongSelect.innerHTML = '<option value="">-- Chọn mã phòng --</option>'; // Reset lại
-                    
+
                     for (let tang = 1; tang <= soTang; tang++) {
                         for (let phong = 1; phong <= soPhong; phong++) {
                             // Định dạng mã phòng, ví dụ: tầng 1 phòng 5 -> 105
@@ -278,7 +292,7 @@
         // Khi người dùng thay đổi lựa chọn tòa nhà
         nhaTroSelect.addEventListener('change', function() {
             // Reset data-selected của mã phòng vì đã chọn tòa nhà mới
-            maPhongSelect.setAttribute('data-selected', ''); 
+            maPhongSelect.setAttribute('data-selected', '');
             generateMaPhongOptions(this);
         });
     });

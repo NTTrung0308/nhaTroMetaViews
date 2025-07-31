@@ -15,6 +15,7 @@ class Rooms extends Model
         'ma_phong',
         'dien_tich',
         'so_khach',
+        'bancong',
         'loai_phong',
         'gia_thue',
         'da_thue',

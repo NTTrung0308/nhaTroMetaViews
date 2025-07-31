@@ -68,6 +68,7 @@ class RoomController extends Controller
         $validated = $request->validate([
             'nha_tro_id' => 'required|exists:nha_tros,id',
             'ten_phong' => 'required|string|max:255',
+            'bancong' => 'required',
             'ma_phong' => 'nullable|string|max:255',
             'dien_tich' => 'nullable|integer|min:0',
             'so_khach' => 'nullable|integer|min:1',
@@ -81,6 +82,7 @@ class RoomController extends Controller
         ], [
             // nhà trọ
             'nha_tro_id.required' => 'Vui lòng chọn nhà trọ.',
+            'bancong.required' => 'Vui lòng chọn nhà trọ.',
             'nha_tro_id.exists' => 'Nhà trọ được chọn không tồn tại.',
 
             // tên phòng
@@ -174,6 +176,7 @@ class RoomController extends Controller
         $validated = $request->validate([
             'nha_tro_id' => 'required|exists:nha_tros,id',
             'ten_phong' => 'required|string|max:255',
+            'bancong' => 'required',
             'ma_phong' => 'nullable|string|max:255',
             'dien_tich' => 'nullable|integer|min:0',
             'so_khach' => 'nullable|integer|min:1',
@@ -187,6 +190,7 @@ class RoomController extends Controller
         ], [
             // nhà trọ
             'nha_tro_id.required' => 'Vui lòng chọn nhà trọ.',
+            'bancong.required' => 'Vui lòng chọn ban coong.',
             'nha_tro_id.exists' => 'Nhà trọ được chọn không tồn tại.',
 
             // tên phòng
