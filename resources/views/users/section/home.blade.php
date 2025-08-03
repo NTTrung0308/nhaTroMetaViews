@@ -28,7 +28,14 @@
                             <div class="hero-8">
                                 <div class="hero-thumb8-1">
                                     <div class="thumb bg-mask">
-                                        <img id="main-banner-img" decoding="async" src="/users/images/anh3.png" alt="img"
+                                        @php
+                                            $firstImage =
+                                                count($sliders) > 0
+                                                    ? asset($sliders[0]->image)
+                                                    : '/users/images/anh3.png';
+                                        @endphp
+
+                                        <img id="main-banner-img" decoding="async" src="{{ $firstImage }}" alt="img"
                                             class="w-100 h-100 object-fit-cover rounded-4">
                                     </div>
                                 </div>
@@ -41,27 +48,18 @@
                                     <i class="fa fa-chevron-right"></i>
                                 </button>
                                 <div class="row" id="banner-thumbs">
-                                    <div class="col-4">
-                                        <div class="rectangle_test_item w-100 ">
-                                            <img decoding="async" src="/users/images/anh3.png" alt="img"
-                                                class="w-100 h-100 object-fit-cover rounded-4 banner-thumb"
-                                                data-img="/users/images/anh3.png">
+                                    @foreach ($sliders as $slider)
+                                        <div class="col-4">
+                                            <div class="rectangle_test_item w-100 ">
+                                                <img decoding="async"
+                                                    src="{{ asset($slider->image ?? '/users/images/anh3.png') }}"
+                                                    alt="img"
+                                                    class="w-100 h-100 object-fit-cover rounded-4 banner-thumb"
+                                                    data-img="{{ asset($slider->image ?? '/users/images/anh3.png') }}">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-4 ">
-                                        <div class="rectangle_test_item w-100 ">
-                                            <img decoding="async" src="/users/images/anh4.png" alt="img"
-                                                class="w-100 h-100 object-fit-cover rounded-4 banner-thumb"
-                                                data-img="/users/images/anh4.png">
-                                        </div>
-                                    </div>
-                                    <div class="col-4 ">
-                                        <div class="rectangle_test_item w-100  ">
-                                            <img decoding="async" src="/users/images/anh6.png" alt="img"
-                                                class="w-100 h-100 object-fit-cover rounded-4 banner-thumb"
-                                                data-img="/users/images/anh6.png">
-                                        </div>
-                                    </div>
+                                    @endforeach
+                                  
                                 </div>
                             </div>
                         </div>
@@ -223,13 +221,15 @@
                             hạn.
                         </p>
                         <div class="w-100 h-100">
-                            <img src="/users/images/image.png" alt="" class="w-100 h-100 object-fit-cover rounded-4">
+                            <img src="/users/images/image.png" alt=""
+                                class="w-100 h-100 object-fit-cover rounded-4">
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6 col-12 d-none d-lg-block p-5">
                     <div class="w-75 mx-auto ">
-                        <img src="/users/images/image2.png" alt="" class="w-100 h-100 object-fit-cover rounded-4 ">
+                        <img src="/users/images/image2.png" alt=""
+                            class="w-100 h-100 object-fit-cover rounded-4 ">
                     </div>
                 </div>
             </div>
@@ -284,29 +284,29 @@
     </section>
 
     {{-- Giai thuong --}}
-<section class="giaithuong mt-5">
-    <div class="container">
-        <div class="text-center">
-            <p class="title_giaithuong">Giải Thưởng</p>
-            <p class="desc_giaithuong">Những Thành Tựu & Danh Hiệu Của Chúng Tôi</p>
-        </div>
+    <section class="giaithuong mt-5">
+        <div class="container">
+            <div class="text-center">
+                <p class="title_giaithuong">Giải Thưởng</p>
+                <p class="desc_giaithuong">Những Thành Tựu & Danh Hiệu Của Chúng Tôi</p>
+            </div>
 
-        <div class="row justify-content-center mt-5">
-            <div class="col-6 col-sm-4 col-md-3 d-flex justify-content-center mb-4">
-                <img src="/users/images/medal-of-honor.png" alt="Medal of Honor" class="img-fluid award-img">
-            </div>
-            <div class="col-6 col-sm-4 col-md-3 d-flex justify-content-center mb-4">
-                <img src="/users/images/award-shield.png" alt="Award Shield" class="img-fluid award-img">
-            </div>
-            <div class="col-6 col-sm-4 col-md-3 d-flex justify-content-center mb-4">
-                <img src="/users/images/shield.png" alt="Shield" class="img-fluid award-img">
-            </div>
-            <div class="col-6 col-sm-4 col-md-3 d-flex justify-content-center mb-4">
-                <img src="/users/images/certificate.png" alt="Certificate" class="img-fluid award-img">
+            <div class="row justify-content-center mt-5">
+                <div class="col-6 col-sm-4 col-md-3 d-flex justify-content-center mb-4">
+                    <img src="/users/images/medal-of-honor.png" alt="Medal of Honor" class="img-fluid award-img">
+                </div>
+                <div class="col-6 col-sm-4 col-md-3 d-flex justify-content-center mb-4">
+                    <img src="/users/images/award-shield.png" alt="Award Shield" class="img-fluid award-img">
+                </div>
+                <div class="col-6 col-sm-4 col-md-3 d-flex justify-content-center mb-4">
+                    <img src="/users/images/shield.png" alt="Shield" class="img-fluid award-img">
+                </div>
+                <div class="col-6 col-sm-4 col-md-3 d-flex justify-content-center mb-4">
+                    <img src="/users/images/certificate.png" alt="Certificate" class="img-fluid award-img">
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
 
     {{-- du an tieu bieu --}}

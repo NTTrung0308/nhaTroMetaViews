@@ -4,8 +4,11 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\AboutUs;
+use App\Models\Slider;
 use App\Models\WebConfig;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -87,5 +90,70 @@ class DatabaseSeeder extends Seeder
             'vision' => 'Trở thành doanh nghiệp hàng đầu khu vực.',
             'active' => true,
         ]);
+        for ($i=0; $i < 4; $i++) { 
+            Slider::create([
+                'title' => 'title ' .$i,
+                'subtitle' => 'Subtitle ' . $i,
+                'link' => '',
+                'active' => 1,
+                'position' => 0,
+            ]);
+        }
+        $tinTucs = [
+            [
+                'tieu_de' => 'Phong thủy nhà ở năm 2025',
+                'mo_ta_ngan' => 'Chọn hướng nhà, màu sắc hợp mệnh trong năm 2025.',
+                'hinh_anh' => 'uploads/tin-tuc/nha-o-2025.jpg',
+            ],
+            [
+                'tieu_de' => 'Ngày tốt khai trương tháng 8',
+                'mo_ta_ngan' => 'Lịch ngày tốt khai trương theo tuổi và mệnh tháng 8.',
+                'hinh_anh' => 'uploads/tin-tuc/ngay-khai-truong.jpg',
+            ],
+            [
+                'tieu_de' => 'Xem ngày cưới hỏi hợp tuổi',
+                'mo_ta_ngan' => 'Tư vấn chọn ngày cưới theo tuổi hai bên và ngũ hành.',
+                'hinh_anh' => 'uploads/tin-tuc/ngay-cuoi.jpg',
+            ],
+            [
+                'tieu_de' => '12 con giáp và vận hạn năm 2025',
+                'mo_ta_ngan' => 'Dự đoán vận mệnh 12 con giáp năm 2025.',
+                'hinh_anh' => 'uploads/tin-tuc/van-han-2025.jpg',
+            ],
+            [
+                'tieu_de' => 'Bí quyết đặt bếp đúng phong thủy',
+                'mo_ta_ngan' => 'Vị trí bếp giúp gia đạo hưng vượng và tránh xui xẻo.',
+                'hinh_anh' => 'uploads/tin-tuc/dat-bep.jpg',
+            ],
+            [
+                'tieu_de' => 'Trang trí bàn thờ hợp phong thủy',
+                'mo_ta_ngan' => 'Cách bài trí bàn thờ để thu hút tài lộc.',
+                'hinh_anh' => 'uploads/tin-tuc/ban-tho.jpg',
+            ],
+            [
+                'tieu_de' => 'Tử vi tháng 8 cho người tuổi Tý',
+                'mo_ta_ngan' => 'Xem tử vi sự nghiệp, tình cảm, tài chính tháng 8.',
+                'hinh_anh' => 'uploads/tin-tuc/tuoi-ty.jpg',
+            ],
+            [
+                'tieu_de' => 'Cách chọn cây phong thủy trong nhà',
+                'mo_ta_ngan' => 'Những loại cây hút tài lộc, xua tà khí nên trồng.',
+                'hinh_anh' => 'uploads/tin-tuc/cay-phong-thuy.jpg',
+            ],
+        ];
+
+        foreach ($tinTucs as $tin) {
+            DB::table('tin_tucs')->insert([
+                'tieu_de' => $tin['tieu_de'],
+                'slug' => Str::slug($tin['tieu_de']),
+                'mo_ta_ngan' => $tin['mo_ta_ngan'],
+                'noi_dung' => '<p>Nội dung bài viết về: ' . $tin['tieu_de'] . '</p>',
+                'hinh_anh' => $tin['hinh_anh'],
+                'tac_gia' => 'Admin',
+                'trang_thai' => 'hien_thi',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
     }
 }

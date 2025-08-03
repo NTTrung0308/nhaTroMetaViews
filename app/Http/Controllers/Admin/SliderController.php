@@ -84,7 +84,7 @@ class SliderController extends Controller
         $request->validate([
             'title' => 'nullable|string|max:255',
             'subtitle' => 'nullable|string|max:255',
-            'cropped_image' => 'required|string',
+            'cropped_image' => 'nullable|string',
             'link' => 'nullable|url',
             'position' => 'nullable|integer',
             'active' => 'nullable|boolean',
@@ -95,7 +95,6 @@ class SliderController extends Controller
             'subtitle.string' => 'Phụ đề phải là chuỗi.',
             'subtitle.max' => 'Phụ đề không được vượt quá 255 ký tự.',
 
-            'cropped_image.required' => 'Vui lòng chọn và cắt ảnh.',
 
             'link.url' => 'Liên kết không hợp lệ. Vui lòng nhập đúng định dạng URL.',
 
