@@ -29,38 +29,33 @@
                                 <div class="hero-thumb8-1">
                                     <div class="thumb bg-mask">
                                         @php
-                                            $firstImage =
-                                                count($sliders) > 0
-                                                    ? asset($sliders[0]->image)
-                                                    : '/users/images/anh3.png';
+                                            $firstImage = $sliders->first()->image ?? '/users/images/anh3.png';
                                         @endphp
 
-                                        <img id="main-banner-img" decoding="async" src="{{ $firstImage }}" alt="img"
-                                            class="w-100 h-100 object-fit-cover rounded-4">
+                                        <img id="main-banner-img" decoding="async" src="{{ asset($firstImage) }}"
+                                            alt="img" class="w-100 h-100 object-fit-cover rounded-4">
                                     </div>
                                 </div>
                             </div>
                             <div class="rectangle_test p-3 position-relative">
-                                <button class="btn-rect-nav btn-rect-prev" type="button" id="btn-rect-prev">
-                                    <i class="fa fa-chevron-left"></i>
-                                </button>
-                                <button class="btn-rect-nav btn-rect-next" type="button" id="btn-rect-next">
-                                    <i class="fa fa-chevron-right"></i>
-                                </button>
-                                <div class="row" id="banner-thumbs">
-                                    @foreach ($sliders as $slider)
-                                        <div class="col-4">
-                                            <div class="rectangle_test_item w-100 ">
-                                                <img decoding="async"
-                                                    src="{{ asset($slider->image ?? '/users/images/anh3.png') }}"
-                                                    alt="img"
-                                                    class="w-100 h-100 object-fit-cover rounded-4 banner-thumb"
-                                                    data-img="{{ asset($slider->image ?? '/users/images/anh3.png') }}">
+                                <div class="swiper bannerThumbsSwiper" id="banner-thumbs">
+                                    <div class="swiper-wrapper">
+                                        @foreach ($sliders as $slider)
+                                            <div class="swiper-slide">
+                                                <div class="rectangle_test_item w-100 ">
+                                                    <img decoding="async"
+                                                        src="{{ asset($slider->image ?? '/users/images/anh3.png') }}"
+                                                        alt="img"
+                                                        class="w-100 h-100 object-fit-cover rounded-4 banner-thumb"
+                                                        data-img="{{ asset($slider->image ?? '/users/images/anh3.png') }}">
+                                                </div>
                                             </div>
-                                        </div>
-                                    @endforeach
-                                  
+                                        @endforeach
+
+                                    </div>
                                 </div>
+                                <div class="swiper-button-next bannerThumbs-next"></div>
+                                <div class="swiper-button-prev bannerThumbs-prev"></div>
                             </div>
                         </div>
                     </div>
@@ -80,7 +75,7 @@
                     <div class="col-4">
                         <div class="w-100 h-100 text-center box_dichvu">
                             <div class="icon_dichvu">
-                                <img decoding="async" src="/users/images/icon/icon1.svg" alt="img"
+                                <img decoding="async" src="images/icon/icon1.svg" alt="img"
                                     class="w-100 h-100 object-fit-cover">
                             </div>
                             <p class="desc_contentdv p-2">Định giá tài sản</p>
@@ -91,7 +86,7 @@
                     <div class="col-4">
                         <div class="w-100 h-100 text-center box_dichvu">
                             <div class=" icon_dichvu">
-                                <img decoding="async" src="/users/images/icon/icon2.svg" alt="img"
+                                <img decoding="async" src="images/icon/icon2.svg" alt="img"
                                     class="w-100 h-100 object-fit-cover">
                             </div>
                             <p class="desc_contentdv p-2">Định giá tài sản</p>
@@ -102,7 +97,7 @@
                     <div class="col-4">
                         <div class="w-100 h-100 text-center box_dichvu">
                             <div class=" icon_dichvu">
-                                <img decoding="async" src="/users/images/icon/icon3.svg" alt="img"
+                                <img decoding="async" src="images/icon/icon3.svg" alt="img"
                                     class="w-100 h-100 object-fit-cover">
                             </div>
                             <p class="desc_contentdv p-2">Định giá tài sản</p>
@@ -114,7 +109,7 @@
                     <div class="col-4 mt-4">
                         <div class="w-100 h-100 text-center box_dichvu">
                             <div class=" icon_dichvu">
-                                <img decoding="async" src="/users/images/icon/icon4.svg" alt="img"
+                                <img decoding="async" src="images/icon/icon4.svg" alt="img"
                                     class="w-100 h-100 object-fit-cover">
                             </div>
                             <p class="desc_contentdv p-2">Định giá tài sản</p>
@@ -125,7 +120,7 @@
                     <div class="col-4 mt-4">
                         <div class="w-100 h-100 text-center box_dichvu">
                             <div class=" icon_dichvu">
-                                <img decoding="async" src="/users/images/icon/icon5.svg" alt="img"
+                                <img decoding="async" src="images/icon/icon5.svg" alt="img"
                                     class="w-100 h-100 object-fit-cover">
                             </div>
                             <p class="desc_contentdv p-2">Định giá tài sản</p>
@@ -136,7 +131,7 @@
                     <div class="col-4 mt-4">
                         <div class="w-100 h-100 text-center box_dichvu">
                             <div class=" icon_dichvu">
-                                <img decoding="async" src="/users/images/icon/icon6.svg" alt="img"
+                                <img decoding="async" src="images/icon/icon6.svg" alt="img"
                                     class="w-100 h-100 object-fit-cover">
                             </div>
                             <p class="desc_contentdv p-2">Định giá tài sản</p>
@@ -151,7 +146,7 @@
                         <div class="swiper-slide">
                             <div class="w-100 h-100 text-center box_dichvu">
                                 <div class="icon_dichvu">
-                                    <img decoding="async" src="/users/images/icon/icon6.svg" alt="img"
+                                    <img decoding="async" src="images/icon/icon6.svg" alt="img"
                                         class="w-100 h-100 object-fit-cover">
                                 </div>
                                 <p class="desc_contentdv p-2">Định giá tài sản</p>
@@ -162,7 +157,7 @@
                         <div class="swiper-slide">
                             <div class="w-100 h-100 text-center box_dichvu">
                                 <div class=" icon_dichvu">
-                                    <img decoding="async" src="/users/images/icon/icon6.svg" alt="img"
+                                    <img decoding="async" src="images/icon/icon6.svg" alt="img"
                                         class="w-100 h-100 object-fit-cover">
                                 </div>
                                 <p class="desc_contentdv p-2">Định giá tài sản</p>
@@ -173,7 +168,7 @@
                         <div class="swiper-slide">
                             <div class="w-100 h-100 text-center box_dichvu">
                                 <div class=" icon_dichvu">
-                                    <img decoding="async" src="/users/images/icon/icon6.svg" alt="img"
+                                    <img decoding="async" src="images/icon/icon6.svg" alt="img"
                                         class="w-100 h-100 object-fit-cover">
                                 </div>
                                 <p class="desc_contentdv p-2">Định giá tài sản</p>
@@ -184,7 +179,7 @@
                         <div class="swiper-slide">
                             <div class="w-100 h-100 text-center box_dichvu">
                                 <div class=" icon_dichvu">
-                                    <img decoding="async" src="/users/images/icon/icon6.svg" alt="img"
+                                    <img decoding="async" src="images/icon/icon6.svg" alt="img"
                                         class="w-100 h-100 object-fit-cover">
                                 </div>
                                 <p class="desc_contentdv p-2">Định giá tài sản</p>
@@ -221,15 +216,13 @@
                             hạn.
                         </p>
                         <div class="w-100 h-100">
-                            <img src="/users/images/image.png" alt=""
-                                class="w-100 h-100 object-fit-cover rounded-4">
+                            <img src="/images/image.png" alt="" class="w-100 h-100 object-fit-cover rounded-4">
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6 col-12 d-none d-lg-block p-5">
                     <div class="w-75 mx-auto ">
-                        <img src="/users/images/image2.png" alt=""
-                            class="w-100 h-100 object-fit-cover rounded-4 ">
+                        <img src="/images/image2.png" alt="" class="w-100 h-100 object-fit-cover rounded-4 ">
                     </div>
                 </div>
             </div>
@@ -256,7 +249,7 @@
                 </div>
             </div>
             <div class="banner_canhothongminh">
-                <img src="/users/images/image3.png" alt="img" class="w-100 h-100 object-fit-cover">
+                <img src="/images/image3.png" alt="img" class="w-100 h-100 object-fit-cover">
             </div>
             <div class="row mt-5">
                 <div class="col-6 col-md-4 order-1">
@@ -293,16 +286,16 @@
 
             <div class="row justify-content-center mt-5">
                 <div class="col-6 col-sm-4 col-md-3 d-flex justify-content-center mb-4">
-                    <img src="/users/images/medal-of-honor.png" alt="Medal of Honor" class="img-fluid award-img">
+                    <img src="/images/medal-of-honor.png" alt="Medal of Honor" class="img-fluid award-img">
                 </div>
                 <div class="col-6 col-sm-4 col-md-3 d-flex justify-content-center mb-4">
-                    <img src="/users/images/award-shield.png" alt="Award Shield" class="img-fluid award-img">
+                    <img src="/images/award-shield.png" alt="Award Shield" class="img-fluid award-img">
                 </div>
                 <div class="col-6 col-sm-4 col-md-3 d-flex justify-content-center mb-4">
-                    <img src="/users/images/shield.png" alt="Shield" class="img-fluid award-img">
+                    <img src="/images/shield.png" alt="Shield" class="img-fluid award-img">
                 </div>
                 <div class="col-6 col-sm-4 col-md-3 d-flex justify-content-center mb-4">
-                    <img src="/users/images/certificate.png" alt="Certificate" class="img-fluid award-img">
+                    <img src="/images/certificate.png" alt="Certificate" class="img-fluid award-img">
                 </div>
             </div>
         </div>
@@ -320,7 +313,7 @@
                 <div class="swiper-wrapper">
                     <div class="swiper-slide slide_duantieubieu">
                         <div class="duan-img-wrapper">
-                            <img src="/users/images/typical-project-items.png" alt="duantieubieu" class="img_duan">
+                            <img src="/images/typical-project-items.png" alt="duantieubieu" class="img_duan">
                             <div class="duan-overlay">
                                 <h3 class="duan-title">Phòng trọ sinh viên</h3>
                                 <p class="duan-description mt-3">
@@ -333,7 +326,7 @@
                     </div>
                     <div class="swiper-slide slide_duantieubieu">
                         <div class="duan-img-wrapper">
-                            <img src="/users/images/typical-project-items2.png" alt="duantieubieu" class="img_duan">
+                            <img src="/images/typical-project-items2.png" alt="duantieubieu" class="img_duan">
                             <div class="duan-overlay d-flex flex-column h-100">
                                 <div class="duan-text">
                                     <h3 class="duan-title">Căn hộ gia đình</h3>
@@ -348,7 +341,7 @@
                     </div>
                     <div class="swiper-slide slide_duantieubieu">
                         <div class="duan-img-wrapper">
-                            <img src="/users/images/typical-project-items.png" alt="duantieubieu" class="img_duan">
+                            <img src="/images/typical-project-items.png" alt="duantieubieu" class="img_duan">
                             <div class="duan-overlay">
                                 <h3 class="duan-title">Phòng trọ sinh viên</h3>
                                 <p class="duan-description mt-3">
@@ -361,7 +354,7 @@
                     </div>
                     <div class="swiper-slide slide_duantieubieu">
                         <div class="duan-img-wrapper">
-                            <img src="/users/images/typical-project-items2.png" alt="duantieubieu" class="img_duan">
+                            <img src="/images/typical-project-items2.png" alt="duantieubieu" class="img_duan">
                             <div class="duan-overlay d-flex flex-column h-100">
                                 <div class="duan-text">
                                     <h3 class="duan-title">Căn hộ gia đình</h3>
@@ -420,13 +413,13 @@
                     <div class="col-lg-6 wow fadeInUp d-flex justify-content-center" data-wow-delay=".4s"
                         style="visibility: visible; animation-delay: 0.4s;">
                         <div class="testimonial-image">
-                            <img src="users/images/Czum.png" alt="img" class="w-100 h-100 object-cover">
+                            <img src="images/Czum.png" alt="img" class="w-100 h-100 object-cover">
                             <div class="card-shape-1 float-bob-x d-none d-sm-flex ">
-                                <img src="users/images/testimonial-card1.png" alt="shape-img"
+                                <img src="images/testimonial-card1.png" alt="shape-img"
                                     class="w-100 h-100 object-fit-cover">
                             </div>
                             <div class="card-shape-2 float-bob-y d-none d-sm-flex ">
-                                <img src="users/images/testimonial-card2.png" alt="shape-img"
+                                <img src="images/testimonial-card2.png" alt="shape-img"
                                     class="w-100 h-100 object-fit-cover">
                             </div>
                         </div>
@@ -487,7 +480,7 @@
         </div>
     </section>
 
-    <script>
+    {{-- <script>
         document.addEventListener('DOMContentLoaded', function() {
             const mainImg = document.getElementById('main-banner-img');
             const thumbs = Array.from(document.querySelectorAll('.banner-thumb'));
@@ -524,5 +517,5 @@
                 setActive(current);
             });
         });
-    </script>
+    </script> --}}
 @endsection
