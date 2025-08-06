@@ -24,10 +24,26 @@
                                 Mới</a>
                         @endif
                     </div>
-                    @can('nguoi-thue-tro')
-                        {{-- Không hiển thị bộ lọc --}}
-                    @else
-                        <form method="GET" action="{{ route('hoa-dons.index') }}" class="row g-3 mb-4 align-items-end">
+
+                    {{-- Bộ lọc sẽ được hiển thị cho tất cả mọi người, nhưng nội dung bên trong sẽ khác nhau --}}
+                    <form method="GET" action="{{ route('hoa-dons.index') }}" class="row g-3 mb-4 align-items-end">
+
+
+                        {{-- Bộ lọc cho Người thuê trọ --}}
+                   @role('nguoi-thue-tro')
+                            <div class="col-md-3">
+                                <label for="room_id" class="form-label">Phòng của bạn</label>
+                                <select name="room_id" id="room_id" class="form-select">
+                                    <option value="">-- Tất cả các phòng --</option>
+                                    @foreach ($userRooms as $room)
+                                        <option value="{{ $room->id }}"
+                                            {{ request('room_id') == $room->id ? 'selected' : '' }}>
+                                            {{ $room->ten_phong }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        @else
                             <div class="col-md-2">
                                 <label for="nha_tro_id" class="form-label">Nhà trọ</label>
                                 <select name="nha_tro_id" id="nha_tro_id" class="form-select">
@@ -48,42 +64,45 @@
                                     <option value="">-- Chọn nhà trọ trước --</option>
                                 </select>
                             </div>
+                    @endrole
 
-                            <div class="col-md-2">
-                                <label for="thang" class="form-label">Tháng</label>
-                                <input type="number" name="thang" id="thang" class="form-control"
-                                    value="{{ request('thang') }}" placeholder="VD: 7">
-                            </div>
+                        {{-- Các bộ lọc chung --}}
+                        <div class="col-md-2">
+                            <label for="thang" class="form-label">Tháng</label>
+                            <input type="number" name="thang" id="thang" class="form-control"
+                                value="{{ request('thang') }}" placeholder="VD: 7">
+                        </div>
 
-                            <div class="col-md-2">
-                                <label for="nam" class="form-label">Năm</label>
-                                <input type="number" name="nam" id="nam" class="form-control"
-                                    value="{{ request('nam') }}" placeholder="VD: 2023">
-                            </div>
+                        <div class="col-md-2">
+                            <label for="nam" class="form-label">Năm</label>
+                            <input type="number" name="nam" id="nam" class="form-control"
+                                value="{{ request('nam') }}" placeholder="VD: 2023">
+                        </div>
 
-                            <div class="col-md-2">
-                                <label for="trang_thai" class="form-label">Trạng thái</label>
-                                <select name="trang_thai" id="trang_thai" class="form-select">
-                                    <option value="">-- Tất cả --</option>
-                                    @foreach ($statuses as $key => $value)
-                                        <option value="{{ $key }}"
-                                            {{ request('trang_thai') == $key ? 'selected' : '' }}>
-                                            {{ $value }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
+                        <div class="col-md-2">
+                            <label for="trang_thai" class="form-label">Trạng thái</label>
+                            <select name="trang_thai" id="trang_thai" class="form-select">
+                                <option value="">-- Tất cả --</option>
+                                @foreach ($statuses as $key => $value)
+                                    <option value="{{ $key }}"
+                                        {{ request('trang_thai') == $key ? 'selected' : '' }}>
+                                        {{ $value }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
 
-                            <div class="col-md-2 mt-3 text-end">
-                                <button type="submit" class="btn btn-info">
-                                    <i class="fa fa-search"></i> Lọc
-                                </button>
-                                <a href="{{ route('hoa-dons.index') }}" class="btn btn-secondary">
-                                    <i class="fa fa-times"></i> Xóa
-                                </a>
-                            </div>
-                        </form>
-                    @endcan
+                        <div class="col-md-auto mt-3 text-end">
+                            <button type="submit" class="btn btn-info">
+                                <i class="fa fa-search"></i> Lọc
+                            </button>
+                            <a href="{{ route('hoa-dons.index') }}" class="btn btn-secondary">
+                                <i class="fa fa-times"></i> Xóa
+                            </a>
+                        </div>
+                    </form>
+
+                    {{-- Phần bảng dữ liệu (giữ nguyên) --}}
                     <div class="table-responsive">
                         <table class="table table-striped table-hover">
                             <thead>
@@ -153,50 +172,53 @@
     </div>
 
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const nhaTroSelect = document.getElementById('nha_tro_id');
-            const roomSelect = document.getElementById('room_id');
-            const oldRoomId = '{{ request('room_id') }}'; // Lấy ID phòng đã lọc trước đó
+    {{-- Script này chỉ cần thiết cho admin/quản lý --}}
+    @cannot('nguoi-thue-tro')
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const nhaTroSelect = document.getElementById('nha_tro_id');
+                const roomSelect = document.getElementById('room_id');
+                const oldRoomId = '{{ request('room_id') }}'; // Lấy ID phòng đã lọc trước đó
 
-            function fetchRooms(nhaTroId, selectedRoomId = null) {
-                if (!nhaTroId) {
-                    roomSelect.innerHTML = '<option value="">-- Chọn nhà trọ trước --</option>';
-                    roomSelect.disabled = true;
-                    return;
+                function fetchRooms(nhaTroId, selectedRoomId = null) {
+                    if (!nhaTroId) {
+                        roomSelect.innerHTML = '<option value="">-- Chọn nhà trọ trước --</option>';
+                        roomSelect.disabled = true;
+                        return;
+                    }
+
+                    // Gọi API để lấy danh sách phòng
+                    fetch(`/api/rooms-by-nha-tro/${nhaTroId}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            roomSelect.innerHTML = '<option value="">-- Tất cả phòng --</option>';
+                            data.forEach(room => {
+                                const option = document.createElement('option');
+                                option.value = room.id;
+                                option.textContent = room.ten_phong;
+                                if (room.id == selectedRoomId) {
+                                    option.selected = true;
+                                }
+                                roomSelect.appendChild(option);
+                            });
+                            roomSelect.disabled = false;
+                        })
+                        .catch(error => {
+                            console.error('Lỗi khi lấy danh sách phòng:', error);
+                            roomSelect.disabled = true;
+                        });
                 }
 
-                // Gọi API để lấy danh sách phòng
-                fetch(`/api/rooms-by-nha-tro/${nhaTroId}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        roomSelect.innerHTML = '<option value="">-- Tất cả phòng --</option>';
-                        data.forEach(room => {
-                            const option = document.createElement('option');
-                            option.value = room.id;
-                            option.textContent = room.ten_phong;
-                            if (room.id == selectedRoomId) {
-                                option.selected = true;
-                            }
-                            roomSelect.appendChild(option);
-                        });
-                        roomSelect.disabled = false;
-                    })
-                    .catch(error => {
-                        console.error('Lỗi khi lấy danh sách phòng:', error);
-                        roomSelect.disabled = true;
-                    });
-            }
+                // Sự kiện khi thay đổi nhà trọ
+                nhaTroSelect.addEventListener('change', function() {
+                    fetchRooms(this.value);
+                });
 
-            // Sự kiện khi thay đổi nhà trọ
-            nhaTroSelect.addEventListener('change', function() {
-                fetchRooms(this.value);
+                // Xử lý khi tải lại trang (để giữ lại giá trị phòng đã lọc)
+                if (nhaTroSelect.value) {
+                    fetchRooms(nhaTroSelect.value, oldRoomId);
+                }
             });
-
-            // Xử lý khi tải lại trang (để giữ lại giá trị phòng đã lọc)
-            if (nhaTroSelect.value) {
-                fetchRooms(nhaTroSelect.value, oldRoomId);
-            }
-        });
-    </script>
+        </script>
+    @endcannot
 @endsection

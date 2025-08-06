@@ -616,11 +616,49 @@ body {
 }
 
 .icon-footer {
-    color: #ffff;
+    gap: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .icon-footer i {
     margin: 0 0.2rem;
+}
+
+.icon-footer a {
+    margin: 0 5px;
+    color: #fff;
+    background: rgba(0, 33, 120, 0.08);
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, color 0.2s;
+    font-size: 2rem;
+    text-decoration: none;
+}
+
+/* App Download Buttons */
+.app-download {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.app-download:hover {
+    background-color: rgba(255, 255, 255, 0.25);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.icon-footer a:hover {
+    color: #002178;
+    background-color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 2px 8px rgba(0, 33, 120, 0.12);
 }
 
 .box {
@@ -630,6 +668,21 @@ body {
     height: 4rem;
     display: flex;
     align-items: center;
+}
+
+.list-unstyled a:hover {
+    color: #00acee !important;
+}
+
+.list-unstyled li:hover {
+    transform: translateX(2px);
+}
+
+.box:hover {
+    background-color: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 2px 8px rgba(0, 33, 120, 0.12);
+    transform: translateY(-2px);
+    cursor: pointer;
 }
 
 .vertical-line {
@@ -643,6 +696,59 @@ body {
 
 .footer-mobile .btn {
     border: none;
+}
+
+.footer-mobile .app-download {
+    background: rgba(255, 255, 255, 0.18);
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 33, 120, 0.08);
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: background 0.2s, box-shadow 0.2s;
+}
+.footer-mobile .app-download:hover {
+    background: rgba(255, 255, 255, 0.28);
+    box-shadow: 0 4px 18px rgba(0, 33, 120, 0.12);
+}
+.footer-mobile .app-download .small {
+    font-size: 0.95rem;
+    color: #fff;
+}
+.footer-mobile .app-download .fw-bold {
+    font-size: 1.1rem;
+    color: #fff;
+}
+.footer-mobile .accordion-item {
+    margin-bottom: 10px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 33, 120, 0.06);
+}
+.footer-mobile .accordion-button {
+    border-radius: 0;
+    font-size: 1rem;
+    padding: 10px 16px;
+}
+.footer-mobile .accordion-body {
+    padding: 12px 18px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 0 0 10px 10px;
+}
+
+.footer-mobile .py-3 {
+    padding-top: 18px !important;
+    padding-bottom: 18px !important;
+}
+.footer-mobile .text-light {
+    opacity: 0.85;
+}
+
+.footer-mobile .icon-footer a:hover {
+    background: #fff;
+    color: #002178;
+    box-shadow: 0 2px 8px rgba(0, 33, 120, 0.12);
 }
 
 /* Responsive tối ưu cho footer mobile */
@@ -673,27 +779,44 @@ body {
     }
 }
 
+@media (max-width: 767.98px) {
+    .footer .row {
+        flex-direction: column !important;
+        align-items: center !important;
+    }
+    .footer .logo,
+    .footer .icon-footer {
+        justify-content: center !important;
+        align-items: center !important;
+        display: flex !important;
+        margin: 0 auto !important;
+    }
+    .footer .icon-footer {
+        margin-top: 12px;
+    }
+}
+
 /* het footer */
 
 /* Home */
 
 .home-banner-top {
-    background: url("../images/images-slider.png") ;
+    background: url("../images/images-slider.png");
     /* background-size: cover;
     background-position: center;
   
     position: relative;
       overflow: hidden; */
-       justify-content: center;
-     align-items: center;
-     background-repeat: no-repeat;
-     /* QUAN TRỌNG: Không lặp lại ảnh */
-     background-size: cover;
-     /* QUAN TRỌNG: Che phủ toàn bộ khối */
-     background-position: center;
-     /* QUAN TRỌNG: Căn ảnh ra giữa */
-     overflow: hidden;
-       height: 100vh;
+    justify-content: center;
+    align-items: center;
+    background-repeat: no-repeat;
+    /* QUAN TRỌNG: Không lặp lại ảnh */
+    background-size: cover;
+    /* QUAN TRỌNG: Che phủ toàn bộ khối */
+    background-position: center;
+    /* QUAN TRỌNG: Căn ảnh ra giữa */
+    overflow: hidden;
+    height: 100vh;
     width: 100%;
 }
 
@@ -2630,145 +2753,103 @@ float-bob-x animation {
 }
 
 /* ------------------search----------------------- */
-
-.banner-search {
-    position: relative;
-    overflow: hidden;
-}
-
-.bg-search {
-    background-color: #002178;
-}
-
-.text-search {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-    text-align: center;
-    max-width: 800px;
-    padding: 20px;
-    text-shadow: 4px 4px 5px rgba(0, 0, 0, 0.7);
-}
-
 .room-card {
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 15px;
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
-
-    padding: 15px 0;
-    font-family: Arial, sans-serif;
-}
-
-.room-info {
-    flex: 1;
-}
-
-.img-search {
-    height: 175px;
-    object-fit: cover;
-    border-radius: 10px;
+    margin-top: 15px;
+    background: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .room-info h4 {
-    margin: 0 0 8px;
-    font-size: 16px;
-    font-weight: bold;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #333;
 }
 
-.room-info .details {
-    color: #888;
-    font-size: 14px;
+.details,
+.time {
+    color: #666;
+    font-size: 0.9rem;
     margin-bottom: 8px;
 }
 
-.room-info .time {
-    color: #444;
-    font-size: 14px;
-}
-
-.room-info .author {
+.author {
     display: flex;
     align-items: center;
-    margin-top: 10px;
     color: #444;
-    font-size: 14px;
+    font-size: 0.9rem;
 }
 
-.room-info .author img {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
+.author img {
     margin-right: 8px;
 }
 
 .room-price {
     text-align: right;
-    min-width: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
-.room-price .label {
-    color: #888;
-    font-size: 14px;
-}
-
-.room-price .price {
-    color: red;
-    font-size: 18px;
+.price {
     font-weight: bold;
-    margin: 8px 0;
+    color: #d32f2f;
+    font-size: 1.1rem;
+    margin: 5px 0;
 }
 
-.room-price .btn {
-    display: inline-block;
-    padding: 8px 12px;
-    border: 1px solid #0b3d91;
-    border-radius: 6px;
-    color: #000;
-    text-decoration: none;
-    font-size: 14px;
-    cursor: pointer;
+.label {
+    font-size: 0.8rem;
+    color: #666;
 }
 
-.btn:hover {
-    background-color: #0b3d91;
-    color: white;
+.img-search {
+    height: 120px;
 }
 
-.btn {
-    border: #0b3d91 solid 1px;
-    border-radius: 8px;
-    width: 10rem;
-}
-
-.drop-search .btn {
-    width: 100%;
-    border: 1px solid #0b3d91;
-    border-radius: 6px;
-}
-
-.dropdown.d-flex {
-    gap: 0 !important;
-}
-
-.search-room {
-    border-radius: 10px;
-}
-
-.search-room1 {
-    position: sticky;
-    top: 0;
-}
-
-@media (max-width: 991.98px) {
-    .dropdown.d-flex {
+@media (max-width: 767.98px) {
+    .room-card {
         flex-direction: column;
     }
 
-    .drop-search {
-        margin: 0 0 10px 0 !important;
+    .room-price {
+        text-align: left;
+        margin-top: 15px;
     }
+
+    .img-search {
+        height: 100px;
+    }
+}
+
+.title-search {
+    width: 50%;
+    margin: 0 auto;
+    font-size: 3rem;
+    font-weight: bold;
+    color: #002178;
+    margin-bottom: 20px;
+}
+
+@media screen and (max-width: 768px) {
+    .title-search {
+        font-size: 2rem;
+        width: 100%;
+        text-align: center;
+    }
+    
+}
+
+.title-funhome {
+    font-family: "Nunito", sans-serif;
+    color: #002178;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
 }
 
 /* This Style for Section by Dungz */
@@ -2807,8 +2888,16 @@ float-bob-x animation {
 
 .line-text-limit-5 {
     display: -webkit-box;
-    -webkit-line-clamp: 5;
-    line-clamp: 5;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.title-news {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
@@ -3213,10 +3302,22 @@ float-bob-x animation {
     display: block;
 }
 
+.aboute {
+    font-weight: bold;
+    font-size: 4rem;
+    color: #002178;
+}
+
 .about-breadcrumb {
     font-size: 1.7rem;
     color: #002178;
     font-weight: bold;
+}
+
+.about-parameter-text-1 {
+    font-size: 1.2rem;
+    color: #000000;
+    margin-bottom: 10px;
 }
 
 .about-breadcrumb-active {
@@ -3245,7 +3346,7 @@ float-bob-x animation {
 }
 
 .about-orientation h1 {
-    font-size: 1.5rem;
+    font-size: 2rem;
 }
 
 .about-divider {
@@ -4232,9 +4333,8 @@ float-bob-x animation {
 
 .contact-info-label {
     font-weight: 600;
-    margin-right: 7px;
     color: #222;
-    min-width: 120px;
+    min-width: 80px;
 }
 
 .contact-info-text {
@@ -5194,4 +5294,106 @@ float-bob-x animation {
     .tab-item {
         font-size: 0.7rem !important;
     }
+}
+
+/* Responsive cho phần tải ngay trên ở footer mobile */
+@media (max-width: 767.98px) {
+    .footer-mobile .box {
+        width: 100%;
+        height: 3rem;
+        margin-bottom: 8px;
+        padding: 0 8px;
+        border-radius: 8px;
+    }
+    .footer-mobile .box .fs-3 {
+        font-size: 1.5rem !important;
+        margin: 0 6px;
+    }
+    .footer-mobile .box h6 {
+        font-size: 0.95rem;
+        line-height: 1.2;
+        text-align: left;
+    }
+    .footer-mobile .col-6 {
+        padding: 0 4px;
+    }
+    .footer-mobile .row.mt-4 {
+        gap: 0;
+    }
+}
+
+@media (max-width: 400px) {
+    .footer-mobile .row.mt-4 {
+        flex-direction: column !important;
+        gap: 8px;
+    }
+    .footer-mobile .col-6 {
+        width: 100%;
+        max-width: 100%;
+        padding: 0;
+    }
+}
+
+.bannerThumbs-next,
+.bannerThumbs-prev {
+    position: absolute;
+    top: 50%;
+    z-index: 2;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s, box-shadow 0.2s;
+    font-size: 2px !important;
+    color: #002178;
+    border: none;
+}
+
+.bannerThumbs-next::after,
+.bannerThumbs-prev::after {
+    font-size: 2rem !important;
+    font-weight: bold !important;
+}
+
+.bannerThumbs-next:hover,
+.bannerThumbs-prev:hover {
+    background: #002178;
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(0, 33, 120, 0.12);
+}
+.bannerThumbs-next {
+    right: 0;
+}
+.bannerThumbs-prev {
+    left: 0;
+}
+.p-nav .page-item {
+    margin: 0 4px;
+}
+.p-nav .page-item.active .page-link {
+    background-color: #002178;
+    border-color: #002178;
+    color: #ffffff;
+    font-weight: 700;
+}
+
+.p-nav .page-link {
+    border-radius: 8px !important;
+    border: 1px solid #e9ecef;
+    background-color: #ffffff;
+    color: #495057;
+    font-weight: 600;
+    min-width: 42px;
+    height: 42px;
+    display: flex
+;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease-in-out;
 }

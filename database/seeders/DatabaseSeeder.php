@@ -28,7 +28,7 @@ class DatabaseSeeder extends Seeder
         // ]);
          WebConfig::create([
             // Thông tin cơ bản
-            'site_name' => 'Nhà trọ metaa',
+            'site_name' => 'FunHome',
             'site_slogan' => 'Nơi an cư lý tưởng cho sinh viên và người đi làm',
             'key' => 'nhatro-metaa',
             'language' => 'vi',
@@ -155,5 +155,9 @@ class DatabaseSeeder extends Seeder
                 'updated_at' => now(),
             ]);
         }
+
+
+
+        
     }
 }

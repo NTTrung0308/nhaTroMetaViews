@@ -130,6 +130,10 @@ var swiper2 = new Swiper(".mySwiper2", {
         prevEl: ".swiper-button-prev",
     },
     breakpoints: {
+        0: {
+            slidesPerView: 1,
+            spaceBetween: 20,
+        },
         300: {
             slidesPerView: 1,
             spaceBetween: 20,
@@ -157,6 +161,10 @@ var swiper1 = new Swiper(".mySwiper1", {
         clickable: true,
     },
     breakpoints: {
+        0: {
+            slidesPerView: 1,
+            spaceBetween: 20,
+        },
         300: {
             slidesPerView: 1,
             spaceBetween: 20,
@@ -183,6 +191,10 @@ var dichvuSwiper = new Swiper(".dichvuSwiper", {
         prevEl: ".swiper-button-prev",
     },
     breakpoints: {
+        0: {
+            slidesPerView: 1,
+            spaceBetween: 20,
+        },
         640: {
             slidesPerView: 1,
             spaceBetween: 20,
@@ -206,6 +218,10 @@ var swiper = new Swiper(".mySwiper4", {
         clickable: true,
     },
     breakpoints: {
+        0: {
+            slidesPerView: 1,
+            spaceBetween: 20,
+        },
         300: {
             slidesPerView: 1,
             spaceBetween: 20,
@@ -237,6 +253,10 @@ var swiper = new Swiper(".mySwiper-contact-1", {
         disableOnInteraction: false, // Vẫn tự động chạy sau khi người dùng tương tác
     },
     breakpoints: {
+        0: {
+            slidesPerView: 1,
+            spaceBetween: 20,
+        },
         300: {
             slidesPerView: 2,
             spaceBetween: 20,
@@ -392,6 +412,60 @@ var swiper = new Swiper(".mySwiperDung", {
     },
 });
 
-function changeImage(src) {
-    document.getElementById("mainImage1").src = src;
-}
+document.addEventListener("DOMContentLoaded", function () {
+    const thumbsSwiper = new Swiper("#banner-thumbs", {
+        slidesPerView: 3,
+        spaceBetween: 10,
+        navigation: {
+            nextEl: ".bannerThumbs-next",
+            prevEl: ".bannerThumbs-prev",
+        },
+        breakpoints: {
+            768: { slidesPerView: 3 },
+            576: { slidesPerView: 2 },
+            320: { slidesPerView: 2 },
+            0: { slidesPerView: 2 },
+        },
+    });
+
+    const thumbs = document.querySelectorAll(".banner-thumb");
+    const mainImg = document.getElementById("main-banner-img");
+    let currentIndex = 0;
+
+    // Đặt active-thumb
+    function updateActiveThumb(index) {
+        thumbs.forEach((img) => img.classList.remove("active-thumb"));
+        if (thumbs[index]) {
+            thumbs[index].classList.add("active-thumb");
+        }
+    }
+
+    // Click thumbnail
+    thumbs.forEach((thumb, index) => {
+        thumb.addEventListener("click", function () {
+            const newSrc = this.getAttribute("data-img");
+            if (newSrc) {
+                mainImg.src = newSrc;
+                currentIndex = index;
+                updateActiveThumb(index);
+            }
+        });
+    });
+
+    // Tự động đổi ảnh
+    function changeImageAutomatically() {
+        currentIndex = (currentIndex + 1) % thumbs.length;
+        const newImg = thumbs[currentIndex].getAttribute("data-img");
+        if (newImg) {
+            mainImg.src = newImg;
+            updateActiveThumb(currentIndex);
+            thumbsSwiper.slideTo(currentIndex);
+        }
+    }
+
+    // Auto mỗi 5s
+    setInterval(changeImageAutomatically, 5000);
+
+    // Thiết lập ảnh đầu tiên là active
+    updateActiveThumb(0);
+});

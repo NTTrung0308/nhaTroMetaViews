@@ -33,7 +33,7 @@
                         <li><a href="/search">Tìm phòng</a></li>
                     </ul>
                 </li>
-                <li><a href="/news">TIN TỨC</a></li>
+                <li><a href="{{route('news.users')}}">TIN TỨC</a></li>
                 <li><a href="/contact">LIÊN HỆ</a></li>
             </ul>
         </nav>
@@ -92,7 +92,7 @@
                 </ul>
             </li>
             <!-- Kết thúc: HTML cho Dropdown Mobile -->
-            <li><a href="/news">TIN TỨC</a></li>
+            <li><a href="{{route('news.users')}}">TIN TỨC</a></li>
             <li><a href="/contact">LIÊN HỆ</a></li>
         </ul>
     </nav>

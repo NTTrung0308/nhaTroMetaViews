@@ -1,16 +1,19 @@
 <footer class="footer">
     <div class="container">
         <div class="row ">
-            <div class="col-6">
-                <a class="logo" href="#"><img class="img-logo" src="users/images/logo-FunHome.svg" alt=""></a>
+            <div class="col-12 col-lg-6 col-md-6">
+                <div class=" w-100 h-100 ">
+                    <a class="logo" href="#"><img class="img-logo" src="users/images/logo-FunHome.svg" alt=""></a>
+                </div>
+
             </div>
 
-            <div class="col-6 ">
-                <div class="icon-footer w-100 h-100 d-flex justify-content-end mx-auto align-items-center">
-                    <i class="bi bi-facebook fs-4"></i>
-                    <i class="bi bi-messenger fs-4 mx-2"></i>
-                    <i class="bi bi-linkedin fs-4 mx-2"></i>
-                    <i class="bi bi-telephone-fill fs-4"></i>
+            <div class="col-12 col-lg-6 col-md-6">
+                <div class="icon-footer w-100 h-100 d-flex justify-content-end mx-auto">
+                    <a href=""><i class="bi bi-facebook fs-2"></i></a>
+                    <a href=""><i class="bi bi-messenger fs-2 "></i></a>
+                    <a href=""><i class="bi bi-linkedin fs-2"></i></a>
+                    <a href=""><i class="bi bi-telephone-fill fs-2"></i></a>
                 </div>
             </div>
         </div>
@@ -50,12 +53,12 @@
             <div class="col-md-6 col-lg-2 col-6">
                 <p class="fw-bold fs-3">Chính Sách</p>
                 <ul class="list-unstyled">
-                    {{-- <li><a href="{{ route('privacy-policy') }}" class="text-white text-decoration-none">Chính sách bảo
+                    <li><a href="" class="text-white text-decoration-none">Chính sách bảo
                             mật</a></li>
-                    <li><a href="{{ route('Terms-of-Use') }}" class="text-white text-decoration-none">Điều khoản Sử
+                    <li><a href="" class="text-white text-decoration-none">Điều khoản Sử
                             dụng</a></li>
-                    <li><a href="{{ route('Questions-&-Feedback') }}" class="text-white text-decoration-none">Câu hỏi &
-                            góp ý</a></li> --}}
+                    <li><a href="" class="text-white text-decoration-none">Câu hỏi &
+                            góp ý</a></li>
                 </ul>
             </div>
             <div class="col-md-6 col-6 col-lg-3 text-md-start">
@@ -63,7 +66,7 @@
                 <div class="row g-3">
                     <div class="box">
                         <div class="row d-flex justify-content-center align-items-center">
-                            <div class="col-4 d-flex mt-2">
+                            <div class="col-4 d-flex ">
                                 <i class="bi bi-google-play fs-3 mx-3"></i>
 
                             </div>
@@ -75,7 +78,7 @@
                     </div>
                     <div class="box">
                         <div class="row d-flex justify-content-center align-items-center">
-                            <div class="col-4 d-flex mt-2">
+                            <div class="col-4 d-flex">
                                 <i class="bi bi-apple fs-3 mx-3"></i>
 
                             </div>
@@ -101,7 +104,7 @@
                     <h2 class="accordion-header">
                         <button class="accordion-button collapsed bg-transparent text-white p-2" type="button"
                             data-bs-toggle="collapse" data-bs-target="#collapseAddress">
-                            📍 Địa chỉ
+                            <i class="bi bi-geo-fill"></i>&nbsp;Địa chỉ
                         </button>
                     </h2>
                     <div id="collapseAddress" class="accordion-collapse collapse" data-bs-parent="#footerAccordion">
@@ -115,7 +118,7 @@
                     <h2 class="accordion-header">
                         <button class="accordion-button collapsed bg-transparent text-white p-2" type="button"
                             data-bs-toggle="collapse" data-bs-target="#collapseSupport">
-                            ☎️ Hỗ trợ
+                            <i class="bi bi-telephone-fill"></i>&nbsp; Hỗ trợ
                         </button>
                     </h2>
                     <div id="collapseSupport" class="accordion-collapse collapse" data-bs-parent="#footerAccordion">
@@ -129,7 +132,7 @@
                     <h2 class="accordion-header">
                         <button class="accordion-button collapsed bg-transparent text-white p-2" type="button"
                             data-bs-toggle="collapse" data-bs-target="#collapsePolicy">
-                            📄 Chính sách
+                            <i class="bi bi-file-text"></i>&nbsp; Chính sách
                         </button>
                     </h2>
                     <div id="collapsePolicy" class="accordion-collapse collapse" data-bs-parent="#footerAccordion">
@@ -146,36 +149,36 @@
                 </div>
             </div>
 
-            <div class="row mt-4 ">
-                {{-- <a href="#"><img class="img-dowmload w-75" src="/images/appstore.png" alt=""></a>
-                <a href="#"><img class="img-dowmload w-75" src="/images/appstore.png" alt=""></a> --}}
+            <!-- App Downloads -->
+            <div class="row g-3 mt-3">
                 <div class="col-6">
-                    <a href="#"><img class="img-dowmload w-100" src="/images/appstore.png" alt=""></a>
+                    <a href="#"
+                        class="app-download d-flex align-items-center p-2 rounded text-decoration-none h-100">
+                        <i class="bi bi-google-play fs-3 me-2"></i>
+                        <div>
+                            <div class="small">Tải trên</div>
+                            <div class="fw-bold">Google Play</div>
+                        </div>
+                    </a>
                 </div>
                 <div class="col-6">
-                    <a href="#"><img class="img-dowmload w-100" src="/images/appstore.png" alt=""></a>
+                    <a href="#"
+                        class="app-download d-flex align-items-center p-2 rounded text-decoration-none h-100">
+                        <i class="bi bi-apple fs-3 me-2"></i>
+                        <div>
+                            <div class="small">Tải trên</div>
+                            <div class="fw-bold">App Store</div>
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>
 
+        <hr class="border-light opacity-25 my-2">
 
-        {{-- <div class="row d-sm-none">
-            <div class="col-6">
-                <a href="">
-                    <img class="img-dowmload w-100" src="/images/appstore.png" alt="">
-                </a>
-            </div>
-
-            <div class="col-6">
-                <img class="img-dowmload w-100" src="/images/appstore.png" alt="">
-            </div>
-        </div> --}}
-        <hr class="text-light ">
-        <div class="copy">
-            <div class=" d-flex justify-content-center align-items-center">
-                <p class="text-light text-center">@copy right Tanh</p>
-            </div>
+        <!-- Copyright -->
+        <div class="py-3 text-center">
+            <p class="text-light small mb-0">© 2025 MetaSoft. Bảo lưu mọi quyền.</p>
         </div>
     </div>
-
 </footer>

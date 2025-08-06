@@ -18,22 +18,45 @@ class HoaDonController extends Controller
     /**
      * Hiển thị danh sách hóa đơn.
      */
-   public function index(Request $request)
-{
-    $user = auth()->user();
+    public function index(Request $request)
+    {
+        $user = auth()->user();
 
-    // 1. Bắt đầu với câu truy vấn cơ sở
-    $query = HoaDon::query()->with(['room.nhaTro', 'user']);
+        // 1. Bắt đầu với câu truy vấn cơ sở
+        $query = HoaDon::query()->with(['room.nhaTro', 'user']);
 
-    // Nếu là người thuê trọ, chỉ hiển thị hóa đơn của họ
-    if ($user->can('nguoi-thue-tro')) {
-        $query->where('user_id', $user->id);
-    } else {
-        // 2. Áp dụng các bộ lọc nếu có (admin hoặc người quản lý)
-        if ($request->filled('nha_tro_id')) {
-            $query->where('nha_tro_id', $request->nha_tro_id);
+        // Dữ liệu cho các dropdown của bộ lọc
+        $nhaTros = collect();
+        $userRooms = collect(); // Danh sách phòng của người thuê
+
+        // 2. Áp dụng các điều kiện truy vấn dựa trên vai trò
+        if ($user->can('nguoi-thue-tro')) {
+            // Người thuê trọ chỉ xem được hóa đơn của mình
+            $query->where('user_id', $user->id);
+
+            // Lấy danh sách các phòng mà người này đã/đang thuê
+            // Cách 1: Dựa trên các hóa đơn đã có
+            $roomIds = HoaDon::where('user_id', $user->id)->pluck('room_id')->unique();
+            $userRooms = Rooms::whereIn('id', $roomIds)->get();
+
+            // Cách 2 (Tốt hơn): Nếu bạn có bảng hợp đồng (ví dụ: hop_dongs)
+            // $userRooms = Room::whereHas('hopDongs', function ($q) use ($user) {
+            //     $q->where('user_id', $user->id);
+            // })->get();
+
+        } else {
+            // Admin/Quản lý có thể lọc theo nhà trọ
+            if ($request->filled('nha_tro_id')) {
+                // Sửa đổi để lọc hóa đơn qua mối quan hệ với phòng
+                $query->whereHas('room', function ($q) use ($request) {
+                    $q->where('nha_tro_id', $request->nha_tro_id);
+                });
+            }
+            // Lấy danh sách nhà trọ cho bộ lọc
+            $nhaTros = NhaTros::all();
         }
 
+        // 3. Áp dụng các bộ lọc chung cho cả hai vai trò
         if ($request->filled('room_id')) {
             $query->where('room_id', $request->room_id);
         }
@@ -49,24 +72,21 @@ class HoaDonController extends Controller
         if ($request->filled('trang_thai')) {
             $query->where('trang_thai', $request->trang_thai);
         }
+
+        // 4. Lấy dữ liệu đã lọc, sắp xếp và phân trang
+        $hoaDons = $query->latest()->paginate(15);
+
+        // 5. Chuẩn bị dữ liệu trạng thái
+        $statuses = [
+            'chua_thanh_toan' => 'Chưa thanh toán',
+            'da_thanh_toan' => 'Đã thanh toán',
+            'qua_han' => 'Quá hạn',
+            'da_huy' => 'Đã hủy',
+        ];
+
+        // 6. Trả về view
+        return view('admin.hoa-dons.index', compact('hoaDons', 'nhaTros', 'userRooms', 'statuses'));
     }
-
-    // 3. Lấy dữ liệu đã lọc, sắp xếp và phân trang
-    $hoaDons = $query->latest()->paginate(15);
-
-    // 4. Lấy dữ liệu cho các dropdown của bộ lọc (ẩn nếu là người thuê trọ)
-    $nhaTros = $user->can('nguoi-thue-tro') ? collect() : NhaTros::all();
-
-    $statuses = [
-        'chua_thanh_toan' => 'Chưa thanh toán',
-        'da_thanh_toan' => 'Đã thanh toán',
-        'qua_han' => 'Quá hạn',
-        'da_huy' => 'Đã hủy',
-    ];
-
-    // 5. Trả về view
-    return view('admin.hoa-dons.index', compact('hoaDons', 'nhaTros', 'statuses'));
-}
     /**
      * Hiển thị form để chọn tháng/năm tạo hóa đơn hàng loạt.
      */
