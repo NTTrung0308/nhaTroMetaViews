@@ -5397,3 +5397,12 @@ float-bob-x animation {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     transition: all 0.2s ease-in-out;
 }
+.cointent-news{
+     max-width: 100%;     /* hoặc một giá trị cụ thể như 500px */
+    overflow: hidden;   
+}
+.cointent-news img {
+    max-width: 100%;     /* không vượt quá div */
+    height: auto;        /* giữ đúng tỷ lệ ảnh */
+    display: block;      /* tránh khoảng trắng dưới ảnh */
+}

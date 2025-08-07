@@ -24,4 +24,5 @@ Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::prefix('tin-tuc')->group(function () {
     Route::get('/', [NewsController::class, 'index'])->name('news.users');
+    Route::get('/{slug}', [NewsController::class, 'detail'])->name('news.users.detail');
 });

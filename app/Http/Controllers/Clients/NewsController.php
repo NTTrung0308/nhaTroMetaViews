@@ -27,5 +27,9 @@ class NewsController extends Controller
         $tinTucs = $query->orderBy('created_at', 'desc')->paginate(6);
         return view('users.news.index', compact('tinTucs'));
     }
-
+public function detail($slug)
+    {
+          $tinTuc = TinTuc::where('slug', $slug)->where('trang_thai', 'hien_thi')->firstOrFail();
+        return view('users.news.detail', compact('tinTuc'));
+    }
 }

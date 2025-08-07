@@ -3,7 +3,7 @@
         <div class="row ">
             <div class="col-12 col-lg-6 col-md-6">
                 <div class=" w-100 h-100 ">
-                    <a class="logo" href="#"><img class="img-logo" src="users/images/logo-FunHome.svg" alt=""></a>
+                    <a class="logo" href="#"><img class="img-logo" src="{{asset('users/images/logo-FunHome.svg')}}" alt=""></a>
                 </div>
 
             </div>

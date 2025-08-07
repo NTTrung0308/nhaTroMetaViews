@@ -12,8 +12,8 @@ class VerifyCsrfToken extends Middleware
      * @var array<int, string>
      */
     protected $except = [
-        '/upload-image',
-        '/delete-image',
+        '/admin/upload-image',
+        '/admin/delete-image',
           'payment/zalopay/callback',
     ];
 }

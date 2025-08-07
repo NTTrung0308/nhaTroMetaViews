@@ -2,7 +2,7 @@
     <div class="container d-flex align-items-center justify-content-between">
         <div class="site-logo d-flex align-items-center">
             <a href="#">
-                <img class="img-logo w-100" src="users/images/logo-FunHome.svg" alt="">
+                <img class="img-logo w-100" src="{{asset('/users/images/logo-FunHome.svg')}}" alt="">
             </a>
         </div>
 

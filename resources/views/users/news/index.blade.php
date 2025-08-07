@@ -55,30 +55,32 @@
                 <div class="row mb-4">
                     @forelse ($tinTucs as $tinTuc)
                         <div class="col-sm-12 col-md-6 col-lg-4 mb-3 news-item-for-mobile">
-                          <a href="" class="text-dark" style="text-decoration: none">
-                              <div class="nav-news">
-                                <img src="{{ asset('/users/images/anh5.png') }}" alt="" class="img_1 w-100 h-50">
-                                <div class="text-news p-3">
-                                    <h6 class="title-news">
-                                        {{ $tinTuc->tieu_de ??
-                                            'Giá trọ khu vực Hoàng Mai đang có xu hướng giảm giá sau điều
-                                                                                chỉnh của cơ chế thị
-                                                                                trường .' }}
-                                    </h6>
-                                    <p class="line-text-limit-5">{{$tinTuc->mo_ta_ngan ?? ''}}
-                                    </p>
+                            <a href="{{ route('news.users.detail', $tinTuc->slug) }}" class="text-dark"
+                                style="text-decoration: none">
+                                <div class="nav-news">
+                                    <img src="{{ asset('/users/images/anh5.png') }}" alt=""
+                                        class="img_1 w-100 h-50">
+                                    <div class="text-news p-3">
+                                        <h6 class="title-news">
+                                            {{ $tinTuc->tieu_de ??
+                                                'Giá trọ khu vực Hoàng Mai đang có xu hướng giảm giá sau điều
+                                                                                                                            chỉnh của cơ chế thị
+                                                                                                                            trường .' }}
+                                        </h6>
+                                        <p class="line-text-limit-5">{{ $tinTuc->mo_ta_ngan ?? '' }}
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
-                          </a>
+                            </a>
                         </div>
-                      @empty
-                                 <div class="alert alert-warning text-center" role="alert">
-Không có bài viết nào
-</div>
-                                @endforelse
-                    
+                    @empty
+                        <div class="alert alert-warning text-center" role="alert">
+                            Không có bài viết nào
+                        </div>
+                    @endforelse
+
                 </div>
-                   <div class=" p-nav text-end d-flex justify-content-end">
+                <div class=" p-nav text-end d-flex justify-content-end">
                     {{ $tinTucs->appends(request()->query())->links('pagination::bootstrap-4') }}
                     {{-- @for ($i = 1; $i <= 9; $i++)
                         <div class="col-sm-12 col-md-6 col-lg-4 mb-3 news-item-for-mobile">
@@ -139,7 +141,7 @@ Không có bài viết nào
                             </div>
                         @endfor
                     </div>
-                   
+
                 </div>
             </div>
         </div>

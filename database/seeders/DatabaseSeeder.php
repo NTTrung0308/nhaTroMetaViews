@@ -148,14 +148,26 @@ class DatabaseSeeder extends Seeder
                 'slug' => Str::slug($tin['tieu_de']),
                 'mo_ta_ngan' => $tin['mo_ta_ngan'],
                 'noi_dung' => '<p>Nội dung bài viết về: ' . $tin['tieu_de'] . '</p>',
-                'hinh_anh' => $tin['hinh_anh'],
                 'tac_gia' => 'Admin',
                 'trang_thai' => 'hien_thi',
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
         }
-
+        for ($i=0; $i < 5 ; $i++) { 
+            DB::table('feedback')->insert([
+                'name' => 'Michenlin Boy',
+                'position' => '',
+                'message'=>'"Tôi đã tìm thấy căn hộ mơ ước của mình thông qua
+                                                FunHome.
+                                                Dịch vụ
+                                                chuyên nghiệp và tận tâm. " Lorem, ipsum dolor sit amet consectetur
+                                                adipisicing
+                                                elit. Labore rem repudiandae aperiam soluta ipsam? Optio illo repellat quia
+                                                culpa porro? Saepe aliquid fugiat dolor voluptas ratione voluptatibus
+                                                necessitatibus quaerat totam!',
+            ]);
+        }
 
 
         

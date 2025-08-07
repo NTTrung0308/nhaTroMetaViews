@@ -313,7 +313,8 @@
                 <div class="swiper-wrapper">
                     <div class="swiper-slide slide_duantieubieu">
                         <div class="duan-img-wrapper">
-                            <img src="/images/typical-project-items.png" alt="duantieubieu" class="img_duan">
+                            <img src="{{ asset('users/images/typical-project-items.png') }}" alt="duantieubieu"
+                                class="img_duan">
                             <div class="duan-overlay">
                                 <h3 class="duan-title">Phòng trọ sinh viên</h3>
                                 <p class="duan-description mt-3">
@@ -326,7 +327,8 @@
                     </div>
                     <div class="swiper-slide slide_duantieubieu">
                         <div class="duan-img-wrapper">
-                            <img src="/images/typical-project-items2.png" alt="duantieubieu" class="img_duan">
+                            <img src="{{ asset('users/images/typical-project-items2.png') }}" alt="duantieubieu"
+                                class="img_duan">
                             <div class="duan-overlay d-flex flex-column h-100">
                                 <div class="duan-text">
                                     <h3 class="duan-title">Căn hộ gia đình</h3>
@@ -341,7 +343,8 @@
                     </div>
                     <div class="swiper-slide slide_duantieubieu">
                         <div class="duan-img-wrapper">
-                            <img src="/images/typical-project-items.png" alt="duantieubieu" class="img_duan">
+                            <img src="{{ asset('users/images/typical-project-items.png') }}" alt="duantieubieu"
+                                class="img_duan">
                             <div class="duan-overlay">
                                 <h3 class="duan-title">Phòng trọ sinh viên</h3>
                                 <p class="duan-description mt-3">
@@ -354,7 +357,8 @@
                     </div>
                     <div class="swiper-slide slide_duantieubieu">
                         <div class="duan-img-wrapper">
-                            <img src="/images/typical-project-items2.png" alt="duantieubieu" class="img_duan">
+                            <img src="{{ asset('users/images/typical-project-items2.png') }}" alt="duantieubieu"
+                                class="img_duan">
                             <div class="duan-overlay d-flex flex-column h-100">
                                 <div class="duan-text">
                                     <h3 class="duan-title">Căn hộ gia đình</h3>
@@ -384,25 +388,20 @@
                         <div class="d-flex justify-content-center align-items-center">
                             <div class="swiper mySwiper4">
                                 <div class="swiper-wrapper">
-                                    @for ($i = 0; $i < 5; $i++)
+                                    @foreach ($feedbacks as $feedback)
                                         <div class="swiper-slide flex-column">
                                             <div class="d-flex feeback_form">
                                                 <div class="feedback-avatar">
-                                                    <img src="images/OIP (2).jpg" alt="Avatar"
+                                                    <img src="{{ asset($feedback->image ?? '/users/images/OIP (2).jpg') }}"
+                                                        alt="Avatar"
                                                         class="rounded-circle w-100 h-100 object-fit-cover">
                                                 </div>
-                                                <p class="">Michelin Boy</p>
+                                                <p class="">{{ $feedback->name ?? '' }}</p>
                                             </div>
-                                            <p class="feedback-content">"Tôi đã tìm thấy căn hộ mơ ước của mình thông qua
-                                                FunHome.
-                                                Dịch vụ
-                                                chuyên nghiệp và tận tâm. " Lorem, ipsum dolor sit amet consectetur
-                                                adipisicing
-                                                elit. Labore rem repudiandae aperiam soluta ipsam? Optio illo repellat quia
-                                                culpa porro? Saepe aliquid fugiat dolor voluptas ratione voluptatibus
-                                                necessitatibus quaerat totam!</p>
+                                            <p class="feedback-content">"{{ $feedback->message ?? '' }}</p>
                                         </div>
-                                    @endfor
+                                    @endforeach
+
                                 </div>
                                 <p></p>
                                 <div class="swiper-pagination pagination2"></div>
@@ -413,13 +412,14 @@
                     <div class="col-lg-6 wow fadeInUp d-flex justify-content-center" data-wow-delay=".4s"
                         style="visibility: visible; animation-delay: 0.4s;">
                         <div class="testimonial-image">
-                            <img src="images/Czum.png" alt="img" class="w-100 h-100 object-cover">
+                            <img src="{{ asset('users/images/Czum.png') }}" alt="img"
+                                class="w-100 h-100 object-cover">
                             <div class="card-shape-1 float-bob-x d-none d-sm-flex ">
-                                <img src="images/testimonial-card1.png" alt="shape-img"
+                                <img src="{{ asset('users/images/testimonial-card1.png') }}" alt="shape-img"
                                     class="w-100 h-100 object-fit-cover">
                             </div>
                             <div class="card-shape-2 float-bob-y d-none d-sm-flex ">
-                                <img src="images/testimonial-card2.png" alt="shape-img"
+                                <img src="{{ asset('users/images/testimonial-card2.png') }}" alt="shape-img"
                                     class="w-100 h-100 object-fit-cover">
                             </div>
                         </div>
@@ -437,45 +437,23 @@
                 <p class="desc_event">Những sự kiện nổi bật của chúng tôi</p>
             </div>
             <div class="row g-4">
-                <div class="col-lg-4 col-md-6">
-                    <div class="news-card h-100 shadow-sm rounded-4 overflow-hidden">
-                        <div class="news-thumb">
-                            <img src="images/anh18.png" alt="News 1" class="w-100 h-100 object-fit-cover">
-                        </div>
-                        <div class="news-content p-4">
-                            <h5 class="new-title mb-2">FunHome khai trương chi nhánh mới</h5>
-                            <p class="news-desc mb-3">FunHome vừa khai trương chi nhánh mới tại Hà Nội, mở rộng hệ thống
-                                phục vụ khách hàng tốt hơn.</p>
-                            <a href="#" class="btn btn-outline-primary btn-sm">Xem chi tiết</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="news-card h-100 shadow-sm rounded-4 overflow-hidden">
-                        <div class="news-thumb">
-                            <img src="images/anh18.png" alt="News 2" class="w-100 h-100 object-fit-cover">
-                        </div>
-                        <div class="news-content p-4">
-                            <h5 class="new-title mb-2">Sự kiện tri ân khách hàng 2025</h5>
-                            <p class="news-desc mb-3">FunHome tổ chức sự kiện tri ân khách hàng với nhiều phần quà hấp dẫn
-                                và ưu đãi đặc biệt.</p>
-                            <a href="#" class="btn btn-outline-primary btn-sm">Xem chi tiết</a>
+                @foreach ($latestPosts as $latestPost)
+                    <div class="col-lg-4 col-md-6">
+                        <div class="news-card h-100 shadow-sm rounded-4 overflow-hidden">
+                            <div class="news-thumb">
+                                <img src="{{ $latestPost->hinh_anh ?? '/users/images/anh18.png' }}" alt="News 1"
+                                    class="w-100 h-100 object-fit-cover">
+                            </div>
+                            <div class="news-content p-4">
+                                <h5 class="new-title mb-2">{{ $latestPost->tieu_de ?? '' }}</h5>
+                                <p class="news-desc mb-3">{{ $latestPost->mo_ta_ngan ?? '' }}</p>
+                                <a href="{{ route('news.users.detail', $latestPost->slug) }}" class="btn btn-outline-primary btn-sm">Xem chi tiết</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-4 col-md-12">
-                    <div class="news-card h-100 shadow-sm rounded-4 overflow-hidden">
-                        <div class="news-thumb">
-                            <img src="images/anh18.png" alt="News 3" class="w-100 h-100 object-fit-cover">
-                        </div>
-                        <div class="news-content p-4">
-                            <h5 class="new-title mb-2">FunHome đồng hành cùng sinh viên</h5>
-                            <p class="news-desc mb-3">Chương trình hỗ trợ nhà ở cho sinh viên tiếp tục được FunHome triển
-                                khai tại nhiều trường đại học.</p>
-                            <a href="#" class="btn btn-outline-primary btn-sm">Xem chi tiết</a>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
+
+
             </div>
         </div>
     </section>
