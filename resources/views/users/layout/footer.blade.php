@@ -3,7 +3,8 @@
         <div class="row ">
             <div class="col-12 col-lg-6 col-md-6">
                 <div class=" w-100 h-100 ">
-                    <a class="logo" href="#"><img class="img-logo" src="{{asset('users/images/logo-FunHome.svg')}}" alt=""></a>
+                    <a class="logo" href="#"><img class="img-logo"
+                            src="{{ asset('users/images/logo-FunHome.svg') }}" alt=""></a>
                 </div>
 
             </div>
@@ -53,12 +54,10 @@
             <div class="col-md-6 col-lg-2 col-6">
                 <p class="fw-bold fs-3">Chính Sách</p>
                 <ul class="list-unstyled">
-                    <li><a href="" class="text-white text-decoration-none">Chính sách bảo
-                            mật</a></li>
-                    <li><a href="" class="text-white text-decoration-none">Điều khoản Sử
-                            dụng</a></li>
-                    <li><a href="" class="text-white text-decoration-none">Câu hỏi &
-                            góp ý</a></li>
+                    @foreach (get_policies() as $get_policies)
+                        <li><a href="{{ route('policy.users.detail', $get_policies) }}"
+                                class="text-white text-decoration-none">{{ $get_policies->title ?? '' }}</a></li>
+                    @endforeach
                 </ul>
             </div>
             <div class="col-md-6 col-6 col-lg-3 text-md-start">
@@ -138,11 +137,10 @@
                     <div id="collapsePolicy" class="accordion-collapse collapse" data-bs-parent="#footerAccordion">
                         <div class="accordion-body text-white ps-3">
                             <ul class="list-unstyled small">
-                                <li><a href="#" class="text-white text-decoration-none">Chính sách bảo mật</a>
-                                </li>
-                                <li><a href="#" class="text-white text-decoration-none">Điều khoản sử dụng</a>
-                                </li>
-                                <li><a href="#" class="text-white text-decoration-none">Câu hỏi & góp ý</a></li>
+                             @foreach (get_policies() as $get_policies)
+                        <li><a href="{{ route('policy.users.detail', $get_policies) }}"
+                                class="text-white text-decoration-none">{{ $get_policies->title ?? '' }}</a></li>
+                    @endforeach
                             </ul>
                         </div>
                     </div>

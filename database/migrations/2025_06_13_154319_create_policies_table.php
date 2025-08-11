@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('policies', function (Blueprint $table) {
             $table->id();
-             $table->string('title');              // Tiêu đề chính sách
-    $table->text('content');              // Nội dung chính sách
-    $table->boolean('active')->default(true);  // Hiển thị hay không
+            $table->string('title');              // Tiêu đề chính sách
+            $table->text('content');              // Nội dung chính sách
+            $table->boolean('active')->default(true);  // Hiển thị hay không
             $table->timestamps();
         });
     }
