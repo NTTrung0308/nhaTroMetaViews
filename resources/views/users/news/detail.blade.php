@@ -22,7 +22,7 @@
             </div>
             <div class="col-6 h-100 w-100">
                 <div class="w-100 h-100">
-                    <img src="images/anhbg1.png" class="header-banner-vision w-100 h-100 object-fit-cover">
+                    <img src="{{asset('users/images/anhbg1.png')}}" class="header-banner-vision w-100 h-100 object-fit-cover">
                 </div>
             </div>
 

@@ -103,19 +103,22 @@
             {{-- search --}}
             <div class="col-sm-12 col-md-4 col-lg-4 order-1 cc mb-3 ">
                 <div class="news-search ">
-                    <div class="search-news mb-3">
-                        <h4>Tìm kiếm</h4>
-                    </div>
-                    <div class="search-bar ">
-                        <span class="search-icon">
-                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
-                                viewBox="0 0 24 24">
-                                <circle cx="11" cy="11" r="8" />
-                                <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                            </svg>
-                        </span>
-                        <input type="text" class="form-control w-100" placeholder="Tìm kiếm...">
-                    </div>
+                   <div class="search-news mb-3">
+    <h4>Tìm kiếm</h4>
+</div>
+
+<form method="GET" action="{{ route('news.users') }}" class="search-bar">
+    <span class="search-icon">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+            viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
+    </span>
+    <input type="text" name="keyword" value="{{ request('keyword') }}" 
+           class="form-control w-100" placeholder="Tìm kiếm...">
+</form>
+
                     <div class=" text2-news text-center py-3">
                         <h5>Câu hỏi thường gặp </h5>
                     </div>
