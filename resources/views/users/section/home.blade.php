@@ -75,7 +75,7 @@
                     <div class="col-4">
                         <div class="w-100 h-100 text-center box_dichvu">
                             <div class="icon_dichvu">
-                                <img decoding="async" src="images/icon/icon1.svg" alt="img"
+                                <img decoding="async" src="/users/images/icon/icon1.svg" alt="img"
                                     class="w-100 h-100 object-fit-cover">
                             </div>
                             <p class="desc_contentdv p-2">Định giá tài sản</p>
@@ -216,13 +216,13 @@
                             hạn.
                         </p>
                         <div class="w-100 h-100">
-                            <img src="/images/image.png" alt="" class="w-100 h-100 object-fit-cover rounded-4">
+                            <img src="{{asset('/users/images/image.png')}}" alt="" class="w-100 h-100 object-fit-cover rounded-4">
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6 col-12 d-none d-lg-block p-5">
                     <div class="w-75 mx-auto ">
-                        <img src="/images/image2.png" alt="" class="w-100 h-100 object-fit-cover rounded-4 ">
+                        <img src="{{asset('/users/images/image2.png')}}" alt="" class="w-100 h-100 object-fit-cover rounded-4 ">
                     </div>
                 </div>
             </div>
@@ -249,7 +249,7 @@
                 </div>
             </div>
             <div class="banner_canhothongminh">
-                <img src="/images/image3.png" alt="img" class="w-100 h-100 object-fit-cover">
+                <img src="{{asset('users/images/image3.png')}}" alt="img" class="w-100 h-100 object-fit-cover">
             </div>
             <div class="row mt-5">
                 <div class="col-6 col-md-4 order-1">
@@ -286,16 +286,16 @@
 
             <div class="row justify-content-center mt-5">
                 <div class="col-6 col-sm-4 col-md-3 d-flex justify-content-center mb-4">
-                    <img src="/images/medal-of-honor.png" alt="Medal of Honor" class="img-fluid award-img">
+                    <img src="{{asset('users/images/medal-of-honor.png')}}" alt="Medal of Honor" class="img-fluid award-img">
                 </div>
                 <div class="col-6 col-sm-4 col-md-3 d-flex justify-content-center mb-4">
-                    <img src="/images/award-shield.png" alt="Award Shield" class="img-fluid award-img">
+                    <img src="{{asset('users/images/award-shield.png')}}" alt="Award Shield" class="img-fluid award-img">
                 </div>
                 <div class="col-6 col-sm-4 col-md-3 d-flex justify-content-center mb-4">
-                    <img src="/images/shield.png" alt="Shield" class="img-fluid award-img">
+                    <img src="{{asset('users/images/shield.png')}}" alt="Shield" class="img-fluid award-img">
                 </div>
                 <div class="col-6 col-sm-4 col-md-3 d-flex justify-content-center mb-4">
-                    <img src="/images/certificate.png" alt="Certificate" class="img-fluid award-img">
+                    <img src="{{asset('users/images/certificate.png')}}" alt="Certificate" class="img-fluid award-img">
                 </div>
             </div>
         </div>

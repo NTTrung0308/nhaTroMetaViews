@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Client\ContactController;
+use App\Http\Controllers\Clients\ContactController as ClientsContactController;
+use App\Http\Controllers\Clients\PolicyController;
 use App\Http\Controllers\Clients\HomeController;
 use App\Http\Controllers\Clients\LoginController;
 use App\Http\Controllers\Clients\NewsController;
@@ -25,4 +28,11 @@ Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 Route::prefix('tin-tuc')->group(function () {
     Route::get('/', [NewsController::class, 'index'])->name('news.users');
     Route::get('/{slug}', [NewsController::class, 'detail'])->name('news.users.detail');
+});
+
+Route::prefix('chinh-sach-bao-mat')->group(function(){
+ Route::get('/{policy}/detail', [PolicyController::class, 'detail'])->name('policy.users.detail');
+});
+Route::prefix('lien-he')->group(function(){
+ Route::get('/', [ClientsContactController::class, 'index'])->name('contact.users.index');
 });

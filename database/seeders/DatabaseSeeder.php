@@ -17,16 +17,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-         $this->call(DichVuSeeder::class);
-         $this->call(TaiSanSeeder::class);
-         $this->call(PermissionSeeder::class);
+        $this->call(DichVuSeeder::class);
+        $this->call(TaiSanSeeder::class);
+        $this->call(PermissionSeeder::class);
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-         WebConfig::create([
+        WebConfig::create([
             // Thông tin cơ bản
             'site_name' => 'FunHome',
             'site_slogan' => 'Nơi an cư lý tưởng cho sinh viên và người đi làm',
@@ -78,7 +78,7 @@ class DatabaseSeeder extends Seeder
             'favicon_72' => '',
             'favicon_76' => '',
         ]);
-        
+
         AboutUs::create([
             'title' => 'Về chúng tôi',
             'description' => 'Chúng tôi là công ty hàng đầu trong lĩnh vực...',
@@ -90,9 +90,9 @@ class DatabaseSeeder extends Seeder
             'vision' => 'Trở thành doanh nghiệp hàng đầu khu vực.',
             'active' => true,
         ]);
-        for ($i=0; $i < 4; $i++) { 
+        for ($i = 0; $i < 4; $i++) {
             Slider::create([
-                'title' => 'title ' .$i,
+                'title' => 'title ' . $i,
                 'subtitle' => 'Subtitle ' . $i,
                 'link' => '',
                 'active' => 1,
@@ -154,11 +154,11 @@ class DatabaseSeeder extends Seeder
                 'updated_at' => now(),
             ]);
         }
-        for ($i=0; $i < 5 ; $i++) { 
+        for ($i = 0; $i < 5; $i++) {
             DB::table('feedback')->insert([
                 'name' => 'Michenlin Boy',
                 'position' => '',
-                'message'=>'"Tôi đã tìm thấy căn hộ mơ ước của mình thông qua
+                'message' => '"Tôi đã tìm thấy căn hộ mơ ước của mình thông qua
                                                 FunHome.
                                                 Dịch vụ
                                                 chuyên nghiệp và tận tâm. " Lorem, ipsum dolor sit amet consectetur
@@ -169,7 +169,28 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-
-        
+        DB::table('policies')->insert([
+            [
+                'title' => 'Chính sách bảo mật',
+                'content' => 'Chúng tôi cam kết bảo mật thông tin cá nhân của khách hàng theo quy định của pháp luật...',
+                'active' => true,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'title' => 'Điều khoản sử dụng',
+                'content' => 'Khi sử dụng dịch vụ của chúng tôi, bạn đồng ý tuân thủ mọi điều khoản và điều kiện...',
+                'active' => true,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'title' => 'Chính sách hoàn tiền',
+                'content' => 'Khách hàng có thể yêu cầu hoàn tiền trong vòng 7 ngày kể từ ngày thanh toán...',
+                'active' => true,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+        ]);
     }
 }
