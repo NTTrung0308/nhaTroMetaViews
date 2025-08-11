@@ -147,28 +147,29 @@
         <!-- Liên hệ -->
         <div class="row contact-main-row mt-5">
             <div class="col-lg-6 mb-5 mb-lg-0">
-                <form class="contact-form p-4">
+                <form class="contact-form p-4" action="{{route('contact.users.store')}}"  method="POST">
+                    @csrf
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="contactName" class="contact-label">Họ tên</label>
-                            <input type="text" class="form-control contact-input" id="contactName"
+                            <input type="text" class="form-control contact-input" id="contactName" name="ten" value="{{old('ten')}}"
                                 placeholder="Họ và tên">
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="contactEmail" class="contact-label">Email</label>
-                            <input type="email" class="form-control contact-input" id="contactEmail"
+                            <input type="email" class="form-control contact-input" id="contactEmail" name="email" value="{{old('email')}}"
                                 placeholder="Địa chỉ email">
                         </div>
                     </div>
                     <div class="mb-3">
                         <label for="contactPhone" class="contact-label">Số điện thoại</label>
-                        <input type="text" class="form-control contact-input" id="contactPhone"
+                        <input type="text" class="form-control contact-input" id="contactPhone" name="so_dien_thoai" value="{{old('so_dien_thoai')}}"
                             placeholder="Số điện thoại">
                     </div>
                     <div class="mb-3">
                         <label for="contactMessage" class="contact-label">Tin nhắn</label>
-                        <textarea class="form-control contact-input" id="contactMessage" rows="4"
-                            placeholder="Nội dung tin nhắn cần gửi"></textarea>
+                        <textarea class="form-control contact-input" id="contactMessage" rows="4" name="noi_dung"
+                            placeholder="Nội dung tin nhắn cần gửi">{{old('noi_dung')}}</textarea>
                     </div>
                     <button type="submit" class="contact-btn">Gửi tin nhắn</button>
                 </form>
