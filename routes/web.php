@@ -35,5 +35,5 @@ Route::prefix('chinh-sach-bao-mat')->group(function(){
 });
 Route::prefix('lien-he')->group(function(){
  Route::get('/', [ClientsContactController::class, 'index'])->name('contact.users.index');
- Route::get('/store', [ClientsContactController::class, 'store'])->name('contact.users.store');
+ Route::post('/store', [ClientsContactController::class, 'store'])->name('contact.users.store');
 });

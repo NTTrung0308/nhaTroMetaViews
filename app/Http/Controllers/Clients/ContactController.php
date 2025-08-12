@@ -17,7 +17,7 @@ class ContactController extends Controller
             'ten'           => 'required|string|max:255',
             'email'         => 'required|email|max:255',
             'so_dien_thoai' => 'required|regex:/^[0-9]{9,11}$/',
-            'noi_dung'      => 'required|string|min:10',
+            'noi_dung'      => 'required|string',
         ], [
             'ten.required'           => 'Vui lòng nhập họ và tên.',
             'ten.string'             => 'Họ và tên phải là chuỗi ký tự.',
@@ -32,7 +32,6 @@ class ContactController extends Controller
 
             'noi_dung.required'      => 'Vui lòng nhập nội dung liên hệ.',
             'noi_dung.string'        => 'Nội dung liên hệ phải là văn bản.',
-            'noi_dung.min'           => 'Nội dung liên hệ phải có ít nhất 10 ký tự.',
         ]);
 
         $data = $request->only(['ten', 'email', 'so_dien_thoai', 'noi_dung']);

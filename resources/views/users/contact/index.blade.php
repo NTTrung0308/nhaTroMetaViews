@@ -15,7 +15,7 @@
                         hệ </a>
                 </span>
                 <h1 class="fw-bold mt-2 title">Liên hệ </h1>
-                <h4 class="vision-banner-title">"FunHome là đại diện cho các bất động sản sang trọng đặc biệt và bất
+                <h4 class="vision-banner-title">"{{get_config()->site_name ?? 'FunHome'}} là đại diện cho các bất động sản sang trọng đặc biệt và bất
                     động sản
                     đơn lẻ tại các quận được săn đón nhất của thành phố. Vì vậy, đừng bỏ lỡ cơ hội tuyệt vời này.”</h4>
             </div>
@@ -84,7 +84,7 @@
                                 <i class="bi bi-people fs-2 "></i>
                             </div>
                             <p class="desc-content-service mt-3">Hỗ Trợ Nhanh</p>
-                            <p class="desc-content-text mx-auto">Liên hệ Zalo hoặc Hotline 24/7 qua số: 0909 123 456</p>
+                            <p class="desc-content-text mx-auto">Liên hệ Zalo hoặc Hotline 24/7 qua số: {{get_config()->zalo_number ?? '0909 123 456'}}</p>
                         </div>
                     </div>
 
@@ -130,7 +130,7 @@
                                         <i class="bi bi-people fs-2 "></i>
                                     </div>
                                     <p class="desc-content-service p-2">Hỗ Trợ Nhanh</p>
-                                    <p class="desc-content-text mx-auto">Liên hệ Zalo hoặc Hotline 24/7 qua số: 0909 123 456
+                                    <p class="desc-content-text mx-auto">Liên hệ Zalo hoặc Hotline 24/7 qua số: {{get_config()->zalo_number ?? '0909 123 456'}}
                                     </p>
                                 </div>
                             </div>
@@ -154,22 +154,34 @@
                             <label for="contactName" class="contact-label">Họ tên</label>
                             <input type="text" class="form-control contact-input" id="contactName" name="ten" value="{{old('ten')}}"
                                 placeholder="Họ và tên">
+                                  @error('ten')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="contactEmail" class="contact-label">Email</label>
                             <input type="email" class="form-control contact-input" id="contactEmail" name="email" value="{{old('email')}}"
                                 placeholder="Địa chỉ email">
+                                 @error('email')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                         </div>
                     </div>
                     <div class="mb-3">
                         <label for="contactPhone" class="contact-label">Số điện thoại</label>
                         <input type="text" class="form-control contact-input" id="contactPhone" name="so_dien_thoai" value="{{old('so_dien_thoai')}}"
                             placeholder="Số điện thoại">
+                             @error('so_dien_thoai')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                     </div>
                     <div class="mb-3">
                         <label for="contactMessage" class="contact-label">Tin nhắn</label>
                         <textarea class="form-control contact-input" id="contactMessage" rows="4" name="noi_dung"
                             placeholder="Nội dung tin nhắn cần gửi">{{old('noi_dung')}}</textarea>
+                             @error('noi_dung')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                     </div>
                     <button type="submit" class="contact-btn">Gửi tin nhắn</button>
                 </form>
@@ -184,22 +196,22 @@
                         <li class="d-flex align-items-center mb-2">
                             <i class="bi bi-geo-alt contact-info-icon"></i>
                             <span class="contact-info-label">Địa chỉ:</span>
-                            <span class="contact-info-text">216 Hoàng Mai, Quận Hoàng Mai, Hà Nội</span>
+                            <span class="contact-info-text">{{ get_config()->address ?? '216 Hoàng Mai, Quận Hoàng Mai, Hà Nội' }}</span>
                         </li>
                         <li class="d-flex align-items-center mb-2">
                             <i class="bi bi-envelope contact-info-icon"></i>
                             <span class="contact-info-label">Email:</span>
-                            <span class="contact-info-text">hotro@funhome.vn</span>
+                            <span class="contact-info-text">{{ get_config()->email ?? 'hotro@funhome.vn' }}</span>
                         </li>
                         <li class="d-flex align-items-center mb-2">
                             <i class="bi bi-telephone contact-info-icon"></i>
                             <span class="contact-info-label">Hotline:</span>
-                            <span class="contact-info-text">1900 1234</span>
+                            <span class="contact-info-text">{{ get_config()->hotline ?? '1900 1234' }}</span>
                         </li>
                         <li class="d-flex align-items-center mb-2">
                             <i class="bi bi-chat-dots contact-info-icon"></i>
                             <span class="contact-info-label">Zalo:</span>
-                            <span class="contact-info-text">0909 123 456</span>
+                            <span class="contact-info-text">{{ get_config()->zalo_number ?? '0909 123 456' }}</span>
                         </li>
                     </ul>
                 </div>
