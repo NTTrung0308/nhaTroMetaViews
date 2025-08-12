@@ -19,4 +19,7 @@ class HomeController extends Controller
                         ->get();
     return view('users.section.home', compact('sliders','feedbacks', 'latestPosts'));
    }
+   public function aboutUs(){
+      
+   }
 }
