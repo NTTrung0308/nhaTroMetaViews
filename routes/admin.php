@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\FeedbackController;
 use App\Http\Controllers\Admin\HoaDonController;
 use App\Http\Controllers\Admin\HopDongController;
+use App\Http\Controllers\Admin\MemberController;
 use App\Http\Controllers\Admin\NhaTroController;
 use App\Http\Controllers\Admin\PhuongTienController;
 use App\Http\Controllers\Admin\PolicyController;
@@ -252,6 +253,15 @@ Route::prefix('admin')->group(function () {
         Route::get('/{faq}/edit', [FaqController::class, 'edit'])->name('edit');
         Route::put('/{faq}', [FaqController::class, 'update'])->name('update');
         Route::delete('/{faq}', [FaqController::class, 'destroy'])->name('destroy');
+    });
+    Route::prefix('members')->name('admin.members.')->group(function () {
+        Route::get('/', [MemberController::class, 'index'])->name('index');
+        Route::get('/create', [MemberController::class, 'create'])->name('create');
+        Route::post('/', [MemberController::class, 'store'])->name('store');
+        Route::get('/{member}/edit', [MemberController::class, 'edit'])->name('edit');
+        Route::put('/{member}', [MemberController::class, 'update'])->name('update');
+        Route::get('/{member}', [MemberController::class, 'show'])->name('show');
+        Route::delete('/{member}', [MemberController::class, 'destroy'])->name('destroy');
     });
 
     // Route cho các cổng thanh toán
