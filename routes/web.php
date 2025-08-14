@@ -5,6 +5,7 @@ use App\Http\Controllers\Clients\ContactController as ClientsContactController;
 use App\Http\Controllers\Clients\PolicyController;
 use App\Http\Controllers\Clients\HomeController;
 use App\Http\Controllers\Clients\LoginController;
+use App\Http\Controllers\Clients\MemberController;
 use App\Http\Controllers\Clients\NewsController;
 use Illuminate\Support\Facades\Route;
 
@@ -36,4 +37,8 @@ Route::prefix('chinh-sach-bao-mat')->group(function(){
 Route::prefix('lien-he')->group(function(){
  Route::get('/', [ClientsContactController::class, 'index'])->name('contact.users.index');
  Route::post('/store', [ClientsContactController::class, 'store'])->name('contact.users.store');
+});
+
+Route::prefix('thanh-vien')->group(function () {
+    Route::get('/', [MemberController::class, 'index'])->name('members.users.index');
 });

@@ -14,5 +14,6 @@ class Member extends Model
         'facebook',
         'google',
         'instagram',
+        'image'
      ];
 }
