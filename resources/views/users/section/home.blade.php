@@ -72,21 +72,28 @@
             </div>
             <div class="dichvu_content">
                 <div class="row g-4 d-none d-sm-flex">
-                    @foreach ($serviceHomes as $serviceHome)
+                    @forelse ($serviceHomes as $serviceHome)
                         <div class="col-4">
                             <div class="w-100 h-100 text-center box_dichvu">
                                 <div class="icon_dichvu">
-                                    <img decoding="async" src="{{asset($serviceHome->image ?? '/users/images/icon/icon1.svg')}}" alt="img"
-                                        class="w-100 h-100 object-fit-cover">
+                                    <img decoding="async"
+                                        src="{{ asset($serviceHome->image ?? '/users/images/icon/icon1.svg') }}"
+                                        alt="img" class="w-100 h-100 object-fit-cover">
                                 </div>
-                                <p class="desc_contentdv p-2">{{$serviceHome->title ?? ''}}</p>
-                                <p class=" mx-auto">{{$serviceHome->description ?? 'Tư vấn pháp lý chuyên nghiệp và hỗ trợ trong suốt quá trình bất động
-                                    sản.'}}</p>
+                                <p class="desc_contentdv p-2">{{ $serviceHome->title ?? '' }}</p>
+                                <p class=" mx-auto">
+                                    {{ $serviceHome->description ??
+                                        'Tư vấn pháp lý chuyên nghiệp và hỗ trợ trong suốt quá trình bất động
+                                                                        sản.' }}
+                                </p>
                             </div>
                         </div>
-                       
-                    @endforeach
 
+                    @empty
+                        <div class="text-center">
+                            <p>Dịch vụ của chúng tôi đang trong quá trình cập nhật</p>
+                        </div>
+                    @endforelse
 
 
                 </div>
@@ -248,7 +255,8 @@
                     <img src="{{ asset('users/images/shield.png') }}" alt="Shield" class="img-fluid award-img">
                 </div>
                 <div class="col-6 col-sm-4 col-md-3 d-flex justify-content-center mb-4">
-                    <img src="{{ asset('users/images/certificate.png') }}" alt="Certificate" class="img-fluid award-img">
+                    <img src="{{ asset('users/images/certificate.png') }}" alt="Certificate"
+                        class="img-fluid award-img">
                 </div>
             </div>
         </div>
@@ -390,7 +398,7 @@
                 <p class="desc_event">Những sự kiện nổi bật của chúng tôi</p>
             </div>
             <div class="row g-4">
-                @foreach ($latestPosts as $latestPost)
+                @forelse ($latestPosts as $latestPost)
                     <div class="col-lg-4 col-md-6">
                         <div class="news-card h-100 shadow-sm rounded-4 overflow-hidden">
                             <div class="news-thumb">
@@ -405,7 +413,11 @@
                             </div>
                         </div>
                     </div>
-                @endforeach
+                @empty
+                    <div class="col-12">
+                        <p class="text-center">Không có bài viết nào.</p>
+                    </div>
+                @endforelse
 
 
             </div>

@@ -8,13 +8,26 @@
                 </div>
 
             </div>
-
             <div class="col-12 col-lg-6 col-md-6">
                 <div class="icon-footer w-100 h-100 d-flex justify-content-end mx-auto">
-                    <a href=""><i class="bi bi-facebook fs-2"></i></a>
-                    <a href=""><i class="bi bi-messenger fs-2 "></i></a>
-                    <a href=""><i class="bi bi-linkedin fs-2"></i></a>
-                    <a href=""><i class="bi bi-telephone-fill fs-2"></i></a>
+                    @if (get_config()->facebook_url)
+                        <a href="{{ get_config()->facebook_url }}"><i class="bi bi-facebook fs-2"></i></a>
+                    @endif
+                    @if (get_config()->twitter_url)
+                        <a href="{{ get_config()->twitter_url }}"><i class="bi bi-twitter fs-2"></i></a>
+                    @endif
+                    @if (get_config()->instagram_url)
+                        <a href="{{ get_config()->instagram_url }}"><i class="bi bi-instagram fs-2"></i></a>
+                    @endif
+                    @if (get_config()->messenger)
+                        <a href="{{ get_config()->messenger }}"><i class="bi bi-messenger fs-2"></i></a>
+                    @endif
+                    @if (get_config()->linkedin_url)
+                        <a href="{{ get_config()->linkedin_url }}"><i class="bi bi-linkedin fs-2"></i></a>
+                    @endif
+                    @if (get_config()->phone)
+                        <a href="{{ get_config()->phone }}"><i class="bi bi-telephone-fill fs-2"></i></a>
+                    @endif
                 </div>
             </div>
         </div>
