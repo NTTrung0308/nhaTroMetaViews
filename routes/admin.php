@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\PolicyController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\RolesControler;
 use App\Http\Controllers\Admin\RoomController;
+use App\Http\Controllers\Admin\ServiceAboutController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\TaiSanChungRiengController;
 use App\Http\Controllers\Admin\TaiSanController;
@@ -43,7 +44,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('admin')->group(function () {
+Route::prefix('admin')->middleware('auth')->group(function () {
 
     Route::prefix('dashboard')->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
@@ -262,6 +263,14 @@ Route::prefix('admin')->group(function () {
         Route::put('/{member}', [MemberController::class, 'update'])->name('update');
         Route::get('/{member}', [MemberController::class, 'show'])->name('show');
         Route::delete('/{member}', [MemberController::class, 'destroy'])->name('destroy');
+    });
+    Route::prefix('dich-vu-trang-chu')->name('admin.service_about_home.')->group(function () {
+        Route::get('/', [ServiceAboutController::class, 'index'])->name('index');
+        Route::get('/create', [ServiceAboutController::class, 'create'])->name('create');
+        Route::post('/', [ServiceAboutController::class, 'store'])->name('store');
+        Route::get('/{serviceAbout}/edit', [ServiceAboutController::class, 'edit'])->name('edit');
+        Route::put('/{serviceAbout}', [ServiceAboutController::class, 'update'])->name('update');
+        Route::delete('/{serviceAbout}', [ServiceAboutController::class, 'destroy'])->name('destroy');
     });
 
     // Route cho các cổng thanh toán

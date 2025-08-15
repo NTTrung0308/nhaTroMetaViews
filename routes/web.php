@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Client\ContactController;
+use App\Http\Controllers\Clients\AboutController;
 use App\Http\Controllers\Clients\ContactController as ClientsContactController;
 use App\Http\Controllers\Clients\PolicyController;
 use App\Http\Controllers\Clients\HomeController;
@@ -41,4 +42,7 @@ Route::prefix('lien-he')->group(function(){
 
 Route::prefix('thanh-vien')->group(function () {
     Route::get('/', [MemberController::class, 'index'])->name('members.users.index');
+});
+Route::prefix('gioi-thieu')->group(function () {
+    Route::get('/', [AboutController::class, 'index'])->name('about.users.index');
 });

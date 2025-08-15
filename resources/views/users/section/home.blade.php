@@ -71,74 +71,23 @@
                 <p class="desc_dichvu">Chúng tôi cam kết tìm ra bất động sản hoàn hảo cho bạn</p>
             </div>
             <div class="dichvu_content">
-                <div class="row d-none d-sm-flex">
-                    <div class="col-4">
-                        <div class="w-100 h-100 text-center box_dichvu">
-                            <div class="icon_dichvu">
-                                <img decoding="async" src="/users/images/icon/icon1.svg" alt="img"
-                                    class="w-100 h-100 object-fit-cover">
+                <div class="row g-4 d-none d-sm-flex">
+                    @foreach ($serviceHomes as $serviceHome)
+                        <div class="col-4">
+                            <div class="w-100 h-100 text-center box_dichvu">
+                                <div class="icon_dichvu">
+                                    <img decoding="async" src="{{asset($serviceHome->image ?? '/users/images/icon/icon1.svg')}}" alt="img"
+                                        class="w-100 h-100 object-fit-cover">
+                                </div>
+                                <p class="desc_contentdv p-2">{{$serviceHome->title ?? ''}}</p>
+                                <p class=" mx-auto">{{$serviceHome->description ?? 'Tư vấn pháp lý chuyên nghiệp và hỗ trợ trong suốt quá trình bất động
+                                    sản.'}}</p>
                             </div>
-                            <p class="desc_contentdv p-2">Định giá tài sản</p>
-                            <p class=" mx-auto">Tư vấn pháp lý chuyên nghiệp và hỗ trợ trong suốt quá trình bất động
-                                sản.</p>
                         </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="w-100 h-100 text-center box_dichvu">
-                            <div class=" icon_dichvu">
-                                <img decoding="async" src="images/icon/icon2.svg" alt="img"
-                                    class="w-100 h-100 object-fit-cover">
-                            </div>
-                            <p class="desc_contentdv p-2">Định giá tài sản</p>
-                            <p class=" mx-auto">Tư vấn pháp lý chuyên nghiệp và hỗ trợ trong suốt quá trình bất động
-                                sản.</p>
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="w-100 h-100 text-center box_dichvu">
-                            <div class=" icon_dichvu">
-                                <img decoding="async" src="images/icon/icon3.svg" alt="img"
-                                    class="w-100 h-100 object-fit-cover">
-                            </div>
-                            <p class="desc_contentdv p-2">Định giá tài sản</p>
-                            <p class=" mx-auto">Tư vấn pháp lý chuyên nghiệp và hỗ trợ trong suốt quá trình bất động
-                                sản.</p>
-                        </div>
-                    </div>
+                       
+                    @endforeach
 
-                    <div class="col-4 mt-4">
-                        <div class="w-100 h-100 text-center box_dichvu">
-                            <div class=" icon_dichvu">
-                                <img decoding="async" src="images/icon/icon4.svg" alt="img"
-                                    class="w-100 h-100 object-fit-cover">
-                            </div>
-                            <p class="desc_contentdv p-2">Định giá tài sản</p>
-                            <p class=" mx-auto">Tư vấn pháp lý chuyên nghiệp và hỗ trợ trong suốt quá trình bất động
-                                sản.</p>
-                        </div>
-                    </div>
-                    <div class="col-4 mt-4">
-                        <div class="w-100 h-100 text-center box_dichvu">
-                            <div class=" icon_dichvu">
-                                <img decoding="async" src="images/icon/icon5.svg" alt="img"
-                                    class="w-100 h-100 object-fit-cover">
-                            </div>
-                            <p class="desc_contentdv p-2">Định giá tài sản</p>
-                            <p class=" mx-auto">Tư vấn pháp lý chuyên nghiệp và hỗ trợ trong suốt quá trình bất động
-                                sản.</p>
-                        </div>
-                    </div>
-                    <div class="col-4 mt-4">
-                        <div class="w-100 h-100 text-center box_dichvu">
-                            <div class=" icon_dichvu">
-                                <img decoding="async" src="images/icon/icon6.svg" alt="img"
-                                    class="w-100 h-100 object-fit-cover">
-                            </div>
-                            <p class="desc_contentdv p-2">Định giá tài sản</p>
-                            <p class=" mx-auto">Tư vấn pháp lý chuyên nghiệp và hỗ trợ trong suốt quá trình bất động
-                                sản.</p>
-                        </div>
-                    </div>
+
 
                 </div>
                 <div class="swiper mySwiper2 d-flex d-sm-none">
@@ -216,13 +165,15 @@
                             hạn.
                         </p>
                         <div class="w-100 h-100">
-                            <img src="{{asset('/users/images/image.png')}}" alt="" class="w-100 h-100 object-fit-cover rounded-4">
+                            <img src="{{ asset('/users/images/image.png') }}" alt=""
+                                class="w-100 h-100 object-fit-cover rounded-4">
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6 col-12 d-none d-lg-block p-5">
                     <div class="w-75 mx-auto ">
-                        <img src="{{asset('/users/images/image2.png')}}" alt="" class="w-100 h-100 object-fit-cover rounded-4 ">
+                        <img src="{{ asset('/users/images/image2.png') }}" alt=""
+                            class="w-100 h-100 object-fit-cover rounded-4 ">
                     </div>
                 </div>
             </div>
@@ -249,7 +200,7 @@
                 </div>
             </div>
             <div class="banner_canhothongminh">
-                <img src="{{asset('users/images/image3.png')}}" alt="img" class="w-100 h-100 object-fit-cover">
+                <img src="{{ asset('users/images/image3.png') }}" alt="img" class="w-100 h-100 object-fit-cover">
             </div>
             <div class="row mt-5">
                 <div class="col-6 col-md-4 order-1">
@@ -286,16 +237,18 @@
 
             <div class="row justify-content-center mt-5">
                 <div class="col-6 col-sm-4 col-md-3 d-flex justify-content-center mb-4">
-                    <img src="{{asset('users/images/medal-of-honor.png')}}" alt="Medal of Honor" class="img-fluid award-img">
+                    <img src="{{ asset('users/images/medal-of-honor.png') }}" alt="Medal of Honor"
+                        class="img-fluid award-img">
                 </div>
                 <div class="col-6 col-sm-4 col-md-3 d-flex justify-content-center mb-4">
-                    <img src="{{asset('users/images/award-shield.png')}}" alt="Award Shield" class="img-fluid award-img">
+                    <img src="{{ asset('users/images/award-shield.png') }}" alt="Award Shield"
+                        class="img-fluid award-img">
                 </div>
                 <div class="col-6 col-sm-4 col-md-3 d-flex justify-content-center mb-4">
-                    <img src="{{asset('users/images/shield.png')}}" alt="Shield" class="img-fluid award-img">
+                    <img src="{{ asset('users/images/shield.png') }}" alt="Shield" class="img-fluid award-img">
                 </div>
                 <div class="col-6 col-sm-4 col-md-3 d-flex justify-content-center mb-4">
-                    <img src="{{asset('users/images/certificate.png')}}" alt="Certificate" class="img-fluid award-img">
+                    <img src="{{ asset('users/images/certificate.png') }}" alt="Certificate" class="img-fluid award-img">
                 </div>
             </div>
         </div>
@@ -447,7 +400,8 @@
                             <div class="news-content p-4">
                                 <h5 class="new-title mb-2">{{ $latestPost->tieu_de ?? '' }}</h5>
                                 <p class="news-desc mb-3">{{ $latestPost->mo_ta_ngan ?? '' }}</p>
-                                <a href="{{ route('news.users.detail', $latestPost->slug) }}" class="btn btn-outline-primary btn-sm">Xem chi tiết</a>
+                                <a href="{{ route('news.users.detail', $latestPost->slug) }}"
+                                    class="btn btn-outline-primary btn-sm">Xem chi tiết</a>
                             </div>
                         </div>
                     </div>

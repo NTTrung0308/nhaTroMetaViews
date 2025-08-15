@@ -285,6 +285,15 @@
                  </a>
              </li>
          @endif
+          @if (auth()->user()->hasAnyPermission('Xem dịch vụ về chúng tôi','Sửa dịch vụ về chúng tôi','Xóa dịch vụ về chúng tôi','Thêm dịch vụ về chúng tôi'))
+  <li class="nav-item">
+                 <a class="nav-link {{ in_array(Request::route()->getName(), ['admin.service_about_home.index','admin.service_about_home.create', 'admin.service_about_home.edit']) ? '' : 'collapsed' }}"
+                     href="{{ route('admin.service_about_home.index') }}">
+                   	<i class="bi bi-question-circle me-2"></i>
+                     <span>Dịch vụ về chúng tôi</span>
+                 </a>
+             </li>
+         @endif
 
      </ul>
 

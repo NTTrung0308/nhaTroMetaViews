@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('ma_dich_vu')->unique();
             $table->unsignedBigInteger('don_vi_tinh_id')->nullable();
             $table->foreign('don_vi_tinh_id')->references('id')->on('don_vi_tinhs')->onDelete('set null');
-            
             $table->text('mo_ta')->nullable();
             $table->timestamps();
         });

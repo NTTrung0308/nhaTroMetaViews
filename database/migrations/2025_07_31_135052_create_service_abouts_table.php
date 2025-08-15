@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('title')->nullable();
             $table->string('description')->nullable();
             $table->string('image')->nullable();
+                $table->boolean('show_on_home')->default(false);
+            $table->text('content')->nullable();
             $table->timestamps();
         });
     }

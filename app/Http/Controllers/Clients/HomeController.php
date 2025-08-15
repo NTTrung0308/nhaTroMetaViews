@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Clients;
 
 use App\Http\Controllers\Controller;
 use App\Models\Feedback;
+use App\Models\ServiceAbout;
 use App\Models\Slider;
 use App\Models\TinTuc;
 use Illuminate\Http\Request;
@@ -17,7 +18,8 @@ class HomeController extends Controller
                         ->orderBy('created_at', 'desc')
                         ->take(3)
                         ->get();
-    return view('users.section.home', compact('sliders','feedbacks', 'latestPosts'));
+                        $serviceHomes = ServiceAbout::where('show_on_home', 1)->get();
+    return view('users.section.home', compact('sliders','feedbacks', 'latestPosts', 'serviceHomes'));
    }
    public function aboutUs(){
       

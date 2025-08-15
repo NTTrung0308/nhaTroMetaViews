@@ -12,5 +12,7 @@ class ServiceAbout extends Model
         'title',
         'description',
         'image',
+        'content',
+           'show_on_home'
     ];
 }

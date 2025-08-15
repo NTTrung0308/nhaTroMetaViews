@@ -17,8 +17,8 @@
                         <i class="bi bi-chevron-down"></i>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="/about">About us</a></li>
-                        <li><a href="/member">Co-Founder & member</a></li>
+                        <li><a href="{{route('about.users.index')}}">About us</a></li>
+                        <li><a href="{{route('members.users.index')}}">Co-Founder & member</a></li>
                         <li><a href="/history">History</a></li>
                         <li><a href="/service">App & Services</a></li>
                     </ul>
@@ -34,7 +34,7 @@
                     </ul>
                 </li>
                 <li><a href="{{route('news.users')}}">TIN TỨC</a></li>
-                <li><a href="/contact">LIÊN HỆ</a></li>
+                <li><a href="{{route('contact.users.index')}}">LIÊN HỆ</a></li>
             </ul>
         </nav>
         <div class="btn-download-app">
@@ -73,8 +73,8 @@
                     <i class="fas fa-chevron-down arrow-icon"></i>
                 </a>
                 <ul class="mobile-submenu">
-                    <li><a href="/about">About us</a></li>
-                    <li><a href="/member">Co-Founder & member</a></li>
+                    <li><a href="{{route('about.users.index')}}">About us</a></li>
+                    <li><a href="{{route('members.users.index')}}">Co-Founder & member</a></li>
                     <li><a href="/history">History</a></li>
                     <li><a href="/service">App & Services</a></li>
                 </ul>
@@ -93,7 +93,7 @@
             </li>
             <!-- Kết thúc: HTML cho Dropdown Mobile -->
             <li><a href="{{route('news.users')}}">TIN TỨC</a></li>
-            <li><a href="/contact">LIÊN HỆ</a></li>
+            <li><a href="{{route('contact.users.index')}}">LIÊN HỆ</a></li>
         </ul>
     </nav>
 </div>

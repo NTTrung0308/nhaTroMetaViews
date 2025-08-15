@@ -103,10 +103,11 @@ class PermissionSeeder extends Seeder
             'Xem dịch vụ',
             'Thêm dịch vụ',
             'Sửa dịch vụ',
-            'Xóa dịch vụ'
-
-
-
+            'Xóa dịch vụ',
+            'Xem dịch vụ về chúng tôi',
+            'Thêm dịch vụ về chúng tôi',
+            'Sửa dịch vụ về chúng tôi',
+            'Xóa dịch vụ về chúng tôi',
 
         ];
 
