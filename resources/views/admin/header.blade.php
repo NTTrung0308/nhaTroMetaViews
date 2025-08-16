@@ -2,9 +2,9 @@
 
     <div class="d-flex align-items-center justify-content-between">
         <a href="https://bootstrapmade.com/content/demo/NiceAdmin/index.html" class="logo d-flex align-items-center">
-    <img src="{{ get_config()->logo ?? '/assets/img/icon_usser.png'}}" alt="">
-    <span class="d-none d-lg-block">{{ get_config()->site_name ?? 'Metasoftware' }}</span>
-</a>
+            <img src="{{ get_config()->logo ?? '/assets/img/icon_usser.png' }}" alt="">
+            <span class="d-none d-lg-block">{{ get_config()->site_name ?? 'Metasoftware' }}</span>
+        </a>
 
         <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
@@ -29,7 +29,7 @@
             </li><!-- End Search Icon-->
 
 
-            
+
 
             <li class="nav-item dropdown pe-3">
 
@@ -42,6 +42,14 @@
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                     <li class="dropdown-header">
                         <h6>{{ Auth::user()->username ?? 'Không có' }}</h6>
+                        @if (auth()->user()->hasPermissionTo('Xem phòng trọ') ||
+                                auth()->user()->hasPermissionTo('Thêm phòng trọ') ||
+                                auth()->user()->hasPermissionTo('Sửa phòng trọ') ||
+                                auth()->user()->hasPermissionTo('Xóa phòng trọ'))
+                            <div>
+                                Số phòng trọ có thể thêm: <span class="text-success fw-bold">{{ auth()->user()->max_rooms ?? 'Không có' }}</span>
+                            </div>
+                        @endif
                         <span>{{ Auth::user()->getRoleNames()->first() ?? 'Không có vai trò' }}</span>
                     </li>
 
@@ -53,18 +61,6 @@
                         <a class="dropdown-item d-flex align-items-center" href="{{ route('admin.profile.index') }}">
                             <i class="bi bi-person"></i>
                             <span>Hồ sơ</span>
-                        </a>
-                    </li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-
-
-
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center" href="">
-                            <i class="bi bi-question-circle"></i>
-                            <span>Need Help?</span>
                         </a>
                     </li>
                     <li>

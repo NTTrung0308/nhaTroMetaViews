@@ -140,7 +140,23 @@
                                             @enderror
                                         </div>
                                     </div>
-
+                                    @if (auth()->user()->hasPermissionTo('Xem phòng trọ') ||
+                                            auth()->user()->hasPermissionTo('Thêm phòng trọ') ||
+                                            auth()->user()->hasPermissionTo('Sửa phòng trọ') ||
+                                            auth()->user()->hasPermissionTo('Xóa phòng trọ'))
+                                        <div class="row mb-3">
+                                            <label for="license_key" class="col-md-4 col-lg-3 col-form-label">License
+                                                Key</label>
+                                            <div class="col-md-8 col-lg-9">
+                                                <input type="text" name="license_key" id="license_key"
+                                                    class="form-control"
+                                                    value="{{ old('license_key', $user->license_key) }}">
+                                                @error('license_key')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    @endif
                                     <div class="row mb-3">
                                         <label for="note" class="col-md-4 col-lg-3 col-form-label">Giới thiệu</label>
                                         <div class="col-md-8 col-lg-9">
@@ -643,87 +659,87 @@
             </div>
 
         </div>
-       
+
     </section> <!-- =================================================================== -->
     <!-- MODAL (POP-UP) ĐỂ THÊM/SỬA PHƯƠNG TIỆN -->
     <!-- =================================================================== -->
     <div class="modal fade" id="vehicleModal" tabindex="-1" aria-labelledby="vehicleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="vehicleModalLabel">Thêm mới phương tiện</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="vehicleForm" novalidate>
-                    <input type="hidden" id="vehicle_id" name="vehicle_id">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="vehicleModalLabel">Thêm mới phương tiện</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="vehicleForm" novalidate>
+                        <input type="hidden" id="vehicle_id" name="vehicle_id">
 
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Tên phương tiện</label>
-                        <input type="text" class="form-control" id="namebienso" name="name" required>
-                        <div class="invalid-feedback"></div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="bien_so" class="form-label">Biển số</label>
-                        <input type="text" class="form-control" id="bien_so" name="bien_so" required>
-                        <div class="invalid-feedback"></div>
-                    </div>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Tên phương tiện</label>
+                            <input type="text" class="form-control" id="namebienso" name="name" required>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="bien_so" class="form-label">Biển số</label>
+                            <input type="text" class="form-control" id="bien_so" name="bien_so" required>
+                            <div class="invalid-feedback"></div>
+                        </div>
 
-                    <!-- === THAY ĐỔI QUAN TRỌNG Ở ĐÂY === -->
-                    <div class="mb-3">
-                        <label for="loai_phuong_tien" class="form-label">Loại phương tiện</label>
-                        <select class="form-select" id="loai_phuong_tien" name="loai_phuong_tien" required>
-                            <option value="" selected disabled>-- Chọn loại phương tiện --</option>
-                            <option value="o_to">Ô tô</option>
-                            <option value="o_to_dien">Ô tô điện</option>
-                            <option value="xe_may">Xe máy</option>
-                            <option value="xe_may_dien">Xe máy điện</option>
-                            <option value="xe_dap">Xe đạp</option>
-                            <option value="xe_dap_dien">Xe đạp điện</option>
-                        </select>
-                        <div class="invalid-feedback"></div>
-                    </div>
-                    <!-- === KẾT THÚC THAY ĐỔI === -->
+                        <!-- === THAY ĐỔI QUAN TRỌNG Ở ĐÂY === -->
+                        <div class="mb-3">
+                            <label for="loai_phuong_tien" class="form-label">Loại phương tiện</label>
+                            <select class="form-select" id="loai_phuong_tien" name="loai_phuong_tien" required>
+                                <option value="" selected disabled>-- Chọn loại phương tiện --</option>
+                                <option value="o_to">Ô tô</option>
+                                <option value="o_to_dien">Ô tô điện</option>
+                                <option value="xe_may">Xe máy</option>
+                                <option value="xe_may_dien">Xe máy điện</option>
+                                <option value="xe_dap">Xe đạp</option>
+                                <option value="xe_dap_dien">Xe đạp điện</option>
+                            </select>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <!-- === KẾT THÚC THAY ĐỔI === -->
 
-                    <div class="mb-3">
-                        <label for="ten_chu_xe" class="form-label">Tên chủ xe</label>
-                        <input type="text" class="form-control" id="ten_chu_xe" name="ten_chu_xe"
-                            value="{{ $user->name }}" required>
-                        <div class="invalid-feedback"></div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                <button type="submit" class="btn btn-primary" form="vehicleForm">Lưu lại</button>
+                        <div class="mb-3">
+                            <label for="ten_chu_xe" class="form-label">Tên chủ xe</label>
+                            <input type="text" class="form-control" id="ten_chu_xe" name="ten_chu_xe"
+                                value="{{ $user->name }}" required>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="submit" class="btn btn-primary" form="vehicleForm">Lưu lại</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
     <!-- =================================================================== -->
-<!-- JAVASCRIPT CHO TAB PHƯƠNG TIỆN - PHIÊN BẢN ĐÃ SỬA LỖI ROUTE -->
-<!-- =================================================================== -->
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const vehicleModal = new bootstrap.Modal(document.getElementById('vehicleModal'));
-        const vehicleForm = document.getElementById('vehicleForm');
-        const vehiclesTableBody = document.getElementById('vehicles-table-body');
-        const csrfToken = '{{ csrf_token() }}';
+    <!-- JAVASCRIPT CHO TAB PHƯƠNG TIỆN - PHIÊN BẢN ĐÃ SỬA LỖI ROUTE -->
+    <!-- =================================================================== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const vehicleModal = new bootstrap.Modal(document.getElementById('vehicleModal'));
+            const vehicleForm = document.getElementById('vehicleForm');
+            const vehiclesTableBody = document.getElementById('vehicles-table-body');
+            const csrfToken = '{{ csrf_token() }}';
 
-        // Hàm load danh sách phương tiện - Dùng route() nên tự động đúng
-        async function loadVehicles() {
-            try {
-                const response = await fetch(`{{ route('admin.profile.vehicles.index') }}`);
-                if (!response.ok) throw new Error('Lỗi mạng!');
-                const phuongTiens = await response.json();
+            // Hàm load danh sách phương tiện - Dùng route() nên tự động đúng
+            async function loadVehicles() {
+                try {
+                    const response = await fetch(`{{ route('admin.profile.vehicles.index') }}`);
+                    if (!response.ok) throw new Error('Lỗi mạng!');
+                    const phuongTiens = await response.json();
 
-                vehiclesTableBody.innerHTML = '';
-                if (phuongTiens.length === 0) {
-                    vehiclesTableBody.innerHTML =
-                        '<tr><td colspan="5" class="text-center">Chưa có phương tiện nào.</td></tr>';
-                } else {
-                    phuongTiens.forEach((pt, index) => {
-                        const row = `
+                    vehiclesTableBody.innerHTML = '';
+                    if (phuongTiens.length === 0) {
+                        vehiclesTableBody.innerHTML =
+                            '<tr><td colspan="5" class="text-center">Chưa có phương tiện nào.</td></tr>';
+                    } else {
+                        phuongTiens.forEach((pt, index) => {
+                            const row = `
                             <tr>
                                 <td>${index + 1}</td>
                                 <td>${pt.name}</td>
@@ -735,142 +751,148 @@
                                 </td>
                             </tr>
                         `;
-                        vehiclesTableBody.insertAdjacentHTML('beforeend', row);
-                    });
+                            vehiclesTableBody.insertAdjacentHTML('beforeend', row);
+                        });
+                    }
+                } catch (error) {
+                    console.error('Lỗi khi tải danh sách phương tiện:', error);
+                    vehiclesTableBody.innerHTML =
+                        '<tr><td colspan="5" class="text-center text-danger">Không thể tải dữ liệu.</td></tr>';
                 }
-            } catch (error) {
-                console.error('Lỗi khi tải danh sách phương tiện:', error);
-                vehiclesTableBody.innerHTML =
-                    '<tr><td colspan="5" class="text-center text-danger">Không thể tải dữ liệu.</td></tr>';
             }
-        }
 
-        function resetForm() { // Hàm này không đổi
-            vehicleForm.reset();
-            document.getElementById('vehicle_id').value = '';
-            document.getElementById('ten_chu_xe').value = '{{ $user->name }}';
-            vehicleForm.querySelectorAll('.is-invalid').forEach(el => {
-                el.classList.remove('is-invalid');
-                el.nextElementSibling.textContent = '';
-            });
-        }
-
-        document.getElementById('btn-add-vehicle').addEventListener('click', function() { // Hàm này không đổi
-            resetForm();
-            document.getElementById('vehicleModalLabel').textContent = 'Thêm mới phương tiện';
-            vehicleModal.show();
-        });
-
-        // Sự kiện khi submit form (Thêm hoặc Sửa)
-        vehicleForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const vehicleId = document.getElementById('vehicle_id').value;
-
-            // === THAY ĐỔI QUAN TRỌNG Ở ĐÂY ===
-            // Cập nhật URL để khớp với prefix 'thong-tin-ca-nhan'
-            const url = vehicleId ?
-                `{{ url('admin/thong-tin-ca-nhan/vehicles') }}/${vehicleId}` : // URL CẬP NHẬT
-                `{{ route('admin.profile.vehicles.store') }}`; // Dùng route() nên tự đúng
-
-            const method = vehicleId ? 'PUT' : 'POST';
-
-            const formData = new FormData(this);
-            const data = Object.fromEntries(formData.entries());
-
-            try {
-                const response = await fetch(url, {
-                    method: method,
-                    headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': csrfToken },
-                    body: JSON.stringify(data)
-                });
-
-                const result = await response.json();
-                
-                // Xóa các lỗi cũ trước khi xử lý kết quả
+            function resetForm() { // Hàm này không đổi
+                vehicleForm.reset();
+                document.getElementById('vehicle_id').value = '';
+                document.getElementById('ten_chu_xe').value = '{{ $user->name }}';
                 vehicleForm.querySelectorAll('.is-invalid').forEach(el => {
                     el.classList.remove('is-invalid');
                     el.nextElementSibling.textContent = '';
                 });
-
-                if (!response.ok) {
-                    if (response.status === 422) {
-                        for (const field in result.errors) {
-                            const input = document.getElementById(field);
-                            if (input) {
-                                input.classList.add('is-invalid');
-                                input.nextElementSibling.textContent = result.errors[field][0];
-                            }
-                        }
-                    } else {
-                        alert(result.message || 'Có lỗi xảy ra!');
-                    }
-                    return; // Dừng lại không đóng modal nếu có lỗi
-                }
-
-                vehicleModal.hide();
-                loadVehicles();
-                alert(vehicleId ? 'Cập nhật thành công!' : 'Thêm mới thành công!');
-
-            } catch (error) {
-                console.error('Lỗi khi lưu phương tiện:', error);
-                alert('Thao tác thất bại! Vui lòng kiểm tra console.');
             }
-        });
 
-        // Sự kiện khi nhấn nút Sửa hoặc Xóa
-        vehiclesTableBody.addEventListener('click', async function(e) {
-            const button = e.target.closest('button');
-            if (!button) return;
+            document.getElementById('btn-add-vehicle').addEventListener('click', function() { // Hàm này không đổi
+                resetForm();
+                document.getElementById('vehicleModalLabel').textContent = 'Thêm mới phương tiện';
+                vehicleModal.show();
+            });
 
-            const vehicleId = button.dataset.id;
-            // === THAY ĐỔI QUAN TRỌNG Ở ĐÂY ===
-            // Cập nhật URL để khớp với prefix 'thong-tin-ca-nhan'
-            const vehicleBaseUrl = `{{ url('admin/thong-tin-ca-nhan/vehicles') }}/${vehicleId}`;
-            
-            // Xử lý nút Sửa
-            if (button.classList.contains('btn-edit-vehicle')) {
+            // Sự kiện khi submit form (Thêm hoặc Sửa)
+            vehicleForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const vehicleId = document.getElementById('vehicle_id').value;
+
+                // === THAY ĐỔI QUAN TRỌNG Ở ĐÂY ===
+                // Cập nhật URL để khớp với prefix 'thong-tin-ca-nhan'
+                const url = vehicleId ?
+                    `{{ url('admin/thong-tin-ca-nhan/vehicles') }}/${vehicleId}` : // URL CẬP NHẬT
+                    `{{ route('admin.profile.vehicles.store') }}`; // Dùng route() nên tự đúng
+
+                const method = vehicleId ? 'PUT' : 'POST';
+
+                const formData = new FormData(this);
+                const data = Object.fromEntries(formData.entries());
+
                 try {
-                    const response = await fetch(vehicleBaseUrl); // URL CẬP NHẬT
-                    if (!response.ok) throw new Error('Không tìm thấy phương tiện');
-                    const pt = await response.json();
+                    const response = await fetch(url, {
+                        method: method,
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': csrfToken
+                        },
+                        body: JSON.stringify(data)
+                    });
 
-                    resetForm();
-                    document.getElementById('vehicleModalLabel').textContent = 'Chỉnh sửa phương tiện';
-                    document.getElementById('vehicle_id').value = pt.id;
-                    document.getElementById('namebienso').value = pt.name;
-                    document.getElementById('bien_so').value = pt.bien_so;
-                    document.getElementById('loai_phuong_tien').value = pt.loai_phuong_tien;
-                    document.getElementById('ten_chu_xe').value = pt.ten_chu_xe;
+                    const result = await response.json();
 
-                    vehicleModal.show();
+                    // Xóa các lỗi cũ trước khi xử lý kết quả
+                    vehicleForm.querySelectorAll('.is-invalid').forEach(el => {
+                        el.classList.remove('is-invalid');
+                        el.nextElementSibling.textContent = '';
+                    });
+
+                    if (!response.ok) {
+                        if (response.status === 422) {
+                            for (const field in result.errors) {
+                                const input = document.getElementById(field);
+                                if (input) {
+                                    input.classList.add('is-invalid');
+                                    input.nextElementSibling.textContent = result.errors[field][0];
+                                }
+                            }
+                        } else {
+                            alert(result.message || 'Có lỗi xảy ra!');
+                        }
+                        return; // Dừng lại không đóng modal nếu có lỗi
+                    }
+
+                    vehicleModal.hide();
+                    loadVehicles();
+                    alert(vehicleId ? 'Cập nhật thành công!' : 'Thêm mới thành công!');
+
                 } catch (error) {
-                    alert('Không thể lấy thông tin phương tiện.');
+                    console.error('Lỗi khi lưu phương tiện:', error);
+                    alert('Thao tác thất bại! Vui lòng kiểm tra console.');
                 }
-            }
+            });
 
-            // Xử lý nút Xóa
-            if (button.classList.contains('btn-delete-vehicle')) {
-                if (confirm('Bạn có chắc chắn muốn xóa phương tiện này?')) {
+            // Sự kiện khi nhấn nút Sửa hoặc Xóa
+            vehiclesTableBody.addEventListener('click', async function(e) {
+                const button = e.target.closest('button');
+                if (!button) return;
+
+                const vehicleId = button.dataset.id;
+                // === THAY ĐỔI QUAN TRỌNG Ở ĐÂY ===
+                // Cập nhật URL để khớp với prefix 'thong-tin-ca-nhan'
+                const vehicleBaseUrl = `{{ url('admin/thong-tin-ca-nhan/vehicles') }}/${vehicleId}`;
+
+                // Xử lý nút Sửa
+                if (button.classList.contains('btn-edit-vehicle')) {
                     try {
-                        const response = await fetch(vehicleBaseUrl, { // URL CẬP NHẬT
-                            method: 'DELETE',
-                            headers: { 'X-CSRF-TOKEN': csrfToken }
-                        });
-                        if (!response.ok) throw new Error('Xóa thất bại');
+                        const response = await fetch(vehicleBaseUrl); // URL CẬP NHẬT
+                        if (!response.ok) throw new Error('Không tìm thấy phương tiện');
+                        const pt = await response.json();
 
-                        loadVehicles();
-                        alert('Xóa thành công!');
+                        resetForm();
+                        document.getElementById('vehicleModalLabel').textContent =
+                            'Chỉnh sửa phương tiện';
+                        document.getElementById('vehicle_id').value = pt.id;
+                        document.getElementById('namebienso').value = pt.name;
+                        document.getElementById('bien_so').value = pt.bien_so;
+                        document.getElementById('loai_phuong_tien').value = pt.loai_phuong_tien;
+                        document.getElementById('ten_chu_xe').value = pt.ten_chu_xe;
+
+                        vehicleModal.show();
                     } catch (error) {
-                        alert('Xóa thất bại!');
+                        alert('Không thể lấy thông tin phương tiện.');
                     }
                 }
-            }
-        });
 
-        // Tải danh sách phương tiện lần đầu
-        loadVehicles();
-    });
-</script>
+                // Xử lý nút Xóa
+                if (button.classList.contains('btn-delete-vehicle')) {
+                    if (confirm('Bạn có chắc chắn muốn xóa phương tiện này?')) {
+                        try {
+                            const response = await fetch(vehicleBaseUrl, { // URL CẬP NHẬT
+                                method: 'DELETE',
+                                headers: {
+                                    'X-CSRF-TOKEN': csrfToken
+                                }
+                            });
+                            if (!response.ok) throw new Error('Xóa thất bại');
+
+                            loadVehicles();
+                            alert('Xóa thành công!');
+                        } catch (error) {
+                            alert('Xóa thất bại!');
+                        }
+                    }
+                }
+            });
+
+            // Tải danh sách phương tiện lần đầu
+            loadVehicles();
+        });
+    </script>
     <script>
         function setupImagePreview(inputId, previewId, iconId) {
             const input = document.getElementById(inputId);

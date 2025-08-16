@@ -65,6 +65,21 @@ class RoomController extends Controller
 
     public function store(Request $request)
     {
+            $user = auth()->user();
+
+    // Lấy license key gán cho user
+    $license = \App\Models\LicenseKey::where('user_id', $user->id)
+        ->where('is_active', true)
+        ->first();
+
+    if (!$license) {
+        return redirect()->back()->with('error', 'Bạn chưa được cấp license key để tạo phòng.');
+    }
+
+    if ($license->max_rooms <= 0) {
+        return redirect()->back()->with('error', 'Bạn đã hết lượt tạo phòng.');
+    }
+
         $validated = $request->validate([
             'nha_tro_id' => 'required|exists:nha_tros,id',
             'ten_phong' => 'required|string|max:255',
@@ -152,6 +167,7 @@ class RoomController extends Controller
             'loai' => 'nuoc',
             'chi_so_dau' => 0,
         ]);
+           $license->decrement('max_rooms');
         LogHelper::ghi(
             'Thêm phòng trọ mới: ' . $room->ten_phong,
             'Phòng Trọ',

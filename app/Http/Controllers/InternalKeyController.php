@@ -8,7 +8,7 @@ class InternalKeyController extends Controller
 {
     public function showForm()
     {
-        return view('license.internal_key_form');
+        return view('admin.license.internal_key_form');
     }
 
     public function verify(Request $request)

@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\FeedbackController;
 use App\Http\Controllers\Admin\HoaDonController;
 use App\Http\Controllers\Admin\HopDongController;
+use App\Http\Controllers\Admin\LicenseKeyController;
 use App\Http\Controllers\Admin\MemberController;
 use App\Http\Controllers\Admin\NhaTroController;
 use App\Http\Controllers\Admin\PhuongTienController;
@@ -29,6 +30,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\VnpayController;
 use App\Http\Controllers\Admin\WebConfigController;
 use App\Http\Controllers\Admin\ZaloPayController;
+use App\Http\Controllers\InternalKeyController;
 use App\Http\Controllers\UploadController;
 
 use Illuminate\Support\Facades\Route;
@@ -272,7 +274,15 @@ Route::prefix('admin')->middleware('auth')->group(function () {
         Route::put('/{serviceAbout}', [ServiceAboutController::class, 'update'])->name('update');
         Route::delete('/{serviceAbout}', [ServiceAboutController::class, 'destroy'])->name('destroy');
     });
+    // Bước nhập key nội bộ
+    Route::get('/internal-key', [InternalKeyController::class, 'showForm'])->name('internal.key.form');
+    Route::post('/internal-key', [InternalKeyController::class, 'verify'])->name('internal.key.verify');
 
+    // Trang thêm LicenseKey (chỉ vào khi có middleware)
+    Route::middleware(['auth', 'internal.key'])->group(function () {
+        Route::get('license/create', [LicenseKeyController::class, 'create'])->name('license.create');
+        Route::post('license/store', [LicenseKeyController::class, 'store'])->name('admin.license.store');
+    });
     // Route cho các cổng thanh toán
     Route::prefix('payment')->name('payment.')->group(function () {
         // VNPay routes

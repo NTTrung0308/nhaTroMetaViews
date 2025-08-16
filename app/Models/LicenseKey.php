@@ -13,6 +13,7 @@ class LicenseKey extends Model
         'user_id',
         'max_rooms',
         'is_active',
+        'is_used'
     ];
 
     // 1 key có thể thuộc về 1 user

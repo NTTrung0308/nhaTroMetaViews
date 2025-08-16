@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\LicenseKey;
 use App\Models\PhuongTien;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -55,6 +56,7 @@ class ProfileController extends Controller
             'instar'        => 'nullable|string|max:255',
             'twitter'       => 'nullable|string|max:255',
             'linkdin'       => 'nullable|string|max:255',
+             'license_key'   => 'nullable|string|size:32',
         ], [
            
             'phone.max' => 'Số điện thoại k hợp lệ',
@@ -89,12 +91,32 @@ class ProfileController extends Controller
         ]);
 
 
+if ($request->filled('license_key')) {
+        $licenseKey = LicenseKey::where('key', $request->license_key)->first();
 
+        if (!$licenseKey) {
+            return back()->withErrors(['license_key' => 'License Key không tồn tại!']);
+        }
+
+        if ($licenseKey->is_used) {
+            return back()->withErrors(['license_key' => 'License Key này đã được sử dụng!']);
+        }
+
+        // Gán license key cho user
+        $user->license_key = $licenseKey->key;
+        $user->max_rooms = $licenseKey->max_rooms;
+        $user->save();
+
+        // Đánh dấu license key là đã sử dụng
+        $licenseKey->is_used = true;
+        $licenseKey->user_id = $user->id;
+        $licenseKey->save();
+    }
 
 
 
         // Bắt đầu xử lý dữ liệu sau khi đã validate thành công
-        $data = $request->except(['avatar', 'ho_chieu', 'cmt_mat_truoc', 'cmt_mat_sau']);
+        $data = $request->except(['avatar', 'ho_chieu', 'cmt_mat_truoc', 'cmt_mat_sau','license_key']);
 
         // Hàm trợ giúp để xử lý upload file
         $uploadFile = function ($fileKey, $user, $request) {

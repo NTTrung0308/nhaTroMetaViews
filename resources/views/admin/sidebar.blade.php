@@ -3,7 +3,8 @@
      <ul class="sidebar-nav" id="sidebar-nav">
 
          <li class="nav-item">
-             <a class="nav-link {{ in_array(Request::route()->getName(), ['dashboard.index']) ? '' : 'collapsed' }}" href="{{route('dashboard.index')}}">
+             <a class="nav-link {{ in_array(Request::route()->getName(), ['dashboard.index']) ? '' : 'collapsed' }}"
+                 href="{{ route('dashboard.index') }}">
                  <i class="bi bi-grid"></i>
                  <span>Dashboard</span>
              </a>
@@ -77,7 +78,7 @@
              <li class="nav-item">
                  <a class="nav-link {{ in_array(Request::route()->getName(), ['admin.cong_tos.nuoc.index', 'admin.cong_tos.nuoc.create', 'admin.cong_tos.nuoc.edit']) ? '' : 'collapsed' }}"
                      href="{{ route('admin.cong_tos.nuoc.index') }}">
-                   <i class="bi bi-droplet"></i>
+                     <i class="bi bi-droplet"></i>
                      <span>Công tơ nước</span>
                  </a>
              </li>
@@ -160,10 +161,7 @@
                  </a>
              </li>
          @endif
-         {{-- @if (auth()->user()->hasPermissionTo('Xem phương tiện') ||
-                 auth()->user()->hasPermissionTo('Thêm phương tiện') ||
-                 auth()->user()->hasPermissionTo('Sửa phương tiện') ||
-                 auth()->user()->hasPermissionTo('Xóa phương tiện'))
+         {{-- @if (auth()->user()->hasPermissionTo('Xem phương tiện') || auth()->user()->hasPermissionTo('Thêm phương tiện') || auth()->user()->hasPermissionTo('Sửa phương tiện') || auth()->user()->hasPermissionTo('Xóa phương tiện'))
              <li class="nav-item">
                  <a class="nav-link {{ in_array(Request::route()->getName(), ['admin.phuong_tiens.index', 'admin.phuong_tiens.create', 'admin.phuong_tiens.edit']) ? '' : 'collapsed' }}"
                      href="{{ route('admin.phuong_tiens.index') }}">
@@ -276,20 +274,28 @@
                  </a>
              </li>
          @endif
-         @if (auth()->user()->hasAnyPermission('Xem câu hỏi thường gặp','Sửa câu hỏi thường gặp','Xóa câu hỏi thường gặp','Thêm câu hỏi thường gặp'))
+         @if (auth()->user()->hasAnyPermission(
+                     'Xem câu hỏi thường gặp',
+                     'Sửa câu hỏi thường gặp',
+                     'Xóa câu hỏi thường gặp',
+                     'Thêm câu hỏi thường gặp'))
              <li class="nav-item">
-                 <a class="nav-link {{ in_array(Request::route()->getName(), ['admin.faqs.index','admin.faqs.create', 'admin.faqs.edit']) ? '' : 'collapsed' }}"
+                 <a class="nav-link {{ in_array(Request::route()->getName(), ['admin.faqs.index', 'admin.faqs.create', 'admin.faqs.edit']) ? '' : 'collapsed' }}"
                      href="{{ route('admin.faqs.index') }}">
-                   	<i class="bi bi-question-circle me-2"></i>
+                     <i class="bi bi-question-circle me-2"></i>
                      <span>Câu hỏi thường gặp</span>
                  </a>
              </li>
          @endif
-          @if (auth()->user()->hasAnyPermission('Xem dịch vụ về chúng tôi','Sửa dịch vụ về chúng tôi','Xóa dịch vụ về chúng tôi','Thêm dịch vụ về chúng tôi'))
-  <li class="nav-item">
-                 <a class="nav-link {{ in_array(Request::route()->getName(), ['admin.service_about_home.index','admin.service_about_home.create', 'admin.service_about_home.edit']) ? '' : 'collapsed' }}"
+         @if (auth()->user()->hasAnyPermission(
+                     'Xem dịch vụ về chúng tôi',
+                     'Sửa dịch vụ về chúng tôi',
+                     'Xóa dịch vụ về chúng tôi',
+                     'Thêm dịch vụ về chúng tôi'))
+             <li class="nav-item">
+                 <a class="nav-link {{ in_array(Request::route()->getName(), ['admin.service_about_home.index', 'admin.service_about_home.create', 'admin.service_about_home.edit']) ? '' : 'collapsed' }}"
                      href="{{ route('admin.service_about_home.index') }}">
-                   	<i class="bi bi-question-circle me-2"></i>
+                     <i class="bi bi-question-circle me-2"></i>
                      <span>Dịch vụ về chúng tôi</span>
                  </a>
              </li>

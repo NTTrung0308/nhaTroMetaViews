@@ -17,6 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id')->nullable(); // user được gán key
             $table->integer('max_rooms')->default(0); // số lượng phòng được phép tạo
             $table->boolean('is_active')->default(true); // trạng thái key
+            $table->boolean('is_used')->default(false); // trạng thái đã sử dụng
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
