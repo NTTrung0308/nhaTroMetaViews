@@ -52,6 +52,8 @@ class User extends Authenticatable
         'instar',
         'twitter',
         'linkdin',
+        'license_key',
+        'max_rooms',
     ];
 
     /**
@@ -76,6 +78,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'active' => 'boolean',
     ];
+   
     public function congViecs()
     {
         return $this->hasMany(CongViec::class, 'user_thuc_hien');
@@ -92,4 +95,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(PhuongTien::class);
     }
+    public function licenseKey()
+{
+    return $this->hasOne(LicenseKey::class);
+}
+
 }

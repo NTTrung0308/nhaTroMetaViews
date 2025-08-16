@@ -45,6 +45,8 @@ return new class extends Migration
             $table->string('noi_lam_viec')->nullable();
             $table->string('ma_van_tay')->nullable();
             $table->string('note')->nullable();
+               $table->string('license_key', 64)->nullable();
+    $table->integer('max_rooms')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });
