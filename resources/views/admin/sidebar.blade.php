@@ -295,8 +295,21 @@
              <li class="nav-item">
                  <a class="nav-link {{ in_array(Request::route()->getName(), ['admin.service_about_home.index', 'admin.service_about_home.create', 'admin.service_about_home.edit']) ? '' : 'collapsed' }}"
                      href="{{ route('admin.service_about_home.index') }}">
-                     <i class="bi bi-question-circle me-2"></i>
+                     <i class="bi bi-box-seam me-2"></i>
                      <span>Dịch vụ về chúng tôi</span>
+                 </a>
+             </li>
+         @endif
+         @if (auth()->user()->hasAnyPermission(
+                     'Xem thành viên trang chủ',
+                     'Sửa thành viên trang chủ',
+                     'Xóa thành viên trang chủ',
+                     'Thêm thành viên trang chủ'))
+             <li class="nav-item">
+                 <a class="nav-link {{ in_array(Request::route()->getName(), ['admin.members.index', 'admin.members.create', 'admin.members.edit']) ? '' : 'collapsed' }}"
+                     href="{{ route('admin.members.index') }}">
+                     <i class="bi bi-person-badge-fill me-2"></i>
+                     <span>Thành viên trang chủ</span>
                  </a>
              </li>
          @endif

@@ -25,60 +25,26 @@
                         <a href="{{ route('admin.members.create') }}" class="btn btn-success rounded-pill">Thêm phòng mới</a>
                         {{-- @endif --}}
                     </div>
-                    <div class="row">
-                        {{-- <form method="GET" action="{{ route('rooms.index') }}" class="row align-items-end g-3 mb-4">
-                            <div class="col-md-3">
-                                <label class="form-label">Phòng trọ</label>
-                                <select name="nha_tro_id" class="form-select select_ted">
-                                    <option value="">-- Tất cả --</option>
-                                    @foreach ($nhaTros as $nhaTro)
-                                        <option value="{{ $nhaTro->id }}"
-                                            {{ request('nha_tro_id') == $nhaTro->id ? 'selected' : '' }}>
-                                            {{ $nhaTro->ten_toa_nha }}
-                                        </option>
-                                    @endforeach
-                                </select>
+                    <hr>
+                   
+                        <form method="GET" action="{{ route('admin.members.index') }}" class="row align-items-end g-3 mb-4">
+                          
+                            <div class="col-md-10">
+                                <input type="text" name="ten" class="form-control"
+                                    value="{{ request('ten') }}" placeholder="Nhập tên thành viên">
                             </div>
 
-                            <div class="col-md-3">
-                                <label class="form-label">Tên phòng</label>
-                                <input type="text" name="ten_phong" class="form-control"
-                                    value="{{ request('ten_phong') }}">
-                            </div>
-
-                            <div class="col-md-2">
-                                <label class="form-label">Loại phòng</label>
-                                <select name="loai_phong" class="form-select">
-                                    <option value="">-- Tất cả --</option>
-                                    <option value="van_phong" {{ request('loai_phong') == 'van_phong' ? 'selected' : '' }}>
-                                        Văn phòng</option>
-                                    <option value="can_ho" {{ request('loai_phong') == 'can_ho' ? 'selected' : '' }}>Căn Hộ
-                                    </option>
-                                    <option value="phong_cho_thue"
-                                        {{ request('loai_phong') == 'phong_cho_thue' ? 'selected' : '' }}>Phòng cho thuê
-                                    </option>
-                                </select>
-                            </div>
-
-                            <div class="col-md-2">
-                                <label class="form-label">Trạng thái</label>
-                                <select name="status" class="form-select">
-                                    <option value="">-- Tất cả --</option>
-                                    <option value="trong" {{ request('status') == 'trong' ? 'selected' : '' }}>Trống
-                                    </option>
-                                    <option value="da_thue" {{ request('status') == 'da_thue' ? 'selected' : '' }}>Đã thuê
-                                    </option>
-                                </select>
-                            </div>
+                           
+                          
 
                             <div class="col-md-2 d-flex gap-2">
                                 <button type="submit" class="btn btn-primary w-100">Tìm kiếm</button>
-                                <a href="{{ route('rooms.index') }}" class="btn btn-secondary w-100">Xoá lọc</a>
+                                <a href="{{ route('admin.members.index') }}" class="btn btn-secondary w-100">Xoá lọc</a>
                             </div>
-                        </form> --}}
+                        </form>
 
 
-                    </div>
+                 
                     <div class="table-responsive">
                         <table class="table table-striped table-responsive">
                             <thead>
@@ -97,10 +63,10 @@
                                         <td><img src="{{ asset($member->image) }}" alt="" width="50" height="50"></td>
                                         <td>{{ $member->name }}</td>
                                         <td>{{ $member->description }}</td>
-                                        <td><a href="{{ $member->facebook }}" target="_blank">{{ $member->facebook }}</a>
+                                        <td><a href="{{ $member->facebook }}" target="_blank">Đường dẫn Facebook</a>
                                         </td>
-                                        <td><a href="{{ $member->google }}" target="_blank">{{ $member->google }}</a></td>
-                                        <td><a href="{{ $member->instagram }}" target="_blank">{{ $member->instagram }}</a>
+                                        <td><a href="{{ $member->google }}" target="_blank">Đường dẫn Google</a></td>
+                                        <td><a href="{{ $member->instagram }}" target="_blank">Đường dẫn Instagram</a>
                                         </td>
                                         <td>
                                             <a href="{{ route('admin.members.edit', $member) }}"

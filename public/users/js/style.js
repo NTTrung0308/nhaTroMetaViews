@@ -84,15 +84,17 @@ function toggleAnswer(trigger, id) {
 document.addEventListener("DOMContentLoaded", function () {
     const mainImg = document.getElementById("main-banner-img");
     const thumbs = Array.from(document.querySelectorAll(".banner-thumb"));
+
+    // Chỉ chạy nếu có ảnh chính và có ít nhất 1 ảnh nhỏ
+    if (!mainImg || thumbs.length === 0) {
+        return; // không có ảnh => không chạy
+    }
+
     let current = 0;
 
     function setActive(idx) {
         thumbs.forEach((thumb, i) => {
-            if (i === idx) {
-                thumb.classList.add("active-thumb");
-            } else {
-                thumb.classList.remove("active-thumb");
-            }
+            thumb.classList.toggle("active-thumb", i === idx);
         });
     }
     setActive(current);
@@ -105,21 +107,24 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    document
-        .getElementById("btn-rect-prev")
-        .addEventListener("click", function () {
+    const prevBtn = document.getElementById("btn-rect-prev");
+    const nextBtn = document.getElementById("btn-rect-next");
+
+    if (prevBtn) {
+        prevBtn.addEventListener("click", function () {
             current = (current - 1 + thumbs.length) % thumbs.length;
             mainImg.src = thumbs[current].dataset.img;
             setActive(current);
         });
+    }
 
-    document
-        .getElementById("btn-rect-next")
-        .addEventListener("click", function () {
+    if (nextBtn) {
+        nextBtn.addEventListener("click", function () {
             current = (current + 1) % thumbs.length;
             mainImg.src = thumbs[current].dataset.img;
             setActive(current);
         });
+    }
 });
 
 var swiper2 = new Swiper(".mySwiper2", {
@@ -413,6 +418,11 @@ var swiper = new Swiper(".mySwiperDung", {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
+    const thumbsSwiperEl = document.getElementById("banner-thumbs");
+    const mainImg = document.getElementById("main-banner-img");
+
+    if (!thumbsSwiperEl || !mainImg) return;
+
     const thumbsSwiper = new Swiper("#banner-thumbs", {
         slidesPerView: 3,
         spaceBetween: 10,
@@ -424,23 +434,19 @@ document.addEventListener("DOMContentLoaded", function () {
             768: { slidesPerView: 3 },
             576: { slidesPerView: 2 },
             320: { slidesPerView: 2 },
-            0: { slidesPerView: 2 },
         },
     });
 
     const thumbs = document.querySelectorAll(".banner-thumb");
-    const mainImg = document.getElementById("main-banner-img");
+    if (thumbs.length === 0) return;
+
     let currentIndex = 0;
 
-    // Đặt active-thumb
     function updateActiveThumb(index) {
         thumbs.forEach((img) => img.classList.remove("active-thumb"));
-        if (thumbs[index]) {
-            thumbs[index].classList.add("active-thumb");
-        }
+        if (thumbs[index]) thumbs[index].classList.add("active-thumb");
     }
 
-    // Click thumbnail
     thumbs.forEach((thumb, index) => {
         thumb.addEventListener("click", function () {
             const newSrc = this.getAttribute("data-img");
@@ -452,7 +458,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    // Tự động đổi ảnh
     function changeImageAutomatically() {
         currentIndex = (currentIndex + 1) % thumbs.length;
         const newImg = thumbs[currentIndex].getAttribute("data-img");
@@ -463,9 +468,10 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Auto mỗi 5s
-    setInterval(changeImageAutomatically, 5000);
+    if (thumbs.length > 1) {
+        setInterval(changeImageAutomatically, 5000);
+    }
 
-    // Thiết lập ảnh đầu tiên là active
     updateActiveThumb(0);
 });
+

@@ -267,7 +267,7 @@
             <p class="slogan-member text-muted text-center mt-2">“Về nhà dễ dàng hơn với Fun Home.”</p>
             <div class="swiper swiper-member mySwiper-member pt-4">
                 <div class="swiper-wrapper">
-                    @foreach ($members as $member)
+                    @forelse ($members as $member)
                         <div class="swiper-slide">
                             <div class="member-card ">
                                 <div class="member-img-wrap ">
@@ -298,8 +298,13 @@
                                 </div>
                             </div>
                         </div>
-                    @endforeach
-
+                   @empty
+                      <div class="col-lg-12">
+                          <div class="text-center">
+                              <p class="text-muted">Chưa có thành viên nào.</p>
+                          </div>
+                      </div>
+                   @endforelse
 
                 </div>
             </div>
@@ -362,7 +367,7 @@
                                                         <h6 class="fw-bold mb-1">{{ $feedback->name ?? '' }}</h6>
                                                        
                                                     </div>
-                                                    <img src="{{ asset('users/images/quote-icon-member.png') }}"
+                                                    <img src="{{ asset($feedback->image ?? 'users/images/quote-icon-member.png') }}"
                                                         alt="Quote Icon" class="ms-auto quote-icon-member">
                                                 </div>
                                                 <p class="mt-4 fs-5 text-quote">"{{ $feedback->message ?? '' }}"</p>

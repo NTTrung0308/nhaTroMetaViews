@@ -77,7 +77,7 @@
                                                             class="bi bi-trash text-white"></i></button>
                                                 </form>
                                             @endif
-                                             <button type="button" class="btn btn-info btn-sm text-white view-detail-btn"
+                                            <button type="button" class="btn btn-info btn-sm text-white view-detail-btn"
                                                 data-title="{{ $item->title }}"
                                                 data-description="{{ $item->description }}"
                                                 data-content="{{ $item->content }}"
@@ -90,7 +90,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="5" class="text-center">Chưa có dịch vụ nào.</td>
+                                        <td colspan="6" class="text-center">Chưa có dịch vụ nào.</td>
                                     </tr>
                                 @endforelse
                             </tbody>
@@ -113,43 +113,53 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <h4 id="modalTitle"></h4>
-                    <p><strong>Mô tả:</strong> <span id="modalDescription"></span></p>
-                    <p><strong>Hiển thị ở trang chủ:</strong> <span id="modalShow"></span></p>
-                    <p><strong>Nội dung:</strong></p>
-                    <div id="modalContent" class="border p-2 rounded" style="white-space: pre-line;"></div>
-                    <div class="mt-3">
-                        <img id="modalImage" src="" alt="" style="max-width: 100%; border: 1px solid #ddd; padding: 5px; border-radius: 5px;">
+                   
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="mt-3">
+                                <img id="modalImage" src="" alt=""
+                                    style="max-width: 100%; border: 1px solid #ddd; padding: 5px; border-radius: 5px;">
+                            </div>
+                        </div>
+                        <div class="col-lg-8">
+                             <h5 id="modalTitle"></h4>
+                            <p><strong>Mô tả:</strong> <span id="modalDescription"></span></p>
+                            <p><strong>Hiển thị ở trang chủ:</strong> <span id="modalShow"></span></p>
+                            <p><strong>Nội dung:</strong></p>
+                        </div>
                     </div>
+                    <div id="modalContent" class="border p-2 rounded mt-4" style="white-space: pre-line;"></div>
+
                 </div>
             </div>
         </div>
     </div>
 @endsection
 @push('scripts')
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    const buttons = document.querySelectorAll('.view-detail-btn');
-    const modal = new bootstrap.Modal(document.getElementById('detailModal'));
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('.view-detail-btn');
+            const modal = new bootstrap.Modal(document.getElementById('detailModal'));
 
-    buttons.forEach(btn => {
-        btn.addEventListener('click', function () {
-            document.getElementById('modalTitle').textContent = this.dataset.title;
-            document.getElementById('modalDescription').textContent = this.dataset.description;
-            document.getElementById('modalContent').textContent = this.dataset.content;
-            document.getElementById('modalShow').textContent = this.dataset.show;
+            buttons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.getElementById('modalTitle').textContent = this.dataset.title;
+                    document.getElementById('modalDescription').textContent = this.dataset
+                        .description;
+                    document.getElementById('modalContent').innerHTML  = this.dataset.content;
+                    document.getElementById('modalShow').textContent = this.dataset.show;
 
-            const img = document.getElementById('modalImage');
-            if (this.dataset.image) {
-                img.src = this.dataset.image;
-                img.style.display = 'block';
-            } else {
-                img.style.display = 'none';
-            }
+                    const img = document.getElementById('modalImage');
+                    if (this.dataset.image) {
+                        img.src = this.dataset.image;
+                        img.style.display = 'block';
+                    } else {
+                        img.style.display = 'none';
+                    }
 
-            modal.show();
+                    modal.show();
+                });
+            });
         });
-    });
-});
-</script>
+    </script>
 @endpush

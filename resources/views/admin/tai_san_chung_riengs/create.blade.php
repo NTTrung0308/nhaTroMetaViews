@@ -49,7 +49,7 @@
                             <hr>
                             <h4>Tài sản chung</h4>
                             <div class="row">
-                                @foreach ($taiSans as $ts)
+                                @forelse ($taiSans as $ts)
                                     <div class="col-lg-3">
                                         <div class="checkbox-wrapper-61">
                                             <input type="checkbox" class="check" name="tai_san_chung_ids[]"
@@ -69,7 +69,11 @@
                                             {{-- <label for="tsc{{ $ts->id }}">{{ $ts->ten_tai_san }}</label> --}}
                                         </div>
                                     </div>
-                                @endforeach
+                               @empty
+                                   <div class="col-lg-12 text-center">
+                                        <p>Không có tài sản nào</p>
+                                    </div>
+                                @endforelse
                             </div>
 
 
@@ -77,7 +81,7 @@
                             <hr>
                             <h4>Tài sản riêng</h4>
                             <div class="row">
-                                @foreach ($taiSans as $ts)
+                                @forelse ($taiSans as $ts)
                                     <div class="col-lg-3">
                                         <div class="checkbox-wrapper-61">
                                             <input type="checkbox" class="check" name="tai_san_rieng_ids[]"
@@ -97,7 +101,11 @@
                                             {{-- <label for="tsr{{ $ts->id }}">{{ $ts->ten_tai_san }}</label> --}}
                                         </div>
                                     </div>
-                                @endforeach
+                                 @empty
+                                   <div class="col-lg-12 text-center">
+                                        <p>Không có tài sản nào</p>
+                                    </div>
+                                @endforelse
                             </div>
                             <br>
                             <button type="submit" class="btn btn-success">Lưu</button>

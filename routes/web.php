@@ -8,6 +8,9 @@ use App\Http\Controllers\Clients\HomeController;
 use App\Http\Controllers\Clients\LoginController;
 use App\Http\Controllers\Clients\MemberController;
 use App\Http\Controllers\Clients\NewsController;
+use App\Http\Controllers\Clients\RoomsController;
+use App\Http\Controllers\Clients\ServiceController;
+use App\Models\ServiceAbout;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,11 +41,23 @@ Route::prefix('chinh-sach-bao-mat')->group(function(){
 Route::prefix('lien-he')->group(function(){
  Route::get('/', [ClientsContactController::class, 'index'])->name('contact.users.index');
  Route::post('/store', [ClientsContactController::class, 'store'])->name('contact.users.store');
+ Route::post('/storecotact', [ClientsContactController::class, 'storecotact'])->name('contact.users.storejquery');
 });
 
 Route::prefix('thanh-vien')->group(function () {
     Route::get('/', [MemberController::class, 'index'])->name('members.users.index');
 });
 Route::prefix('gioi-thieu')->group(function () {
-    Route::get('/', [AboutController::class, 'index'])->name('about.users.index');
+    Route::get('/', [AboutController::class, 'index'])->name('about.users.index'); 
+});
+
+Route::prefix('dich-vu')->group(function () {
+    Route::get('/', [ServiceController::class, 'index'])->name('services.users.index');
+    Route::get('/{slug}', [ServiceController::class, 'detail'])->name('services.users.detail');
+});
+
+Route::prefix('phong-tro')->group(function () {
+    Route::get('/', [RoomsController::class, 'index'])->name('rooms.users.index');
+    Route::get('/{id}', [RoomsController::class, 'detail'])->name('rooms.users.detail');
+    // Route::get('/{slug}', [RoomsController::class, 'detail'])->name('rooms.users.detail');
 });

@@ -280,6 +280,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 
     // Trang thêm LicenseKey (chỉ vào khi có middleware)
     Route::middleware(['auth', 'internal.key'])->group(function () {
+        Route::get('license/index', [LicenseKeyController::class, 'index'])->name('license.index');
         Route::get('license/create', [LicenseKeyController::class, 'create'])->name('license.create');
         Route::post('license/store', [LicenseKeyController::class, 'store'])->name('admin.license.store');
     });

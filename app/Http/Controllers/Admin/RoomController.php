@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Helpers\LogHelper;
 use App\Http\Controllers\Controller;
 use App\Models\CongTo;
+use App\Models\LicenseKey;
 use App\Models\NhaTros;
 use App\Models\Rooms;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RoomController extends Controller
 {
@@ -68,7 +70,7 @@ class RoomController extends Controller
             $user = auth()->user();
 
     // Lấy license key gán cho user
-    $license = \App\Models\LicenseKey::where('user_id', $user->id)
+    $license = LicenseKey::where('user_id', $user->id)
         ->where('is_active', true)
         ->first();
 
@@ -142,9 +144,9 @@ class RoomController extends Controller
 
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $img) {
-                $fileName = time() . '_' . $img->getClientOriginalName();
-                $img->move(public_path('rooms'), $fileName); // Lưu vào public/rooms
-                $images[] = 'rooms/' . $fileName; // Lưu đường dẫn tương đối
+               $fileName = uniqid() . '_' . time() . '_' . $img->getClientOriginalName();
+                $img->move(public_path('rooms'), $fileName);
+                $images[] = 'rooms/' . $fileName;
             }
         }
 //  CongTo::create([
@@ -273,7 +275,7 @@ class RoomController extends Controller
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $img) {
                 if ($img->isValid()) {
-                    $fileName = time() . '_' . $img->getClientOriginalName();
+                      $fileName = uniqid() . '_' . time() . '_' . $img->getClientOriginalName();
                     $img->move(public_path('rooms'), $fileName);
                     $images[] = 'rooms/' . $fileName;
                 }
@@ -310,33 +312,77 @@ class RoomController extends Controller
         return redirect()->route('rooms.index')->with('success', 'Cập nhật phòng thành công.');
     }
 
-    public function destroy(Rooms $room)
-    {
-        // Xóa ảnh nếu có
-        if (!empty($room->images)) {
-            $images = json_decode($room->images, true);
-            foreach ($images as $imgPath) {
-                $fullPath = public_path($imgPath);
-                if (file_exists($fullPath)) {
-                    unlink($fullPath);
+   public function destroy(Rooms $room)
+{
+    try {
+        // Bắt đầu một transaction để đảm bảo tất cả các thao tác đều thành công
+        DB::transaction(function () use ($room) {
+            
+            // --- PHẦN LOGIC MỚI: HOÀN LẠI LƯỢT TẠO PHÒNG ---
+
+            // 1. Lấy user_id của chủ sở hữu phòng thông qua nhà trọ.
+            // Giả định rằng model Room có quan hệ 'nhaTro' và model NhaTro có thuộc tính 'user_id'.
+            // Nếu bạn chưa có quan hệ này, bạn có thể tạo nó trong model Room:
+            // public function nhaTro() { return $this->belongsTo(\App\Models\NhaTro::class); }
+            $ownerId = $room->nhaTro->user_id ?? null;
+
+            if ($ownerId) {
+                // 2. Tìm license key đang hoạt động của chủ sở hữu
+                $license = LicenseKey::where('user_id', $ownerId)
+                                     ->where('is_active', true)
+                                     ->first();
+
+                // 3. Nếu tìm thấy license, cộng lại 1 lượt
+                if ($license) {
+                    $license->increment('max_rooms');
+                }
+            } else {
+                // Ghi log nếu không tìm thấy chủ sở hữu, đây là trường hợp bất thường
+                \Log::warning('Không thể hoàn lại lượt tạo phòng khi xóa phòng ID: ' . $room->id . ' vì không tìm thấy chủ sở hữu.');
+            }
+
+            // --- GIỮ NGUYÊN LOGIC XÓA CỦA BẠN ---
+
+            // Xóa các công tơ liên quan đến phòng
+            CongTo::where('room_id', $room->id)->delete();
+            
+            // Xóa ảnh nếu có
+            if (!empty($room->images)) {
+                $images = json_decode($room->images, true);
+                if (is_array($images)) {
+                    foreach ($images as $imgPath) {
+                        $fullPath = public_path($imgPath);
+                        if (file_exists($fullPath)) {
+                            unlink($fullPath);
+                        }
+                    }
                 }
             }
-        }
 
-        // Xóa bản ghi
-        $room->delete();
+            // Lấy thông tin phòng trước khi xóa để ghi log
+            $tenPhong = $room->ten_phong;
+            $roomId = $room->id;
 
-       
-    // Ghi log chi tiết
-    LogHelper::ghi(
-        'Xóa phòng trọ: ' . $room->ten_phong . ' (ID: ' . $room->id . ')',
-        'Phòng Trọ',
-        'Người dùng "' . auth()->user()->name . '" (ID: ' . auth()->id() . ') đã xóa phòng trọ "' . $room->ten_phong . '" (ID: ' . $room->id . ') trong quản trị viên.'
-    );
+            // Xóa bản ghi phòng trọ
+            $room->delete();
 
-        return back()->with('success', 'Xóa phòng thành công.');
+            // Ghi log chi tiết
+            LogHelper::ghi(
+                'Xóa phòng trọ: ' . $tenPhong . ' (ID: ' . $roomId . ')',
+                'Phòng Trọ',
+                'Người dùng "' . auth()->user()->name . '" (ID: ' . auth()->id() . ') đã xóa phòng trọ "' . $tenPhong . '" (ID: ' . $roomId . '). Lượt tạo phòng đã được hoàn lại.'
+            );
+        });
+
+    } catch (\Exception $e) {
+        // Nếu có lỗi xảy ra trong transaction, ghi log và báo lỗi
+        \Log::error('Lỗi khi xóa phòng: ' . $e->getMessage());
+        return back()->with('error', 'Xóa phòng thất bại. Vui lòng thử lại.');
     }
 
+    // Cập nhật thông báo thành công
+    return back()->with('success', 'Xóa phòng thành công và đã hoàn lại 1 lượt tạo phòng.');
+}
     // App\Http\Controllers\RoomController.php
     public function getUsedRoomCodes($nha_tro_id)
     {

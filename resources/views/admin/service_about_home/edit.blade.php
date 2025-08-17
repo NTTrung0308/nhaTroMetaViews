@@ -49,7 +49,7 @@
 
         <div class="mb-3">
             <label>Nội dung</label>
-            <textarea name="content" class="form-control" rows="5">{{ old('content', $serviceAbout->content) }}</textarea>
+            <textarea name="content" class="form-control" id="tyni" rows="5">{{ old('content', $serviceAbout->content) }}</textarea>
         </div>
 
         <div class="form-check mb-3">

@@ -22,7 +22,8 @@
         </div>
         <div class="col-6 h-100 w-100">
             <div class="w-100 h-100">
-                <img src="/users/images/anhbg1.png" class="header-banner-vision w-100 h-100 object-fit-cover">
+                <img src="{{ asset('/users/images/anhbg1.png') }}"
+                    class="header-banner-vision w-100 h-100 object-fit-cover">
             </div>
         </div>
 
@@ -64,8 +65,8 @@
                                         <h6 class="title-news">
                                             {{ $tinTuc->tieu_de ??
                                                 'Giá trọ khu vực Hoàng Mai đang có xu hướng giảm giá sau điều
-                                                                                                                            chỉnh của cơ chế thị
-                                                                                                                            trường .' }}
+                                                                                                                                                                        chỉnh của cơ chế thị
+                                                                                                                                                                        trường .' }}
                                         </h6>
                                         <p class="line-text-limit-5">{{ $tinTuc->mo_ta_ngan ?? '' }}
                                         </p>
@@ -82,42 +83,27 @@
                 </div>
                 <div class=" p-nav text-end d-flex justify-content-end">
                     {{ $tinTucs->appends(request()->query())->links('pagination::bootstrap-4') }}
-                    {{-- @for ($i = 1; $i <= 9; $i++)
-                        <div class="col-sm-12 col-md-6 col-lg-4 mb-3 news-item-for-mobile">
-                            <div class="nav-news">
-                                <img src="{{ asset('/users/images/anh5.png') }}" alt="" class="img_1 w-100 h-50">
-                                <div class="text-news p-3">
-                                    <h6 class="title-news">Giá trọ khu vực Hoàng Mai đang có xu hướng giảm giá sau điều chỉnh của cơ chế thị
-                                        trường .</h6>
-                                    <p class="line-text-limit-5">Đây là một đoạn mô tả ngắn hay còn gọi là description hoặc
-                                        content . Lorem ipsum dolor sit amet consectetur adipisicing
-                                        elit. Id tenetur porro, blanditiis, nesciunt unde beatae quod quas ab perferendis
-                                        odit dolore, sit non dolorem? Omnis cumque praesentium minima ducimus perferendis.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    @endfor --}}
+                  
                 </div>
             </div>
             {{-- search --}}
             <div class="col-sm-12 col-md-4 col-lg-4 order-1 cc mb-3 ">
                 <div class="news-search ">
-                   <div class="search-news mb-3">
-    <h4>Tìm kiếm</h4>
-</div>
+                    <div class="search-news mb-3">
+                        <h4>Tìm kiếm</h4>
+                    </div>
 
-<form method="GET" action="{{ route('news.users') }}" class="search-bar">
-    <span class="search-icon">
-        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
-            viewBox="0 0 24 24">
-            <circle cx="11" cy="11" r="8" />
-            <line x1="21" y1="21" x2="16.65" y2="16.65" />
-        </svg>
-    </span>
-    <input type="text" name="keyword" value="{{ request('keyword') }}" 
-           class="form-control w-100" placeholder="Tìm kiếm...">
-</form>
+                    <form method="GET" action="{{ route('news.users') }}" class="search-bar">
+                        <span class="search-icon">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+                                viewBox="0 0 24 24">
+                                <circle cx="11" cy="11" r="8" />
+                                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                            </svg>
+                        </span>
+                        <input type="text" name="keyword" value="{{ request('keyword') }}" class="form-control w-100"
+                            placeholder="Tìm kiếm...">
+                    </form>
 
                     <div class=" text2-news text-center py-3">
                         <h5>Câu hỏi thường gặp </h5>

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('service_abouts', function (Blueprint $table) {
             $table->id();
             $table->string('title')->nullable();
+               $table->string('slug')->unique(); // thêm slug
             $table->string('description')->nullable();
             $table->string('image')->nullable();
                 $table->boolean('show_on_home')->default(false);

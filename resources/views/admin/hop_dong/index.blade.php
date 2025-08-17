@@ -94,7 +94,7 @@
                         </table>
                     </div>
                     <div class="mt-3 d-flex justify-content-end">
-                        {{ $hopDongs->links() }}
+                          {{ $hopDongs->appends(request()->query())->links('pagination::bootstrap-4') }}
                     </div>
                 </div>
             </div>

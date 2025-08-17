@@ -8,10 +8,30 @@ use Illuminate\Http\Request;
 
 class MemberController extends Controller
 {
-    public function index()
+     public function __construct()
     {
-        $members = Member::latest()->paginate(10);
-        return view('admin.members.index', compact('members'));
+        $this->middleware('can:Xem thành viên trang chủ')->only(['index']);
+        $this->middleware('can:Thêm thành viên trang chủ')->only(['create', 'store']);
+        $this->middleware('can:Sửa thành viên trang chủ')->only(['edit', 'update']);
+        $this->middleware('can:Xóa thành viên trang chủ')->only(['destroy']);
+    }
+ public function index(Request $request)
+    {
+       $query = Member::query();
+
+    // lọc theo tên
+    if ($request->filled('name')) {
+        $query->where('name', 'like', '%' . $request->name . '%');
+    }
+
+    // lọc theo mô tả
+    if ($request->filled('description')) {
+        $query->where('description', 'like', '%' . $request->description . '%');
+    }
+
+    $members = $query->latest()->paginate(10);
+
+    return view('admin.members.index', compact('members'));
     }
 
     public function create()

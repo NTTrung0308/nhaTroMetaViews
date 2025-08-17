@@ -15,11 +15,14 @@ class InternalKeyController extends Controller
     {
         $request->validate([
             'internal_key' => 'required|string',
+        ],[
+            'internal_key.required' => 'Vui lòng nhập key nội bộ.',
+            'internal_key.string' => 'Key nội bộ không hợp lệ.',
         ]);
 
         if ($request->input('internal_key') === env('INTERNAL_LICENSE_KEY')) {
             $request->session()->put('internal_key_verified', true);
-            return redirect()->route('license.create')->with('success', 'Xác thực thành công!');
+            return redirect()->route('license.index')->with('success', 'Xác thực thành công!');
         }
 
         return back()->withErrors(['internal_key' => 'Sai key nội bộ!']);

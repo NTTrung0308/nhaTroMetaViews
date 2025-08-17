@@ -108,6 +108,10 @@ class PermissionSeeder extends Seeder
             'Thêm dịch vụ về chúng tôi',
             'Sửa dịch vụ về chúng tôi',
             'Xóa dịch vụ về chúng tôi',
+            'Xem thành viên trang chủ',
+            'Thêm thành viên trang chủ',
+            'Sửa thành viên trang chủ',
+            'Xóa thành viên trang chủ',
 
         ];
 

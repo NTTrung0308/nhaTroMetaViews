@@ -1,5 +1,6 @@
 @extends('admin.index')
 @section('contentadmin')
+
     <div class="pagetitle">
         <h1>Phòng trọ</h1>
         <nav>

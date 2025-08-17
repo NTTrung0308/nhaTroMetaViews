@@ -11,6 +11,12 @@ class LicenseKeyController extends Controller
     /**
      * Trang tạo key mới (chỉ vào nếu đã xác thực internal key)
      */
+    public function index()
+{
+    $licenseKeys = LicenseKey::with('user')->latest()->paginate(10);
+    return view('admin.license.index', compact('licenseKeys'));
+}
+
     public function create()
     {
         if (!session('internal_key_verified')) {
@@ -33,6 +39,10 @@ class LicenseKeyController extends Controller
 
         $request->validate([
             'max_rooms' => 'required|integer|min:0',
+        ],[
+            'max_rooms.required' => 'Số lượng phòng tối đa là bắt buộc.',
+            'max_rooms.integer' => 'Số lượng phòng tối đa phải là một số nguyên.',
+            'max_rooms.min' => 'Số lượng phòng tối đa phải lớn hơn hoặc bằng 0.',
         ]);
 
         LicenseKey::create([
@@ -40,6 +50,6 @@ class LicenseKeyController extends Controller
             'max_rooms' => $request->max_rooms,
         ]);
 
-        return redirect()->route('admin.license.store')->with('success', 'Tạo key thành công!');
+        return redirect()->route('license.index')->with('success', 'Tạo key thành công!');
     }
 }

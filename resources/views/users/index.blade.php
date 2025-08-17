@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Document</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 
@@ -16,6 +17,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="stylesheet" href="{{ asset('/users/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('/users/css/reponse.css') }}">
+    <link href="{{ asset('/assets/css/toastr.min.css') }}" rel="stylesheet">
+
 
 </head>
 
@@ -53,8 +56,10 @@
 
     <!-- Swiper JS -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script src="/users/js/long.js"></script>
-    <script src="/users/js/style.js"></script>
+    <script src="{{asset('/users/js/long.js')}}"></script>
+    <script src="{{asset('/users/js/style.js')}}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ asset('/assets/js/toastr.min.js') }}"></script>
 
     <script>
         var swiper = new Swiper(".mySwiper-history", {
@@ -65,6 +70,24 @@
         });
         window.swiper2 = swiper;
     </script>
+ <script>
+        @if (Session::has('success'))
+            toastr.success("{{ Session::get('success') }}");
+        @endif
+
+        @if (Session::has('error'))
+            toastr.error("{{ Session::get('error') }}");
+        @endif
+
+        @if (Session::has('info'))
+            toastr.info("{{ Session::get('info') }}");
+        @endif
+
+        @if (Session::has('warning'))
+            toastr.warning("{{ Session::get('warning') }}");
+        @endif
+    </script>
+    @stack('scripts')
 
 </body>
 
