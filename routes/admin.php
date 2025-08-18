@@ -228,7 +228,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::prefix('hoa-dons')->name('hoa-dons.')->group(function () {
         Route::get('/', [HoaDonController::class, 'index'])->name('index');
         Route::get('/create', [HoaDonController::class, 'showGenerateForm'])->name('create');
-        Route::post('/', [HoaDonController::class, 'generateInvoices'])->name('store');
+        Route::post('/', [HoaDonController::class, 'generateIn voices'])->name('store');
         Route::get('/{hoaDon}/edit', [HoaDonController::class, 'edit'])->name('edit');
         Route::put('/{hoaDon}', [HoaDonController::class, 'update'])->name('update');
         Route::get('/{hoaDon}', [HoaDonController::class, 'show'])->name('show');

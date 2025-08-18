@@ -137,17 +137,20 @@
 
                                             {{-- Nước --}}
                                             <td>
-                                                @if ($kieuTinhNuoc == 'cong_to')
+                                                
+                                                @if ($kieuTinhNuoc === 'cong_to')
                                                     {{-- Số nước cuối kỳ --}}
                                                     <input type="number" step="0.1" name="so_m3_nuoc"
                                                         class="form-control mb-1"
                                                         value="{{ number_format($dn->so_m3_nuoc_sau) }}"
                                                         {{-- Thêm 'disabled' nếu đã chốt --}} {{ $dn->trang_thai_chot ? 'disabled' : '' }}>
-                                                @elseif($kieuTinhNuoc == 'dau_nguoi')
+                                                        @endif
+                                                @if($kieuTinhNuoc === 'dau_nguoi')
                                                     <input type="number" class="form-control" name="so_m3_nuoc"
                                                         value="{{ $dn->so_nguoi }}" readonly>
                                                     <small class="text-muted">Tính theo đầu người</small>
-                                                @elseif($kieuTinhNuoc == 'co_dinh')
+                                                    @endif
+                                                 @if($kieuTinhNuoc === 'co_dinh')
                                                     <input type="text" class="form-control" value="1"
                                                         name="so_m3_nuoc" readonly>
                                                     <small class="text-muted">Tính cố định</small>

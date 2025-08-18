@@ -191,6 +191,7 @@ class AdministratorController extends Controller
             'phone' => 'nullable|string',
             'avatar' => 'nullable|image',
             'birthday' => 'nullable|date',
+            'active' =>'required',
             'cmt_mat_truoc' => 'nullable|image',
             'cmt_mat_sau' => 'nullable|image',
             'cmnd' => 'nullable|string',
@@ -247,6 +248,7 @@ class AdministratorController extends Controller
 
             'ma_van_tay.string' => 'Mã vân tay không hợp lệ.',
             'note.string' => 'Ghi chú không hợp lệ.',
+            'active.required' => 'trạng thái là bắt buộc'
         ]);
 
 
@@ -327,6 +329,9 @@ class AdministratorController extends Controller
     {
 
         $user = User::findOrFail($id);
+         if (auth()->id() == $user->id) {
+        return redirect()->back()->with('error', 'Bạn không thể xóa tài khoản của chính mình.');
+    }
         // Kiểm tra nếu user có role 'nguoi-thue-tro' thì không cho xóa
         if ($user->roles()->where('name', 'nguoi-thue-tro')->exists()) {
             return redirect()->back()->with('error', 'Có lỗi xảy ra');
