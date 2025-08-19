@@ -63,9 +63,33 @@
         </div>
     </section>
 
-    <section class="about-parameter mt-md-5">
-        <div class="container">
-           {!! $abouts->content !!}
+    <section class="container py-5">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <h1 class="fw-bold mb-3">{{ $abouts->title }}</h1>
+                <p class="lead mb-3">{{ $abouts->description }}</p>
+                <div class="mb-4">
+                    <h4 class="fw-bold">{{ $abouts->mission_title }}</h4>
+                    <p>{{ $abouts->mission }}</p>
+                </div>
+                <div class="mb-4">
+                    <h4 class="fw-bold">{{ $abouts->vision_title }}</h4>
+                    <p>{{ $abouts->vision }}</p>
+                </div>
+            </div>
+            <div class="col-lg-6 text-center">
+                @if(!empty($abouts->image))
+                    <img src="{{ asset($abouts->image) }}" alt="{{ $abouts->title }}" class="img-fluid rounded shadow">
+                @else
+                    <img src="{{ asset('/users/images/banner-about.png') }}" alt="About Us" class="img-fluid rounded shadow">
+                @endif
+            </div>
+        </div>
+    </section>
+
+    <section class="container my-5">
+        <div class="bg-light p-4 rounded shadow">
+            {!! $abouts->content !!}
         </div>
     </section>
 

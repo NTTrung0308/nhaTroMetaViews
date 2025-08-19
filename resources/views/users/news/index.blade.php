@@ -22,8 +22,7 @@
         </div>
         <div class="col-6 h-100 w-100">
             <div class="w-100 h-100">
-                <img src="{{ asset('/users/images/anhbg1.png') }}"
-                    class="header-banner-vision w-100 h-100 object-fit-cover">
+                <img src="/users/images/anhbg1.png" class="header-banner-vision w-100 h-100 object-fit-cover">
             </div>
         </div>
 
@@ -53,20 +52,18 @@
     <div class="container ">
         <div class="row ">
             <div class="col-sm-12 col-md-8 col-lg-8 order-2 order-md-1 mb-3">
-                <div class="row mb-4">
+                <div class="row ">
                     @forelse ($tinTucs as $tinTuc)
-                        <div class="col-sm-12 col-md-6 col-lg-4 mb-3 news-item-for-mobile">
-                            <a href="{{ route('news.users.detail', $tinTuc->slug) }}" class="text-dark"
+                        <div class="col-6 col-md-6 col-lg-4 mb-3  ">
+                            <a href="{{ route('news.users.detail', $tinTuc->slug) }}" class="text-dark "
                                 style="text-decoration: none">
-                                <div class="nav-news">
-                                    <img src="{{ asset('/users/images/anh5.png') }}" alt=""
-                                        class="img_1 w-100 h-50">
+                                <div class="nav-news h-100">
+                                    <img src="{{ $tinTuc->hinh_anh ? asset($tinTuc->hinh_anh) : asset('/users/images/anh5.png') }}"
+                                        alt="" class="img_1 w-100 h-50 object-fit-cover">
                                     <div class="text-news p-3">
                                         <h6 class="title-news">
                                             {{ $tinTuc->tieu_de ??
-                                                'Giá trọ khu vực Hoàng Mai đang có xu hướng giảm giá sau điều
-                                                                                                                                                                        chỉnh của cơ chế thị
-                                                                                                                                                                        trường .' }}
+                                                'Giá trọ khu vực Hoàng Mai đang có xu hướng giảm giá sau điều chỉnh của cơ chế thị trường .' }}
                                         </h6>
                                         <p class="line-text-limit-5">{{ $tinTuc->mo_ta_ngan ?? '' }}
                                         </p>
@@ -83,7 +80,22 @@
                 </div>
                 <div class=" p-nav text-end d-flex justify-content-end">
                     {{ $tinTucs->appends(request()->query())->links('pagination::bootstrap-4') }}
-                  
+                    {{-- @for ($i = 1; $i <= 9; $i++)
+                        <div class="col-sm-12 col-md-6 col-lg-4 mb-3 news-item-for-mobile">
+                            <div class="nav-news">
+                                <img src="{{ asset('/users/images/anh5.png') }}" alt="" class="img_1 w-100 h-50">
+                                <div class="text-news p-3">
+                                    <h6 class="title-news">Giá trọ khu vực Hoàng Mai đang có xu hướng giảm giá sau điều chỉnh của cơ chế thị
+                                        trường .</h6>
+                                    <p class="line-text-limit-5">Đây là một đoạn mô tả ngắn hay còn gọi là description hoặc
+                                        content . Lorem ipsum dolor sit amet consectetur adipisicing
+                                        elit. Id tenetur porro, blanditiis, nesciunt unde beatae quod quas ab perferendis
+                                        odit dolore, sit non dolorem? Omnis cumque praesentium minima ducimus perferendis.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    @endfor --}}
                 </div>
             </div>
             {{-- search --}}

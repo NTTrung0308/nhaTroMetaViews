@@ -17,6 +17,7 @@ class NhaTros extends Model
         'thanh_pho',
         'quoc_gia',
         'so_tang',
+        'status',
         'dien_tich',
         'chu_so_huu',
         'mo_ta',
@@ -44,9 +45,9 @@ class NhaTros extends Model
         return $this->hasMany(Rooms::class);
     }
     public function congTos()
-{
-    return $this->hasMany(CongTo::class);
-}
+    {
+        return $this->hasMany(CongTo::class);
+    }
 
 
     // public function baoTris()

@@ -2,7 +2,7 @@
     <div class="container d-flex align-items-center justify-content-between">
         <div class="site-logo d-flex align-items-center">
             <a href="#">
-                <img class="img-logo w-100" src="{{asset('/users/images/logo-FunHome.svg')}}" alt="">
+                <img class="img-logo w-100" src="{{ asset('/users/images/logo-FunHome.svg') }}" alt="">
             </a>
         </div>
 
@@ -17,10 +17,10 @@
                         <i class="bi bi-chevron-down"></i>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{route('about.users.index')}}">Về chúng tôi</a></li>
-                        <li><a href="{{route('members.users.index')}}">Thành viên</a></li>
+                        <li><a href="{{ route('about.users.index') }}">Về chúng tôi</a></li>
+                        <li><a href="{{ route('members.users.index') }}">Thành viên</a></li>
                         <li><a href="/history">History</a></li>
-                        <li><a href="{{route('services.users.index')}}">Dịch vụ</a></li>
+                        <li><a href="{{ route('services.users.index') }}">Dịch vụ</a></li>
                     </ul>
                 </li>
                 <li class="has-dropdown">
@@ -30,11 +30,11 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a href="/dich-vu">Dịch vụ</a></li>
-                        <li><a href="{{route('rooms.users.index')}}">Tìm phòng</a></li>
+                        <li><a href="{{ route('rooms.users.index') }}">Tìm phòng</a></li>
                     </ul>
                 </li>
-                <li><a href="{{route('news.users')}}">TIN TỨC</a></li>
-                <li><a href="{{route('contact.users.index')}}">LIÊN HỆ</a></li>
+                <li><a href="{{ route('news.users') }}">TIN TỨC</a></li>
+                <li><a href="{{ route('contact.users.index') }}">LIÊN HỆ</a></li>
             </ul>
         </nav>
         <div class="btn-download-app">
@@ -73,10 +73,10 @@
                     <i class="fas fa-chevron-down arrow-icon"></i>
                 </a>
                 <ul class="mobile-submenu">
-                    <li><a href="{{route('about.users.index')}}">Về chúng tôi</a></li>
-                    <li><a href="{{route('members.users.index')}}">Thành viên</a></li>
+                    <li><a href="{{ route('about.users.index') }}">Về chúng tôi</a></li>
+                    <li><a href="{{ route('members.users.index') }}">Thành viên</a></li>
                     <li><a href="/history">History</a></li>
-                    <li><a href="{{route('services.users.index')}}">Dịch vụ</a></li>
+                    <li><a href="{{ route('services.users.index') }}">Dịch vụ</a></li>
                 </ul>
             </li>
             <!-- Bắt đầu: HTML cho Dropdown Mobile -->
@@ -87,13 +87,13 @@
                 </a>
                 <ul class="mobile-submenu">
                     <li><a href="/dich-vu">Dịch vụ</a></li>
-                    <li><a href="{{route('rooms.users.index')}}">Tìm phòng</a></li>
+                    <li><a href="{{ route('rooms.users.index') }}">Tìm phòng</a></li>
 
                 </ul>
             </li>
             <!-- Kết thúc: HTML cho Dropdown Mobile -->
-            <li><a href="{{route('news.users')}}">TIN TỨC</a></li>
-            <li><a href="{{route('contact.users.index')}}">LIÊN HỆ</a></li>
+            <li><a href="{{ route('news.users') }}">TIN TỨC</a></li>
+            <li><a href="{{ route('contact.users.index') }}">LIÊN HỆ</a></li>
         </ul>
     </nav>
 </div>

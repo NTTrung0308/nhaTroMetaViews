@@ -48,11 +48,11 @@ class AboutUsController extends Controller
 
 
         // Nếu có ảnh mới
-        if ($request->hasFile('hinh_anh')) {
+        if ($request->hasFile('image')) {
             if (!empty($about->image) && file_exists(public_path($about->image))) {
                 unlink(public_path($about->image));
             }
-            $image = $request->file('hinh_anh');
+            $image = $request->file('image');
             $imageName = time() . '_' . $image->getClientOriginalName();
             $image->move(public_path('uploads/about_us'), $imageName);
             $validated['image'] = 'uploads/about_us/' . $imageName;
