@@ -83,9 +83,12 @@ class RoomsController extends Controller
     {
         // Tìm phòng theo ID và eager load nhà trọ
         $room = Rooms::with('nhaTro')->findOrFail($id);
-
+ $relatedRooms = Rooms::where('id', '!=', $id)
+        ->inRandomOrder()
+        ->limit(6)
+        ->get();
         // Trả về view chi tiết phòng
-        return view('users.rooms.detail', compact('room'));
+        return view('users.rooms.detail', compact('room','relatedRooms'));
     }
     
 }
