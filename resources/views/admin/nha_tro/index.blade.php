@@ -28,7 +28,7 @@
                     <hr>
                     <form method="GET" action="{{ route('nha_tro.index') }}" class="mb-3">
                         <div class="row">
-                            <div class="col-md-2">
+                            <div class="col-md-4">
                                 <input type="text" name="ten_toa_nha" class="form-control" placeholder="Tên tòa nhà"
                                     value="{{ request('ten_toa_nha') }}">
                             </div>
@@ -41,13 +41,11 @@
                                     value="{{ request('dia_chi') }}">
                             </div>
                             <div class="col-md-2">
-                                <input type="text" name="quan" class="form-control" placeholder="Quận/Huyện"
-                                    value="{{ request('quan') }}">
-                            </div>
-                            <div class="col-md-2">
-                                <input type="text" name="thanh_pho" class="form-control" placeholder="Thành phố"
-                                    value="{{ request('thanh_pho') }}">
-                            </div>
+            <select name="thanh_pho" id="province-select-search" class="form-select" data-old="{{ request('thanh_pho') }}">
+                <option value="">-- Chọn Tỉnh/Thành phố --</option>
+            </select>
+        </div>
+      
                             <div class="col-md-2">
                                 <button class="btn btn-primary w-100" type="submit">Tìm kiếm</button>
                             </div>
@@ -277,3 +275,46 @@
         });
     </script>
 @endsection
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const provinceSelectSearch = document.getElementById('province-select-search');
+
+    // Chỉ thực thi nếu có select tìm kiếm trên trang
+    if (provinceSelectSearch) {
+        
+        // Hàm điền dữ liệu tỉnh/thành phố vào select
+        function populateProvinces(selectElement, items) {
+            // Giữ lại option mặc định đã có trong HTML
+            items.forEach(item => {
+                const option = new Option(item.name, item.name);
+                selectElement.add(option);
+            });
+        }
+
+        // Tải dữ liệu JSON
+        fetch("{{ asset('data/tinh_thanh.json') }}")
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Điền dữ liệu vào dropdown
+                populateProvinces(provinceSelectSearch, data);
+
+                // Lấy giá trị tìm kiếm cũ (nếu có) và tự động chọn lại
+                const oldProvince = provinceSelectSearch.getAttribute('data-old');
+                if (oldProvince) {
+                    provinceSelectSearch.value = oldProvince;
+                }
+            })
+            .catch(error => {
+                console.error('Lỗi khi tải hoặc xử lý dữ liệu tỉnh thành:', error);
+                // Có thể thêm thông báo cho người dùng ở đây nếu cần
+            });
+    }
+});
+</script>
+@endpush

@@ -8,6 +8,7 @@ use App\Models\DichVu;
 use App\Models\NhaTro; // SỬA: Dùng tên Model số ít, đúng chuẩn
 use App\Models\NhaTros;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 class NhaTroController extends Controller
@@ -27,11 +28,23 @@ class NhaTroController extends Controller
     {
         $query = NhaTros::query()->with('dichVus');
 
-        if ($request->filled('ten_toa_nha')) { $query->where('ten_toa_nha', 'like', '%' . $request->ten_toa_nha . '%'); }
-        if ($request->filled('ma_toa_nha')) { $query->where('ma_toa_nha', 'like', '%' . $request->ma_toa_nha . '%'); }
-        if ($request->filled('dia_chi')) { $query->where('dia_chi', 'like', '%' . $request->dia_chi . '%'); }
-        if ($request->filled('quan')) { $query->where('quan', 'like', '%' . $request->quan . '%'); }
-        if ($request->filled('thanh_pho')) { $query->where('thanh_pho', 'like', '%' . $request->thanh_pho . '%'); }
+        if ($request->filled('ten_toa_nha')) {
+            $query->where('ten_toa_nha', 'like', '%' . $request->ten_toa_nha . '%');
+        }
+        if ($request->filled('ma_toa_nha')) {
+            $query->where('ma_toa_nha', 'like', '%' . $request->ma_toa_nha . '%');
+        }
+        if ($request->filled('dia_chi')) {
+            $query->where('dia_chi', 'like', '%' . $request->dia_chi . '%');
+        }
+
+        if ($request->filled('quan')) {
+            $query->where('quan', 'like', '%' . $request->quan . '%');
+        }
+        if ($request->filled('thanh_pho')) {
+            // Chuyển cả cột 'thanh_pho' và chuỗi tìm kiếm về chữ thường
+            $query->where(DB::raw('LOWER(thanh_pho)'), 'like', '%' . mb_strtolower($request->thanh_pho, 'UTF-8') . '%');
+        }
 
         $nhaTros = $query->latest()->paginate(10);
         LogHelper::ghi('Xem danh sách nhà trọ', 'Nhà Trọ', 'Xem danh sách nhà trọ trong quản trị viên');
@@ -88,7 +101,7 @@ class NhaTroController extends Controller
 
         // Cập nhật thông tin nhà trọ
         $nhaTro->update($validatedData);
-        
+
         // Đồng bộ lại các dịch vụ
         $this->syncServices($request, $nhaTro);
 
@@ -119,7 +132,7 @@ class NhaTroController extends Controller
     {
         $syncData = [];
         $allDichVuData = $request->input('dich_vu_data', []);
-        
+
         if ($request->has('dich_vu_ids')) {
             foreach ($request->dich_vu_ids as $dichVuId) {
                 if (isset($allDichVuData[$dichVuId])) {
@@ -132,13 +145,13 @@ class NhaTroController extends Controller
         }
         $nhaTro->dichVus()->sync($syncData);
     }
-    
+
     /**
      * Hàm private chứa các quy tắc validation
      */
     private function validationRules($id = null): array
     {
-        $maToaNhaRule = ($id) 
+        $maToaNhaRule = ($id)
             ? Rule::unique('nha_tros')->ignore($id)
             : Rule::unique('nha_tros');
 
@@ -157,7 +170,7 @@ class NhaTroController extends Controller
             'status' => 'required|in:Hoạt động,Ngưng hoạt động',
             'mo_ta' => 'nullable|string',
             'quoc_gia' => 'nullable|string|max:255',
-            
+
             // Các trường ảo từ form để xử lý dịch vụ
             'dich_vu_ids' => ['required', 'array', function ($attribute, $value, $fail) {
                 $requiredIds = DichVu::whereIn('ma_dich_vu', ['dien_sinh_hoat', 'nuoc'])->pluck('id')->toArray();
@@ -170,7 +183,7 @@ class NhaTroController extends Controller
             'dich_vu_data.*.kieu_tinh' => 'required|string|in:cong_to,dau_nguoi,co_dinh',
         ];
     }
-   
+
     /**
      * Hàm private chứa các thông báo lỗi tùy chỉnh.
      */
