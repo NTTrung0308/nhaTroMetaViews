@@ -120,6 +120,8 @@ class FeedbackController extends Controller
             'active.boolean' => 'Trạng thái không hợp lệ.',
         ]);
 
+        $daThayAnh = false;
+
         if ($request->hasFile('image')) {
             if (!empty($feedback->image) && file_exists(public_path($feedback->image))) {
                 unlink(public_path($feedback->image));
