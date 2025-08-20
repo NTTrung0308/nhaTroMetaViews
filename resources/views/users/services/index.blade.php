@@ -48,35 +48,36 @@
             <div class="row">
                 <h1 class="text-center fw-bold fs-2">Hãy cùng khám phá một số dịch vụ<br> chúng tôi cung cấp</h2>
                     @foreach ($services as $service)
-                        <div class="col-lg-4 col-md-6 col-sm-12 p-3 position-relative">
-                            <div class="grid-item service-item service-style-1">
-                                <div class="service-inner service-style-inner">
-                                    <div class="service-content">
-                                        <div class="service-post-thumbnail">
-                                            <img fetchpriority="high" decoding="async" src="{{ asset($service->image) }}"
-                                                class="" alt=""
-                                                srcset="{{ asset($service->image) }} 1024w, {{ asset($service->image) }} 300w, {{ asset($service->image) }} 768w, {{ asset($service->image) }} 1500w">
+                        <a class="text-decoration-none text-dark"
+                            href="{{ route('services.users.detail', ['slug' => $service->slug]) }}">
+                            <div class="col-lg-4 col-md-6 col-sm-12 p-3 position-relative">
+                                <div class="grid-item service-item service-style-1">
+                                    <div class="service-inner service-style-inner">
+                                        <div class="service-content">
+                                            <div class="service-post-thumbnail">
+                                                <img fetchpriority="high" decoding="async"
+                                                    src="{{ asset($service->image) }}" class="" alt=""
+                                                    srcset="{{ asset($service->image) }} 1024w, {{ asset($service->image) }} 300w, {{ asset($service->image) }} 768w, {{ asset($service->image) }} 1500w">
+                                            </div>
+                                            <div class="service-button-wrap">
+                                                <div class="service-button">
+                                                    <span class="btn-icon-wrap">
+                                                        <span class="btn-icon"><i
+                                                                class="bi bi-arrow-up-right text-white"></i></span>
+                                                    </span>
+                                                </div>
+                                                <div class="decor-border"> </div>
+                                            </div>
                                         </div>
-                                        <div class="service-button-wrap">
-                                            <a class="service-button" href="{{ route('services.users.detail', ['slug' => $service->slug]) }}">
-                                                <span class="btn-icon-wrap">
-                                                    <span class="btn-icon"><i
-                                                            class="bi bi-arrow-up-right text-white"></i></span>
-                                                </span>
-                                            </a>
-                                            <div class="decor-border"> </div>
+                                        <div class="mt-4 p-3">
+                                            <h3 class="fw-bold">{{ $service->title ?? '' }}</h3>
+                                            <p>{{ $service->description ?? '' }}</p>
                                         </div>
-                                    </div>
-                                    <div class="mt-4 p-3">
-                                        <h3 class="fw-bold">{{ $service->name ?? '' }}</h3>
-                                        <p>{{ $service->description ?? '' }}</p>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </a>
                     @endforeach
-
-
             </div>
     </section>
     </section>
