@@ -412,7 +412,7 @@ var swiper = new Swiper(".mySwiperDung", {
         },
         1024: {
             slidesPerView: 4,
-            spaceBetween: 50,
+            spaceBetween: 30,
         },
     },
 });

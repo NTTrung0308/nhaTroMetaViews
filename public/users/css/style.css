@@ -1,3 +1,30 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* html {
+    cursor: url(../images/Dog.png), auto;
+} */
+
+@font-face {
+    font-family: "Nunito";
+    /* src: url('/fonts/Nunito-Regular.ttf') format('truetype'); */
+    src: url("../Nunito/static/Nunito-Regular.ttf") format("truetype");
+    font-weight: 400;
+}
+@font-face {
+    font-family: "Nunito";
+    src: url("../Nunito/static/Nunito-SemiBold.ttf") format("truetype");
+    font-weight: 600;
+}
+@font-face {
+    font-family: "Nunito";
+    src: url("../Nunito/static/Nunito-Bold.ttf") format("truetype");
+    font-weight: 700;
+}
+
 body {
     font-family: "Nunito", Arial, Helvetica, sans-serif;
     background-color: #f8f9fa;
@@ -2688,7 +2715,6 @@ float-bob-x animation {
 }
 
 .img-slide img:hover {
-    border-color: #007bff;
     transform: scale(1.05);
 }
 
