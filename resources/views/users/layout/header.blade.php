@@ -1,7 +1,7 @@
 <header class="site-header fbs__net-navbar">
     <div class="container d-flex align-items-center justify-content-between">
         <div class="site-logo d-flex align-items-center">
-            <a href="#">
+            <a href="/">
                 <img class="img-logo w-100" src="{{ asset('/users/images/logo-FunHome.svg') }}" alt="">
             </a>
         </div>
@@ -55,7 +55,7 @@
     <div class="mobile-nav-header">
         <a href="#" class="mobile-nav-logo">
             <!-- Thay bằng logo của bạn -->
-            <img src="{{ asset('/images/logo-FunHome.svg') }}" alt="Logo" class="img-fluid">
+            <img src="{{ asset('/users/images/logo-FunHome.svg') }}" alt="Logo" class="img-fluid">
         </a>
         <button class="mobile-nav-close" id="mobile-nav-close" aria-label="Đóng menu">
             <i class="fas fa-times"></i>

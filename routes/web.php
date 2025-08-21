@@ -11,6 +11,7 @@ use App\Http\Controllers\Clients\NewsController;
 use App\Http\Controllers\Clients\RoomsController;
 use App\Http\Controllers\Clients\ServiceController;
 use App\Http\Controllers\Clients\NotFoundController;
+
 use App\Models\ServiceAbout;
 use Illuminate\Support\Facades\Route;
 
@@ -62,6 +63,7 @@ Route::prefix('dich-vu')->group(function () {
 Route::prefix('phong-tro')->group(function () {
     Route::get('/', [RoomsController::class, 'index'])->name('rooms.users.index');
     Route::get('/{id}', [RoomsController::class, 'detail'])->name('rooms.users.detail');
+    Route::get('rooms/{id}/detail', [RoomsController::class, 'detail'])->name('rooms.detail');
     // Route::get('/{slug}', [RoomsController::class, 'detail'])->name('rooms.users.detail');
 });
 
