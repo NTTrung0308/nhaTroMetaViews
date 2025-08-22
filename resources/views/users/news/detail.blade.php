@@ -149,7 +149,7 @@
                         </div>
                     </div>
                 </div>
-                <div>
+                {{-- <div>
                     <h2 class=" fw-bold">Leave a Comment</h2>
                     <p>Your email address will not be published. Required fields are marked *</p>
                 </div>
@@ -169,7 +169,7 @@
                     <div class="col-sm-12 col-md-12 col-lg-12 text-end">
                         <button type="submit" class="btn_detail my-3"> Gửi </button>
                     </div>
-                </div>
+                </div> --}}
             </div>
             <div class="col-sm-12 col-md-12 col-lg-4 d-none d-lg-block">
                 <div class="news-search">

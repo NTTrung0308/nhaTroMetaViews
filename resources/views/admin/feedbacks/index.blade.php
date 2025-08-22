@@ -80,7 +80,7 @@
                                             @if (auth()->user()->hasPermissionTo('Xóa cảm nghĩ'))
                                                 <form action="{{ route('feedbacks.destroy', $fb) }}" method="POST"
                                                     class="d-inline-block" onsubmit="return confirm('Xóa cảm nghĩ này?')">
-                                                    @csrf @method('DELETE')
+                                                    @csrf
                                                     <button class="btn btn-sm btn-danger"><i
                                                             class="bi bi-trash text-white"></i></button>
                                                 </form>

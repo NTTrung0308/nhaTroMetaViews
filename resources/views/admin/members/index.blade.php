@@ -22,7 +22,7 @@
                     <div class="col-12 d-sm-flex justify-content-between align-items-center">
                         <h5 class="card-title">Thành viên</h5>
                         {{-- @if (auth()->user()->hasPermissionTo('Thêm phòng trọ')) --}}
-                        <a href="{{ route('admin.members.create') }}" class="btn btn-success rounded-pill">Thêm phòng mới</a>
+                        <a href="{{ route('admin.members.create') }}" class="btn btn-success rounded-pill">Thêm thành viên</a>
                         {{-- @endif --}}
                     </div>
                     <hr>

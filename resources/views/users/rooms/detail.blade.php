@@ -15,7 +15,13 @@
                         <a href="{{ route('rooms.index') }}"
                             class="text-decoration-none fs-4 fw-bold vision-banner-title content-vision-home">Phòng </a>
                     </span>
-                    <h1 class="fw-bold mt-2 title">Thông tin về chúng tôi </h1>
+                    <span><i class="bi bi-chevron-right fs-5 content-vision-home"></i></span>
+                    <span>
+                        <a href="#"
+                            class="text-decoration-none fs-4 fw-bold vision-banner-title content-vision-home">Chi tiết
+                            phòng</a>
+                    </span>
+                    <h1 class="fw-bold mt-2 title">Thông tin phòng cho thuê</h1>
                     <h4 class="vision-banner-title">"FunHome là đại diện cho các bất động sản sang trọng đặc biệt và bất
                         động sản
                         đơn lẻ tại các quận được săn đón nhất của thành phố. Vì vậy, đừng bỏ lỡ cơ hội tuyệt vời này.”</h4>
@@ -53,41 +59,49 @@
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-9 ">
                 <div class="img-detail-room">
-                    <img id="mainImage1" src="/users/images/anh8.png" alt="Ảnh chính" class="  w-100  main_image object-fit-cover">
+                    @if ($room->images && count(json_decode($room->images)) > 0)
+                        @php $images = json_decode($room->images); @endphp
+                        <img id="mainImage1" src="{{ asset($images[0]) }}" alt="Ảnh chính"
+                            class="w-100 main_image object-fit-cover" style="height: 400px;">
+                    @else
+                        <img id="mainImage1" src="/users/images/default-room.jpg" alt="Ảnh chính"
+                            class="w-100 main_image object-fit-cover" style="height: 400px;">
+                    @endif
+
                     <!-- Swiper -->
-                    <div class="swiper mySwiperDung">
-                        <div class="swiper-wrapper">
-                            <div class="swiper-slide img-slide"><img src="/users/images/anh10.png" alt="Ảnh 1"
-                                    onclick="changeImage(this.src)" class="w-100 object-fit-cover detail_image"></div>
-                            <div class="swiper-slide img-slide"><img src="/users/images/anh8.png" alt="Ảnh 1"
-                                    onclick="changeImage(this.src)" class="w-100 object-fit-cover"></div>
-                            <div class="swiper-slide img-slide"><img src="/users/images/anh7.png" alt="Ảnh 1"
-                                    onclick="changeImage(this.src)" class="w-100 object-fit-cover"></div>
-                            <div class="swiper-slide img-slide"><img src="/users/images/anh5.png" alt="Ảnh 1"
-                                    onclick="changeImage(this.src)" class="w-100 object-fit-cover"></div>
-                            <div class="swiper-slide img-slide"><img src="/users/images/anh4.png" alt="Ảnh 1"
-                                    onclick="changeImage(this.src)" class="w-100 object-fit-cover"></div>
-                            <div class="swiper-slide img-slide"><img src="/users/images/anh3.png" alt="Ảnh 1"
-                                    onclick="changeImage(this.src)" class="w-100 object-fit-cover"></div>
+                    @if ($room->images && count(json_decode($room->images)) > 0)
+                        <div class="swiper mySwiperDung mt-3">
+                            <div class="swiper-wrapper">
+                                @foreach (json_decode($room->images) as $image)
+                                    <div class="swiper-slide img-slide">
+                                        <img src="{{ asset($image) }}" alt="Ảnh phòng" onclick="changeImage(this.src)"
+                                            class="w-100 object-fit-cover detail_image"
+                                            style="height: 120px; cursor: pointer;">
+                                    </div>
+                                @endforeach
+                            </div>
+                            <div class="swiper-button-next button_next"></div>
+                            <div class="swiper-button-prev button_prev"></div>
                         </div>
-                        <div class="swiper-button-next button_next"></div>
-                        <div class="swiper-button-prev button_prev"></div>
-                    </div>
+                    @endif
+
                     <div class="mt-4">
-                        <h4 class="fw-bold"> Cho thuê nhà mặt phố Thượng Thụy, quận Tây Hồ giá rẻ </h4>
-                        <p>Số 8 Phố Thượng Thụy, Phường Phú Thượng, Tây Hồ, Hà Nội</p>
+                        <h4 class="fw-bold">{{ $room->ten_phong }}</h4>
+                        <p>{{ $room->nhaTro->dia_chi }}, {{ $room->nhaTro->quan }}, {{ $room->nhaTro->thanh_pho }}</p>
                         <hr>
                     </div>
                     <div class="info-row">
                         <div class="info-left">
                             <div class="info-group">
                                 Mức giá
-                                <strong>10 triệu/tháng</strong>
+                                <strong class="text-danger">{{ number_format($room->gia_thue) }}đ/tháng</strong>
                             </div>
                             <div class="info-group">
                                 Diện tích
-                                <strong>130 m²</strong>
-                                <div style="font-size: 12px; color: #777;">Mặt tiền 7.2 m</div>
+                                <strong>{{ $room->dien_tich }} m²</strong>
+                                @if ($room->mat_tien)
+                                    <div style="font-size: 12px; color: #777;">Mặt tiền {{ $room->mat_tien }} m</div>
+                                @endif
                             </div>
                         </div>
                         <div class="info-right">
@@ -105,9 +119,7 @@
                     </div>
                     <div>
                         <h4 class="fw-bold mt-4">Thông tin mô tả</h4>
-                        <p>Cho thuê nhà mặt tiền 7.2m diện tích 130m² phố Thượng Thụy, quận Tây Hồ.Tiện kinh doanh, kho
-                            xưởng,
-                            sửa xe ô tô xe máy. Giá 10tr/tháng.</p>
+                        <p>{{ $room->mo_ta ?? 'Chưa có mô tả chi tiết.' }}</p>
                     </div>
                     <div class="row">
                         <div class="col-sm-12 col-md-12 col-lg-6">
@@ -118,7 +130,8 @@
                                     <span class="info-label">Mức giá</span>
                                 </div>
                                 <div class="w-100">
-                                    <p class="text-end">10tr/tháng</p>
+                                    <p class="text-end text-danger">
+                                        {{ number_format($room->gia_thue) }}<span>đ/tháng</span></p>
                                 </div>
                             </div>
                             <hr>
@@ -128,7 +141,7 @@
                                     <span class="info-label">Diện tích </span>
                                 </div>
                                 <div class="w-100">
-                                    <p class="text-end">130m2</p>
+                                    <p class="text-end">{{ $room->dien_tich }} m²</p>
                                 </div>
                             </div>
                             <hr>
@@ -149,15 +162,13 @@
                             <hr>
                             <div class="featured-detail w-100">
                                 <div class="info-left1 w-100">
-                                    <i class="bi bi-house-door-fill"></i>
-                                    <span class="info-label">Mặt tiền </span>
+                                    <i class="bi bi-calendar-check"></i>
+                                    <span class="info-label">Thời gian vào ở</span>
                                 </div>
                                 <div class="w-100">
-                                    <p class="text-end">7,2m2</p>
+                                    <p class="text-end">{{ $room->thoi_gian_vao_o ?? 'Liên hệ' }}</p>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-sm-12 col-md-12 col-lg-6">
                             <hr>
                             <div class="featured-detail w-100">
                                 <div class="info-left1 w-100">
@@ -185,30 +196,26 @@
                             <hr>
                         </div>
                     </div>
-                      <div>
-                        <h4 class="fw-bold mt-4">Thông tin mô tả</h4>
-                        <p>{!!$room->ghi_chu ?? ''!!}</p>
-                    </div>
                     <div class="col-sm-12 col-md-12 col-lg-3 mb-3  d-lg-none">
                         <div class="detailroom">
                             <div class="row contact-detailroom mt-5">
                                 <div class="col-sm-12 col-md-12 col-lg-4">
-                                    <img src="{{asset('/users/images/anh11.png')}}" alt="" class="img-detailroom1">
+                                    <img src="/users/images/anh11.png" alt="" class="img-detailroom1">
                                 </div>
                                 <div class="col-sm-12 col-md-12 col-lg-8">
                                     <div class=" contact-detail ">
-                                        <h6 class="fw-bold name-detailroom">Quản lý {{get_config()->site_name ?? 'FunHome'}}</h6>
+                                        <h6 class="fw-bold name-detailroom">Nguyễn Doãn Dũng</h6>
                                         <span> Xem thêm 2 thông tin </span>
                                     </div>
                                 </div>
                                 <hr class="mt-3">
                                 <div class="img-detailroom d-flex ">
                                     <img src="/users/images/anh12.png" alt="">
-                                    <a class="mt-2  fs-6" href="https://zalo.me/{{get_config()->zalo_number ?? 'FunHome'}}">Chat qua zalo</a>
+                                    <h6 class="mt-2 ">Chat qua zalo</h6>
                                 </div>
                                 <div class="img-detailroom d-flex mt-3">
                                     <i class="bi bi-telephone"></i>
-                                    <a class="mt-2 fs-6" href="tel:{{get_config()->phone ?? ''}}"> {{get_config()->phone ?? ''}} </a>
+                                    <h6 class="mt-2"> 0823567489 </h6>
                                 </div>
                             </div>
                             <div class="warning">
@@ -223,7 +230,7 @@
                                     </span>
                                 </div>
                             </div>
-                            {{-- <div class="locale-detailroom">
+                            <div class="locale-detailroom">
                                 <div class="d-flex">
                                     <img src="/users/images/anh13.png" alt="" class="img-detailroom2">
                                     <h6 class="mx-2 mt-1">Cho thuê nhà mặt phố tại {{ $room->nhaTro->thanh_pho }}</h6>
@@ -240,20 +247,24 @@
                                         </p>
                                     @endforeach
                                 </div>
-                            </div> --}}
+                            </div>
                         </div>
                     </div>
-                    {{-- <div>
+                    <div>
                         <h3 class="fw-bold py-4">Xem trên bản đồ</h3>
-                        <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14899.377068557635!2d105.8604876952148!3d20.99887883924942!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135aeaa17c35b81%3A0x79d8becf2f06f8dc!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBLaW5oIGRvYW5oIHbDoCBDw7RuZyBuZ2jhu4cgSMOgIE7hu5lp!5e0!3m2!1svi!2s!4v1750301949106!5m2!1svi!2s"
-                            width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"
-                            referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        @if ($room->nhaTro->toa_do)
+                            <div id="map" style="width: 100%; height: 400px;"></div>
+                        @else
+                            <iframe
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14899.377068557635!2d105.8604876952148!3d20.99887883924942!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135aeaa17c35b81%3A0x79d8becf2f06f8dc!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBLaW5o IGdoIHbDoCBDw7RuZyBuZ2jhu4cgSMOgIE7hu5lp!5e0!3m2!1svi!2s!4v1750301949106!5m2!1svi!2s"
+                                width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        @endif
                     </div>
-                    <h3 class="fw-bold mt-4"> Giá phòng dành cho bạn </h3>
+                    <h3 class="fw-bold mt-4"> Phòng tương tự </h3>
                     {{-- PC & Tablet Grid --}}
                     <div class="row mt-3 d-none d-sm-flex">
-                        @for ($i = 0; $i < 6; $i++)
+                        @foreach ($similarRooms as $similarRoom)
                             <div class="col-sm-12 col-md-6 col-lg-4 mt-4 detailroom-mobile">
                                 <div class="navbar-news">
                                     @if ($similarRoom->images && count(json_decode($similarRoom->images)) > 0)
@@ -264,21 +275,23 @@
                                             style="height: 200px; object-fit: cover;">
                                     @endif
                                     <div class="text4-detail py-3 mx-3">
-                                        <h6>Cho thuê nhà 226p.Vĩnh Hưng, Hoàng Mai, Hà Nội</h6>
-                                        <span class="text-danger">10tr/tháng</span>
-                                        <p>Phù hợp với hộ gia đình hoặc sinh viên ở nhiều người, mong mọi người tham khảo
-                                        </p>
+                                        <h6>{{ $similarRoom->ten_phong }}</h6>
+                                        <span
+                                            class="text-danger">{{ number_format($similarRoom->gia_thue) }}đ/tháng</span>
+                                        <p>{{ Str::limit($similarRoom->mo_ta ?? 'Chưa có mô tả', 100) }}</p>
+                                        <a href="{{ route('rooms.detail', $similarRoom->id) }}"
+                                            class="btn btn-primary btn-sm">Xem chi tiết</a>
                                     </div>
                                 </div>
                             </div>
-                        @endfor
+                        @endforeach
                     </div>
 
                     {{-- Mobile Swiper --}}
                     <div class="d-block d-sm-none mt-3">
                         <div class="swiper detailroom-swiper ">
                             <div class="swiper-wrapper">
-                                @for ($i = 0; $i < 6; $i++)
+                                @foreach ($similarRooms as $similarRoom)
                                     <div class="swiper-slide">
                                         <div class="navbar-news">
                                             @if ($similarRoom->images && count(json_decode($similarRoom->images)) > 0)
@@ -290,14 +303,16 @@
                                                     class="img_4 w-100" style="height: 200px; object-fit: cover;">
                                             @endif
                                             <div class="text4-detail py-3 mx-3">
-                                                <h6>Cho thuê nhà 226p.Vĩnh Hưng, Hoàng Mai, Hà Nội</h6>
-                                                <span class="text-danger">10tr/tháng</span>
-                                                <p>Phù hợp với hộ gia đình hoặc sinh viên ở nhiều người, mong mọi người tham
-                                                    khảo</p>
+                                                <h6>{{ $similarRoom->ten_phong }}</h6>
+                                                <span
+                                                    class="text-danger">{{ number_format($similarRoom->gia_thue) }}đ/tháng</span>
+                                                <p>{{ Str::limit($similarRoom->mo_ta ?? 'Chưa có mô tả', 100) }}</p>
+                                                <a href="{{ route('rooms.detail', $similarRoom->id) }}"
+                                                    class="btn btn-primary btn-sm">Xem chi tiết</a>
                                             </div>
                                         </div>
                                     </div>
-                                @endfor
+                                @endforeach
                             </div>
 
                             <div class="swiper-button-next"></div>
@@ -311,22 +326,22 @@
                 <div class="detailroom">
                     <div class="row contact-detailroom mt-5">
                         <div class="col-sm-12 col-md-12 col-lg-4">
-                            <img src="{{asset('/users/images/anh11.png')}}" alt="" class="img-detailroom1">
+                            <img src="/users/images/anh11.png" alt="" class="img-detailroom1">
                         </div>
                         <div class="col-sm-12 col-md-12 col-lg-8">
                             <div class=" contact-detail ">
-                                <h6 class="fw-bold name-detailroom">Quản lý {{get_config()->site_name ?? 'FunHome'}}</h6>
+                                <h6 class="fw-bold name-detailroom">Nguyễn Doãn Dũng</h6>
                                 <span> Xem thêm 2 thông tin </span>
                             </div>
                         </div>
                         <hr class="mt-3">
                         <div class="img-detailroom d-flex ">
                             <img src="/users/images/anh12.png" alt="">
-                            <a class="mt-2 " href="https://zalo.me/{{get_config()->zalo_number ?? 'FunHome'}}">Chat qua zalo</a>
+                            <h6 class="mt-2 ">Chat qua zalo</h6>
                         </div>
                         <div class="img-detailroom d-flex mt-3">
                             <i class="bi bi-telephone"></i>
-                            <a class="mt-2" href="tel:{{get_config()->phone ?? ''}}"> {{get_config()->phone ?? ''}} </a>
+                            <h6 class="mt-2"> 0823567489 </h6>
                         </div>
                     </div>
                     <div class="warning">
@@ -340,7 +355,7 @@
                             </span>
                         </div>
                     </div>
-                    {{-- <div class="locale-detailroom">
+                    <div class="locale-detailroom">
                         <div class="d-flex">
                             <img src="/users/images/anh13.png" alt="" class="img-detailroom2">
                             <h6 class="mx-2 mt-1">Cho thuê nhà mặt phố tại {{ $room->nhaTro->thanh_pho }}</h6>
@@ -356,7 +371,7 @@
                                 </p>
                             @endforeach
                         </div>
-                    </div> --}}
+                    </div>
                 </div>
             </div>
         </div>
