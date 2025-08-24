@@ -9,15 +9,7 @@
         <div class="col-lg-12">
 
             <div class="card">
-                <h5 class="card-header">
-                    <nav>
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item">Home</li>
-                                           <li class="breadcrumb-item active">Slider</li>
-
-                        </ol>
-                    </nav>
-                </h5>
+               
                 <div class="card-body">
                     <div class="col-12 d-sm-flex justify-content-between align-items-center">
                         <h5 class="card-title">Nội dung Slider</h5>

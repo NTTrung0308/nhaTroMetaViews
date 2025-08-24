@@ -1,16 +1,7 @@
 <!-- resources/views/admin/roles/create.blade.php -->
 @extends('admin.index')
 @section('contentadmin')
-    <div class="pagetitle">
-        <h1>Quản lý quyền người dùng</h1>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
-                <li class="breadcrumb-item">Tài khoản quyền</li>
-                <li class="breadcrumb-item active">Thêm mới quyền người dùng</li>
-            </ol>
-        </nav>
-    </div>
+   
     <section class="section">
         <div class="row">
             <div class="col-lg-12">
