@@ -14,16 +14,7 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
     </style>
-    <div class="pagetitle">
-        <h1>Cảm nghĩ</h1>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">Home</li>
-                <li class="breadcrumb-item active">{{ isset($feedback) ? 'Sửa cảm nghĩ' : 'Thêm cảm nghĩ' }}</li>
-            </ol>
-        </nav>
-    </div>
-
+   
 
     <div class="row">
 

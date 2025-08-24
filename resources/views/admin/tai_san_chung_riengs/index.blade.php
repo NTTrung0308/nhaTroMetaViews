@@ -1,23 +1,19 @@
 @extends('admin.index')
 @section('contentadmin')
-    <div class="pagetitle">
-        <h1>Tài sản chung riêng nhà trọ</h1>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">Home</li>
-                <li class="breadcrumb-item active">Tài sản chung riêng nhà trọ</li>
-            </ol>
-        </nav>
-    </div>
-
-
-
-
+   
     <div class="row">
 
         <div class="col-lg-12">
 
             <div class="card">
+                 <h5 class="card-header">
+                    <nav>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">Home</li>
+                            <li class="breadcrumb-item active">Tài sản chung riêng nhà trọ</li>
+                        </ol>
+                    </nav>
+                </h5>
                 <div class="card-body">
 
                     <div class="col-12 d-sm-flex justify-content-between align-items-center">
@@ -80,7 +76,7 @@
                                         <td>
                                             @if (auth()->user()->hasPermissionTo('Sửa tài sản trọ'))
                                                 <a href="{{ route('tai_san_chung_riengs.edit', $item->id) }}"
-                                                    class="btn btn-sm btn-warning"><i class="bi bi-wrench"></i></a>
+                                                    class="btn btn-sm btn-warning"><i class="icon-base bx bx-edit-alt"></i></a>
                                             @endif
                                             @if (auth()->user()->hasPermissionTo('Xóa tài sản trọ'))
                                                 <form action="{{ route('tai_san_chung_riengs.destroy', $item->id) }}"
@@ -89,7 +85,7 @@
                                                     @csrf
                                                     @method('DELETE')
                                                     <button class="btn btn-sm btn-danger" type="submit"><i
-                                                            class="bi bi-trash text-white"></i></button>
+                                                            class="icon-base bx bx-trash"></i></button>
                                                 </form>
                                             @endif
                                             <button class="btn btn-sm btn-info btn-xem-chi-tiet"
@@ -99,7 +95,7 @@
                                                 data-ma-phong="{{ $item->room->ma_phong ?? 'Không có' }}"
                                                 data-ts-chung="{{ $item->taiSanChungs->pluck('taiSan.ten_tai_san')->implode(', ') }}"
                                                 data-ts-rieng="{{ $item->taiSanRiengs->pluck('taiSan.ten_tai_san')->implode(', ') }}">
-                                                <i class="bi bi-eye"></i>
+                                                <i class="icon-base bx bx-show"></i>
                                             </button>
 
                                         </td>

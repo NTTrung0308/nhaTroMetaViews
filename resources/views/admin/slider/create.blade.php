@@ -1,14 +1,6 @@
 @extends('admin.index')
 @section('contentadmin')
-    <div class="pagetitle">
-        <h1>Slider</h1>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">Home</li>
-                <li class="breadcrumb-item active">Thêm Slider</li>
-            </ol>
-        </nav>
-    </div>
+  
 
 
     <div class="row">

@@ -1,15 +1,6 @@
 @extends('admin.index')
 @section('contentadmin')
-    <div class="pagetitle">
-        <h1>Slider</h1>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">Home</li>
-                <li class="breadcrumb-item active">Slider</li>
-            </ol>
-        </nav>
-    </div>
-
+   
 
 
 
@@ -18,6 +9,15 @@
         <div class="col-lg-12">
 
             <div class="card">
+                <h5 class="card-header">
+                    <nav>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">Home</li>
+                                           <li class="breadcrumb-item active">Slider</li>
+
+                        </ol>
+                    </nav>
+                </h5>
                 <div class="card-body">
                     <div class="col-12 d-sm-flex justify-content-between align-items-center">
                         <h5 class="card-title">Nội dung Slider</h5>
@@ -60,7 +60,7 @@
                                             @if (auth()->user()->hasPermissionTo('Sửa slider'))
                                                 <a href="{{ route('sliders.edit', $slider) }}"
                                                     class="btn btn-sm btn-warning">
-                                                    <i class="bi bi-wrench"></i>
+                                                    <i class="icon-base bx bx-edit-alt"></i>
                                                 </a>
                                             @endif
                                             @if (auth()->user()->hasPermissionTo('Xóa slider'))
@@ -69,7 +69,7 @@
                                                     onsubmit="return confirm('Bạn có chắc muốn xoá slider này không?')">
                                                     @csrf @method('DELETE')
                                                     <button class="btn btn-sm btn-danger">
-                                                        <i class="bi bi-trash text-white"></i>
+                                                        <i class="icon-base bx bx-trash"></i>
                                                     </button>
                                                 </form>
                                             @endif

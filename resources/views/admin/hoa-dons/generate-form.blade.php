@@ -1,16 +1,17 @@
 @extends('admin.index')
 @section('contentadmin')
-    <div class="pagetitle">
-        <h1>Hóa đơn</h1>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">Home</li>
-                <li class="breadcrumb-item active">Hóa đơn</li>
-            </ol>
-        </nav>
-    </div>
+    
   
     <div class="card">
+         <h5 class="card-header">
+                    <nav>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">Home</li>
+                            <li class="breadcrumb-item active">Hóa đơn<</li>
+
+                        </ol>
+                    </nav>
+                </h5>
         <div class="card-header">Chọn kỳ để tạo hóa đơn</div>
         <div class="card-body">
             <p class="text-muted">Hệ thống sẽ tự động tạo hóa đơn cho tất cả các hợp đồng đang hoạt động trong kỳ bạn chọn.

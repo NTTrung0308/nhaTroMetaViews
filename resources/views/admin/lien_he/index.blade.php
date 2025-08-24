@@ -1,15 +1,6 @@
 @extends('admin.index')
 @section('contentadmin')
-    <div class="pagetitle">
-        <h1>Liên hệ</h1>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">Home</li>
-                <li class="breadcrumb-item active">Liên hệ</li>
-            </ol>
-        </nav>
-    </div>
-
+  
 
 
 
@@ -19,6 +10,15 @@
 
 
             <div class="card">
+                 <h5 class="card-header">
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">Home</li>
+                    <li class="breadcrumb-item active">Liên hệ</li>
+
+                </ol>
+            </nav>
+        </h5>
                 <div class="card-body">
 
 

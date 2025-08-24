@@ -1,14 +1,6 @@
 @extends('admin.index')
 @section('contentadmin')
-    <div class="pagetitle">
-        <h1>Câu hỏi thường gặp</h1>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">Home</li>
-                <li class="breadcrumb-item active">Câu hỏi thường gặp</li>
-            </ol>
-        </nav>
-    </div>
+   
 
 
 
@@ -18,6 +10,15 @@
         <div class="col-lg-12">
 
             <div class="card">
+                  <h5 class="card-header">
+                    <nav>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">Home</li>
+                            <li class="breadcrumb-item active">Câu hỏi thường gặp</li>
+
+                        </ol>
+                    </nav>
+                </h5>
                 <div class="card-body">
                     <div class="col-12 d-sm-flex justify-content-between align-items-center">
                         <h5 class="card-title">Danh sách FAQ</h5>
@@ -45,21 +46,21 @@
                                         <td>
                                             @if (auth()->user()->hasPermissionTo('Sửa câu hỏi thường gặp'))
                                                 <a href="{{ route('admin.faqs.edit', $faq) }}"
-                                                    class="btn btn-sm btn-warning"><i class="bi bi-wrench"></i></a>
+                                                    class="btn btn-sm btn-warning"><i class="icon-base bx bx-edit-alt"></i></a>
                                             @endif
                                             @if (auth()->user()->hasPermissionTo('Xóa câu hỏi thường gặp'))
                                                 <form action="{{ route('admin.faqs.destroy', $faq) }}" method="POST"
                                                     class="d-inline" onsubmit="return confirm('Bạn có chắc muốn xóa?')">
                                                     @csrf @method('DELETE')
                                                     <button class="btn btn-sm btn-danger"><i
-                                                            class="bi bi-trash text-white"></i></button>
+                                                            class="icon-base bx bx-trash"></i></button>
                                                 </form>
                                             @endif
                                             @if (auth()->user()->hasPermissionTo('Xem câu hỏi thường gặp'))
                                                 <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal"
                                                     data-bs-target="#faqModal" data-question="{{ $faq->question }}"
                                                     data-answer="{{ $faq->answer }}">
-                                                    <i class="bi bi-eye"></i>
+                                                    <i class="icon-base bx bx-show"></i>
                                                 </button>
                                             @endif
                                         </td>

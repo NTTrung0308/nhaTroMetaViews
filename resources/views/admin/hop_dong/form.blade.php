@@ -1,21 +1,6 @@
 @extends('admin.index')
 @section('contentadmin')
-    <div class="pagetitle">
-        <h1>Hợp đồng</h1>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">Home</li>
-                <li class="breadcrumb-item active">{{ isset($hopDong) ? 'Chỉnh sửa hợp đồng' : 'Thêm hợp đồng mới' }}</li>
-            </ol>
-        </nav>
-    </div>
-  @if (session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
-    @if (session('error'))
-        <div class="alert alert-danger">{{ session('error') }}</div>
-    @endif
-
+    
     <div class="row">
 
         <div class="col-lg-12">

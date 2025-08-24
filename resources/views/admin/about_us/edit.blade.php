@@ -1,16 +1,17 @@
 @extends('admin.index')
 @section('contentadmin')
-    <div class="pagetitle">
-        <h1>Về chúng tôi</h1>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">Home</li>
-                <li class="breadcrumb-item active">Về chúng tôi</li>
-            </ol>
-        </nav>
-    </div>
+    
 
     <div class="card p-3">
+         <h5 class="card-header">
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">Home</li>
+                    <li class="breadcrumb-item active">Về chúng tôi</li>
+
+                </ol>
+            </nav>
+        </h5>
         <style>
             .image-upload-wrapper {
                 width: 190px;

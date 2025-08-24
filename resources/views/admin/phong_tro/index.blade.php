@@ -1,15 +1,6 @@
 @extends('admin.index')
 @section('contentadmin')
-    <div class="pagetitle">
-        <h1>Phòng trọ</h1>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">Home</li>
-                <li class="breadcrumb-item active">Phòng trọ</li>
-            </ol>
-        </nav>
-    </div>
-
+  
 
 
 
@@ -18,6 +9,14 @@
         <div class="col-lg-12">
 
             <div class="card">
+                  <h5 class="card-header">
+                    <nav>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">Home</li>
+                             <li class="breadcrumb-item active">Phòng trọ</li>
+                        </ol>
+                    </nav>
+                </h5>
                 <div class="card-body">
                     <div class="col-12 d-sm-flex justify-content-between align-items-center">
                         <h5 class="card-title">Nội dung Phòng trọ</h5>
@@ -129,7 +128,7 @@
                                         <td>
                                             @if (auth()->user()->hasPermissionTo('Sửa phòng trọ'))
                                                 <a href="{{ route('rooms.edit', $room->id) }}"
-                                                    class="btn btn-sm btn-warning"><i class="bi bi-wrench"></i></a>
+                                                    class="btn btn-sm btn-warning"><i class="icon-base bx bx-edit-alt"></i></a>
                                             @endif
                                             @if (auth()->user()->hasPermissionTo('Xóa phòng trọ'))
                                                 <form action="{{ route('rooms.destroy', $room->id) }}" method="POST"
@@ -138,7 +137,7 @@
                                                     @csrf
                                                     @method('DELETE')
                                                     <button class="btn btn-sm btn-danger"><i
-                                                            class="bi bi-trash text-white"></i></button>
+                                                            class="icon-base bx bx-trash"></i></button>
                                                 </form>
                                             @endif
                                             <button class="btn btn-sm btn-info btn-show-detail"
@@ -151,7 +150,7 @@
                                                 data-ban-cong="{{ $room->bancong }}"
                                                 data-trang-thai="{{ ucfirst($room->status) }}"
                                                 data-da-thue="{{ $room->da_thue ? 'Có' : 'Không' }}">
-                                                <i class="bi bi-eye"></i>
+                                                <i class="icon-base bx bx-show"></i>
                                             </button>
 
                                         </td>

@@ -1,21 +1,19 @@
 @extends('admin.index')
 @section('contentadmin')
-    <div class="pagetitle">
-        <h1>Công tơ</h1>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">Home</li>
-                <li class="breadcrumb-item active">Công tơ</li>
-            </ol>
-        </nav>
-    </div>
-
-
     <div class="row">
 
         <div class="col-lg-12">
 
             <div class="card">
+                <h5 class="card-header">
+                    <nav>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">Home</li>
+                            <li class="breadcrumb-item active">Công tơ</li>
+
+                        </ol>
+                    </nav>
+                </h5>
                 <div class="card-body">
                     <div class="col-12 d-sm-flex justify-content-between align-items-center">
                         <h5 class="card-title">Danh sách công tơ</h5>
@@ -48,9 +46,9 @@
                         </div>
 
                         <div class="col-md-2 d-flex gap-2">
-                                <button type="submit" class="btn btn-primary w-100">Tìm kiếm</button>
-                                <a href="{{ route('admin.cong_tos.index') }}" class="btn btn-secondary w-100">Xoá lọc</a>
-                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Tìm kiếm</button>
+                            <a href="{{ route('admin.cong_tos.index') }}" class="btn btn-secondary w-100">Xoá lọc</a>
+                        </div>
                     </form>
 
                     <div class="table-responsive">
@@ -72,21 +70,22 @@
                                         <td>{{ $ct->id }}</td>
                                         <td>{{ ucfirst($ct->loai) }}</td>
                                         <td>{{ number_format($ct->chi_so_dau) }}</td>
-                                        <td>{{ $ct->room->ten_phong ?? 'Chưa gán' }} - {{$ct->room->ma_phong ?? 'Chưa gán'}}</td>
+                                        <td>{{ $ct->room->ten_phong ?? 'Chưa gán' }} -
+                                            {{ $ct->room->ma_phong ?? 'Chưa gán' }}</td>
                                         <td>{{ $ct->nhaTro->ten_toa_nha ?? '' }}</td>
                                         <td>
                                             <a href="{{ route('admin.cong_tos.edit', $ct) }}"
-                                                class="btn btn-sm btn-primary"><i class="bi bi-wrench"></i></a>
+                                                class="btn btn-sm btn-primary"><i class="icon-base bx bx-edit-alt"></i></a>
                                             <form action="{{ route('admin.cong_tos.destroy', $ct) }}" method="POST"
                                                 style="display:inline-block">
                                                 @csrf @method('DELETE')
                                                 <button class="btn btn-sm btn-danger"
                                                     onclick="return confirm('bạn có chắc muốn xóa?')"><i
-                                                                class="bi bi-trash text-white"></i></button>
+                                                        class="icon-base bx bx-trash"></i></button>
                                             </form>
                                         </td>
                                     </tr>
-                               @empty
+                                @empty
                                     <tr>
                                         <td colspan="6" class="text-center text-muted">Không có dữ liệu công tơ.</td>
                                     </tr>

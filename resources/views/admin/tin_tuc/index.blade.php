@@ -1,15 +1,6 @@
 @extends('admin.index')
 @section('contentadmin')
-    <div class="pagetitle">
-        <h1>Tin tức</h1>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">Home</li>
-                <li class="breadcrumb-item active">Tin tức</li>
-            </ol>
-        </nav>
-    </div>
-
+   
 
 
 
@@ -18,6 +9,14 @@
         <div class="col-lg-12">
 
             <div class="card">
+                 <h5 class="card-header">
+                    <nav>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">Home</li>
+                           <li class="breadcrumb-item active">Tin tức</li>
+                        </ol>
+                    </nav>
+                </h5>
                 <div class="card-body">
 
                     <div class="col-12 d-sm-flex justify-content-between align-items-center">
@@ -77,15 +76,14 @@
                                             <td>
                                                 @if (auth()->user()->hasPermissionTo('Sửa tin tức'))
                                                     <a href="{{ route('tin_tuc.edit', $tt->id) }}"
-                                                        class="btn btn-warning btn-sm"><i class="bi bi-wrench"></i></a>
+                                                        class="btn btn-warning btn-sm"><i class="icon-base bx bx-edit-alt"></i></a>
                                                 @endif
                                                 @if (auth()->user()->hasPermissionTo('Xóa tin tức'))
                                                     <form action="{{ route('tin_tuc.destroy', $tt->id) }}" method="POST"
                                                         style="display:inline-block;">
                                                         @csrf @method('DELETE')
                                                         <button class="btn btn-danger btn-sm"
-                                                            onclick="return confirm('Xóa tin tức này?')"><i
-                                                                class="bi bi-trash text-white"></i></button>
+                                                            onclick="return confirm('Xóa tin tức này?')"><i class="icon-base bx bx-trash"></i></button>
                                                     </form>
                                                 @endif
                                                 <button type="button" class="btn btn-info btn-sm btn-xem-chi-tiet"
@@ -93,7 +91,7 @@
                                                     data-tieude="{{ $tt->tieu_de }}" data-noidung="{{ $tt->noi_dung }}"
                                                     data-mota="{{ $tt->mo_ta_ngan }}" data-tacgia="{{ $tt->tac_gia }}"
                                                     data-anh="{{ asset($tt->hinh_anh) }}">
-                                                    <i class="bi bi-eye"></i>
+                                                    <i class="icon-base bx bx-show"></i>
                                                 </button>
                                             </td>
                                         </tr>

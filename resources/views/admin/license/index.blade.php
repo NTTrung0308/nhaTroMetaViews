@@ -1,16 +1,7 @@
 @extends('admin.index')
 
 @section('contentadmin')
-    <div class="pagetitle">
-        <h1>Danh sách License Keys</h1>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">Home</li>
-                <li class="breadcrumb-item active">Danh sách License Keys</li>
-            </ol>
-        </nav>
-    </div>
-
+   
 
 
 
@@ -19,6 +10,15 @@
         <div class="col-lg-12">
 
             <div class="card">
+                 <h5 class="card-header">
+                    <nav>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">Home</li>
+                            <li class="breadcrumb-item active">Danh sách License Keys</li>
+
+                        </ol>
+                    </nav>
+                </h5>
                 <div class="card-body">
                     <div class="col-12 d-sm-flex justify-content-between align-items-center">
                         <h5 class="card-title">Danh sách License Keys</h5>

@@ -1,22 +1,20 @@
 @extends('admin.index')
 @section('contentadmin')
-    <div class="pagetitle">
-        <h1>Phương tiện</h1>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">Home</li>
-                <li class="breadcrumb-item active">Phương tiện</li>
-            </ol>
-        </nav>
-    </div>
-
-
-
+   
 
     <div class="row">
 
 
         <div class="card">
+              <h5 class="card-header">
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">Home</li>
+                    <li class="breadcrumb-item active">Phương tiện</li>
+
+                </ol>
+            </nav>
+        </h5>
             <div class="card-body">
                 <div class="col-12 d-sm-flex justify-content-between align-items-center">
                     <h5 class="card-title">Phương tiện</h5>
@@ -68,7 +66,7 @@
                                         @if (auth()->user()->hasPermissionTo('Sửa phương tiện'))
 
                                             <a href="{{ route('admin.phuong_tiens.edit', $pt->id) }}"
-                                                class="btn btn-warning btn-sm"><i class="bi bi-wrench"></i></a>
+                                                class="btn btn-warning btn-sm"><i class="icon-base bx bx-edit-alt"></i></a>
                                         @endif
                                         @if (auth()->user()->hasPermissionTo('Xóa phương tiện'))
 
@@ -77,7 +75,7 @@
                                                 @csrf @method('DELETE')
                                                 <button onclick="return confirm('Xoá phương tiện này?')"
                                                     class="btn btn-danger btn-sm"><i
-                                                        class="bi bi-trash text-white"></i></button>
+                                                        class="icon-base bx bx-trash"></i></button>
                                             </form>
                                         @endif
 

@@ -1,21 +1,21 @@
 @extends('admin.index')
 @section('contentadmin')
-    <div class="pagetitle">
-        <h1>Công tơ nước</h1>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">Home</li>
-                <li class="breadcrumb-item active">Công tơ nước</li>
-            </ol>
-        </nav>
-    </div>
-
+  
 
     <div class="row">
 
         <div class="col-lg-12">
 
             <div class="card">
+                  <h5 class="card-header">
+                    <nav>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">Home</li>
+                            <li class="breadcrumb-item active">Công tơ nước</li>
+
+                        </ol>
+                    </nav>
+                </h5>
                 <div class="card-body">
                     <div class="col-12 d-sm-flex justify-content-between align-items-center">
                         <h5 class="card-title">Danh sách công tơ nước</h5>
@@ -83,15 +83,14 @@
                                             <td>
                                                 @if (auth()->user()->hasPermissionTo('Sửa công tơ nước'))
                                                     <a href="{{ route('admin.cong_tos.nuoc.edit', $ct) }}"
-                                                        class="btn btn-sm btn-primary"><i class="bi bi-wrench"></i></a>
+                                                        class="btn btn-sm btn-primary"><i class="icon-base bx bx-edit-alt"></i></a>
                                                 @endif
                                                 @if (auth()->user()->hasPermissionTo('Xóa công tơ nước'))
                                                     <form action="{{ route('admin.cong_tos.nuoc.destroy', $ct) }}"
                                                         method="POST" style="display:inline-block">
                                                         @csrf @method('DELETE')
                                                         <button class="btn btn-sm btn-danger"
-                                                            onclick="return confirm('bạn có chắc muốn xóa?')"><i
-                                                                class="bi bi-trash text-white"></i></button>
+                                                            onclick="return confirm('bạn có chắc muốn xóa?')"><i class="icon-base bx bx-trash"></i></button>
                                                     </form>
                                                 @endif
                                             </td>

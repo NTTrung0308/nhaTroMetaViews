@@ -1,17 +1,7 @@
 @extends('admin.index')
 
 @section('contentadmin')
-    <div class="pagetitle">
-        <h1>Thêm License Key</h1>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">Home</li>
-                <li class="breadcrumb-item active">Thêm License Key để tiếp tục</li>
-            </ol>
-        </nav>
-    </div>
-
-
+   
     <div class="row">
 
         <div class="col-lg-12">

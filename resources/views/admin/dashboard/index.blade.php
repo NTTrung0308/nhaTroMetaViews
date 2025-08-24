@@ -1,6 +1,6 @@
 @extends('admin.index')
 @section('contentadmin')
-    <div class="pagetitle">
+    {{-- <div class="pagetitle">
         <h1>Bảng Thống kê</h1>
         <nav>
             <ol class="breadcrumb">
@@ -8,12 +8,20 @@
                 <li class="breadcrumb-item active">Bảng Thống kê</li>
             </ol>
         </nav>
-    </div>
+    </div> --}}
     <div class="row">
 
         <div class="col-lg-12">
 
             <div class="card">
+                <h5 class="card-header">
+                    <nav>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">Home</li>
+                            <li class="breadcrumb-item active">Bảng Thống kê</li>
+                        </ol>
+                    </nav>
+                </h5>
                 <div class="card-body">
                     <div class="mt-3"> @can('Xem toàn bộ thống kê')
                             <div class="alert alert-info">Bạn đang xem thống kê toàn bộ hệ thống.</div>

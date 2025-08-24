@@ -1,23 +1,21 @@
 @extends('admin.index')
 @section('contentadmin')
-    <div class="pagetitle">
-        <h1>Chính sách</h1>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">Home</li>
-                <li class="breadcrumb-item active">Chính sách</li>
-            </ol>
-        </nav>
-    </div>
-
-
-
+   
 
     <div class="row">
 
         <div class="col-lg-12">
 
             <div class="card">
+                 <h5 class="card-header">
+                    <nav>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">Home</li>
+                                           <li class="breadcrumb-item active">Chính sách</li>
+
+                        </ol>
+                    </nav>
+                </h5>
                 <div class="card-body">
                     <div class="col-12 d-sm-flex justify-content-between align-items-center">
                         <h5 class="card-title">Danh sách chính sách</h5>
@@ -50,7 +48,7 @@
                                             @if (auth()->user()->hasPermissionTo('Sửa chính sách'))
                                                 <a href="{{ route('policies.edit', $policy) }}"
                                                     class="btn btn-sm btn-warning">
-                                                    <i class="bi bi-wrench"></i></a>
+                                                    <i class="icon-base bx bx-edit-alt"></i></a>
                                             @endif
                                             @if (auth()->user()->hasPermissionTo('Xóa chính sách'))
                                                 <form action="{{ route('policies.destroy', $policy) }}" method="POST"
@@ -58,7 +56,7 @@
                                                     onsubmit="return confirm('Xác nhận xoá?')">
                                                     @csrf @method('DELETE')
                                                     <button class="btn btn-sm btn-danger"><i
-                                                            class="bi bi-trash text-white"></i></button>
+                                                            class="icon-base bx bx-trash"></i></button>
                                                 </form>
                                             @endif
 
@@ -66,7 +64,7 @@
                                                 data-title="{{ $policy->title }}"
                                                 data-content="{{ base64_encode($policy->content) }}" data-bs-toggle="modal"
                                                 data-bs-target="#policyDetailModal">
-                                                <i class="bi bi-eye"></i>
+                                                <i class="icon-base bx bx-show"></i>
                                             </button>
 
                                         </td>

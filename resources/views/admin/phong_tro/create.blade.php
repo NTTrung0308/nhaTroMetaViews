@@ -1,16 +1,7 @@
 @extends('admin.index')
 @section('contentadmin')
 
-    <div class="pagetitle">
-        <h1>Phòng trọ</h1>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">Home</li>
-                <li class="breadcrumb-item active">Thêm Phòng trọ</li>
-            </ol>
-        </nav>
-    </div>
-
+    
 
     <div class="row">
 

@@ -3,16 +3,7 @@
     @php
         $isEdit = isset($user);
     @endphp
-    <div class="pagetitle">
-        <h1>Khách hàng</h1>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">Home</li>
-                <li class="breadcrumb-item active">{{ $isEdit ? 'Sửa khách hàng' : 'Thêm mới khách hàng' }}</li>
-            </ol>
-        </nav>
-    </div>
-
+    
 
     <div class="row">
 

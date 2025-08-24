@@ -1,19 +1,20 @@
 @extends('admin.index')
 
 @section('contentadmin')
-    <div class="pagetitle">
-        <h1>Hợp đồng thuê phòng</h1>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="">Home</a></li>
-                <li class="breadcrumb-item active">Hợp đồng thuê phòng</li>
-            </ol>
-        </nav>
-    </div>
+    
 
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
+                  <h5 class="card-header">
+                    <nav>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">Home</li>
+                            <li class="breadcrumb-item active">Hợp đồng thuê phòng</li>
+
+                        </ol>
+                    </nav>
+                </h5>
                 <div class="card-body">
                     <div class="d-sm-flex justify-content-between align-items-center">
                         <h5 class="card-title">Danh sách hợp đồng</h5>
@@ -73,15 +74,15 @@
                                                 data-trang-thai="{{ $hd->active ? 'Đang hoạt động' : 'Ngừng hoạt động' }}"
                                                 {{-- SỬA LỖI 2: Truyền đúng class CSS vào data-trang-thai-class --}}
                                                 data-trang-thai-class="{{ $hd->active ? 'bg-success' : 'bg-danger' }}">
-                                                <i class="bi bi-eye"></i>
+                                                <i class="icon-base bx bx-show"></i>
                                             </button>
 
-                                            <a href="{{ route('admin.hop_dong.edit', $hd) }}" class="btn btn-sm btn-primary" title="Sửa"><i class="bi bi-pencil-square"></i></a>
+                                            <a href="{{ route('admin.hop_dong.edit', $hd) }}" class="btn btn-sm btn-primary" title="Sửa"><i class="icon-base bx bx-edit-alt"></i></a>
 
                                             <form action="{{ route('admin.hop_dong.destroy', $hd) }}" method="POST" class="d-inline" onsubmit="return confirm('Bạn chắc chắn muốn xoá hợp đồng này?')">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-danger" title="Xoá"><i class="bi bi-trash"></i></button>
+                                                <button type="submit" class="btn btn-sm btn-danger" title="Xoá"><i class="icon-base bx bx-trash"></i></button>
                                             </form>
                                         </td>
                                     </tr>

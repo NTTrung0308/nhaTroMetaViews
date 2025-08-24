@@ -1,21 +1,13 @@
 @extends('admin.index')
 @section('contentadmin')
-    <div class="pagetitle">
-        <h1>Hóa đơn</h1>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">Home</li>
-                <li class="breadcrumb-item active">Hóa đơn</li>
-            </ol>
-        </nav>
-    </div>
-
+  
 
     <div class="row">
 
         <div class="col-lg-12">
 
             <div class="card">
+
                 <div class="card-body">
                     <div class="col-12 d-sm-flex justify-content-between align-items-center">
                         <h5 class="card-title">Nội dung Hóa đơn</h5>
@@ -144,14 +136,14 @@
                                             <form action="{{ route('hoa-dons.destroy', $hd->id) }}" method="POST"
                                                 onsubmit="return confirm('Bạn có chắc chắn muốn xóa hóa đơn này?');">
                                                 <a href="{{ route('hoa-dons.show', $hd->id) }}" class="btn btn-sm btn-info"
-                                                    title="Xem"><i class="bi bi-eye"></i></a>
+                                                    title="Xem"><i class="icon-base bx bx-show"></i></a>
                                                 <a href="{{ route('hoa-dons.edit', $hd->id) }}"
                                                     class="btn btn-sm btn-warning" title="Cập nhật thanh toán"><i
-                                                        class="bi bi-wrench"></i></a>
+                                                        class="icon-base bx bx-edit-alt"></i></a>
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-sm btn-danger" title="Xóa"><i
-                                                        class="bi bi-trash text-white"></i></button>
+                                                        class="icon-base bx bx-trash"></i></button>
                                             </form>
                                         </td>
                                     </tr>

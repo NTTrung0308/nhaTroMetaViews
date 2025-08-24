@@ -1,20 +1,21 @@
 @extends('admin.index')
 @section('contentadmin')
-    <div class="pagetitle">
-        <h1>Danh sách dịch vụ</h1>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">Home</li>
-                <li class="breadcrumb-item active">Danh sách dịch vụ của chúng tôi</li>
-            </ol>
-        </nav>
-    </div>
+   
 
     <div class="row">
 
         <div class="col-lg-12">
 
             <div class="card">
+                 <h5 class="card-header">
+                    <nav>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">Home</li>
+                            <li class="breadcrumb-item active">Danh sách dịch vụ của chúng tôi</li>
+
+                        </ol>
+                    </nav>
+                </h5>
                 <div class="card-body">
                     <div class="col-12 d-sm-flex justify-content-between align-items-center">
                         <h5 class="card-title">Nội dung Dịch vụ</h5>
@@ -65,7 +66,7 @@
                                         <td>
                                             @if (auth()->user()->hasPermissionTo('Sửa dịch vụ về chúng tôi'))
                                                 <a href="{{ route('admin.service_about_home.edit', $item->id) }}"
-                                                    class="btn btn-warning btn-sm"> <i class="bi bi-wrench"></i></a>
+                                                    class="btn btn-warning btn-sm"> <i class="icon-base bx bx-edit-alt"></i></a>
                                             @endif
                                             @if (auth()->user()->hasPermissionTo('Xóa dịch vụ về chúng tôi'))
                                                 <form action="{{ route('admin.service_about_home.destroy', $item->id) }}"
@@ -74,7 +75,7 @@
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger btn-sm"> <i
-                                                            class="bi bi-trash text-white"></i></button>
+                                                            class="icon-base bx bx-trash"></i></button>
                                                 </form>
                                             @endif
                                             <button type="button" class="btn btn-info btn-sm text-white view-detail-btn"
@@ -83,7 +84,7 @@
                                                 data-content="{{ $item->content }}"
                                                 data-image="{{ $item->image ? asset($item->image) : '' }}"
                                                 data-show="{{ $item->show_on_home ? 'Có' : 'Không' }}">
-                                                <i class="bi bi-eye"></i>
+                                                <i class="icon-base bx bx-show"></i>
                                             </button>
 
                                         </td>

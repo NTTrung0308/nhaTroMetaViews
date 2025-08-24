@@ -1,14 +1,5 @@
 @extends('admin.index')
 @section('contentadmin')
-    <div class="pagetitle">
-        <h1>Nhà trọ</h1>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">Home</li>
-                <li class="breadcrumb-item active">Nhà trọ</li>
-            </ol>
-        </nav>
-    </div>
 
 
 
@@ -18,6 +9,14 @@
         <div class="col-lg-12">
 
             <div class="card">
+                <h5 class="card-header">
+                    <nav>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">Home</li>
+                            <li class="breadcrumb-item active">Nhà trọ</li>
+                        </ol>
+                    </nav>
+                </h5>
                 <div class="card-body">
                     <div class="col-12 d-sm-flex justify-content-between align-items-center">
                         <h5 class="card-title">Nội dung Nhà trọ</h5>
@@ -41,11 +40,12 @@
                                     value="{{ request('dia_chi') }}">
                             </div>
                             <div class="col-md-2">
-            <select name="thanh_pho" id="province-select-search" class="form-select" data-old="{{ request('thanh_pho') }}">
-                <option value="">-- Chọn Tỉnh/Thành phố --</option>
-            </select>
-        </div>
-      
+                                <select name="thanh_pho" id="province-select-search" class="form-select"
+                                    data-old="{{ request('thanh_pho') }}">
+                                    <option value="">-- Chọn Tỉnh/Thành phố --</option>
+                                </select>
+                            </div>
+
                             <div class="col-md-2">
                                 <button class="btn btn-primary w-100" type="submit">Tìm kiếm</button>
                             </div>
@@ -76,13 +76,13 @@
                                         <td>
                                             @foreach ($nhaTro->dichVus as $dv)
                                                 <span
-                                                    class="badge border border-primary border-1 text-primary">{{ $dv->ten_dich_vu }}</span>
+                                                    class="badge border border-primary border-1 ">{{ $dv->ten_dich_vu }}</span>
                                             @endforeach
                                         </td>
                                         <td>
                                             @if (auth()->user()->hasPermissionTo('Sửa nhà trọ'))
                                                 <a href="{{ route('nha_tro.edit', $nhaTro->id) }}"
-                                                    class="btn btn-warning"><i class="bi bi-wrench"></i></a>
+                                                    class="btn btn-warning"><i class="icon-base bx bx-edit-alt"></i></a>
                                             @endif
                                             @if (auth()->user()->hasPermissionTo('Xóa nhà trọ'))
                                                 <form action="{{ route('nha_tro.destroy', $nhaTro->id) }}" method="POST"
@@ -90,14 +90,14 @@
                                                     @csrf @method('DELETE')
                                                     <button class="btn btn-danger"
                                                         onclick="return confirm('Xóa nhà trọ này?')"><i
-                                                            class="bi bi-trash text-white"></i></button>
+                                                            class="icon-base bx bx-trash"></i></button>
                                                 </form>
                                             @endif
                                             <button type="button" class="btn btn-info btn-xem-chi-tiet"
                                                 data-bs-toggle="modal" data-bs-target="#modalChiTiet"
                                                 data-nhatro='@json($nhaTro)'
                                                 data-dichvus='@json($nhaTro->dichVus)'>
-                                                <i class="bi bi-eye"></i>
+                                                <i class="icon-base bx bx-show"></i>
                                             </button>
 
                                         </td>
@@ -204,7 +204,7 @@
                         // =======================================================
                         // === SỬA LẠI PHẦN HIỂN THỊ DỊCH VỤ ===
                         // =======================================================
-                      
+
                         dvContainer.innerHTML = ''; // Xóa nội dung cũ
 
                         if (dichVus.length === 0) {
@@ -276,45 +276,45 @@
     </script>
 @endsection
 @push('scripts')
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const provinceSelectSearch = document.getElementById('province-select-search');
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const provinceSelectSearch = document.getElementById('province-select-search');
 
-    // Chỉ thực thi nếu có select tìm kiếm trên trang
-    if (provinceSelectSearch) {
-        
-        // Hàm điền dữ liệu tỉnh/thành phố vào select
-        function populateProvinces(selectElement, items) {
-            // Giữ lại option mặc định đã có trong HTML
-            items.forEach(item => {
-                const option = new Option(item.name, item.name);
-                selectElement.add(option);
-            });
-        }
+            // Chỉ thực thi nếu có select tìm kiếm trên trang
+            if (provinceSelectSearch) {
 
-        // Tải dữ liệu JSON
-        fetch("{{ asset('data/tinh_thanh.json') }}")
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                // Hàm điền dữ liệu tỉnh/thành phố vào select
+                function populateProvinces(selectElement, items) {
+                    // Giữ lại option mặc định đã có trong HTML
+                    items.forEach(item => {
+                        const option = new Option(item.name, item.name);
+                        selectElement.add(option);
+                    });
                 }
-                return response.json();
-            })
-            .then(data => {
-                // Điền dữ liệu vào dropdown
-                populateProvinces(provinceSelectSearch, data);
 
-                // Lấy giá trị tìm kiếm cũ (nếu có) và tự động chọn lại
-                const oldProvince = provinceSelectSearch.getAttribute('data-old');
-                if (oldProvince) {
-                    provinceSelectSearch.value = oldProvince;
-                }
-            })
-            .catch(error => {
-                console.error('Lỗi khi tải hoặc xử lý dữ liệu tỉnh thành:', error);
-                // Có thể thêm thông báo cho người dùng ở đây nếu cần
-            });
-    }
-});
-</script>
+                // Tải dữ liệu JSON
+                fetch("{{ asset('data/tinh_thanh.json') }}")
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        // Điền dữ liệu vào dropdown
+                        populateProvinces(provinceSelectSearch, data);
+
+                        // Lấy giá trị tìm kiếm cũ (nếu có) và tự động chọn lại
+                        const oldProvince = provinceSelectSearch.getAttribute('data-old');
+                        if (oldProvince) {
+                            provinceSelectSearch.value = oldProvince;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Lỗi khi tải hoặc xử lý dữ liệu tỉnh thành:', error);
+                        // Có thể thêm thông báo cho người dùng ở đây nếu cần
+                    });
+            }
+        });
+    </script>
 @endpush
