@@ -26,7 +26,7 @@
                     </div>
                     <hr>
                     <form method="GET" action="{{ route('nha_tro.index') }}" class="mb-3">
-                        <div class="row">
+                        <div class="row g-2">
                             <div class="col-md-4">
                                 <input type="text" name="ten_toa_nha" class="form-control" placeholder="Tên tòa nhà"
                                     value="{{ request('ten_toa_nha') }}">
