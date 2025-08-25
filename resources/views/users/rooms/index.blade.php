@@ -80,6 +80,12 @@
                                             alt="Ảnh phụ 2 của {{ $room->ten_phong }}"
                                             class="w-100 object-fit-cover img-search rounded">
                                     </div>
+                                     <div class="col-6 col-md-12">
+                                        {{-- Ảnh phụ 2: lấy ảnh thứ ba --}}
+                                        <img src="{{ isset($images[3]) ? asset($images[3]) : asset('/users/images/default-image.png') }}"
+                                            alt="Ảnh phụ 2 của {{ $room->ten_phong }}"
+                                            class="w-100 object-fit-cover img-search rounded">
+                                    </div>
                                 </div>
                             </div>
                         </div>

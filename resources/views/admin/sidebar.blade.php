@@ -244,10 +244,12 @@
              <span class="app-brand-logo demo">
                  <span class="text-primary">
 
-                    <img  width="35px" height="35px" src="{{asset(get_config()->logo ?? '/assets/img/icon_usser.png')}}" alt="">
+                     <img width="35px" height="35px"
+                         src="{{ asset(get_config()->logo ?? '/assets/img/icon_usser.png') }}" alt="">
                  </span>
              </span>
-             <span class="app-brand-text demo menu-text fw-bold ms-2">{{ get_config()->site_name ?? 'Metasoftware' }}</span>
+             <span
+                 class="app-brand-text demo menu-text fw-bold ms-2">{{ get_config()->site_name ?? 'Metasoftware' }}</span>
          </a>
 
          <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
@@ -322,7 +324,7 @@
                  auth()->user()->hasPermissionTo('Xóa công tơ điện'))
              <li
                  class="menu-item {{ in_array(Request::route()->getName(), ['admin.cong_tos.dien.index', 'admin.cong_tos.dien.create', 'admin.cong_tos.dien.edit']) ? 'active' : '' }}">
-                 <a class="menu-link " href="{{ route('rooms.index') }}">
+                 <a class="menu-link " href="{{ route('admin.cong_tos.dien.index') }}">
                      <i class="menu-icon tf-icons bx bxs-zap"></i>
                      <div>Công tơ điện</div>
                  </a>
@@ -333,7 +335,7 @@
                  auth()->user()->hasPermissionTo('Sửa công tơ nước') ||
                  auth()->user()->hasPermissionTo('Xóa công tơ nước'))
              <li
-                 class="menu-item {{ in_array(Request::route()->getName(), ['admin.cong_tos.nuoc.index', 'admin.cong_tos.nuoc.create', 'admin.cong_tos.nuoc.edit']) ? '' : 'collapsed' }}">
+                 class="menu-item {{ in_array(Request::route()->getName(), ['admin.cong_tos.nuoc.index', 'admin.cong_tos.nuoc.create', 'admin.cong_tos.nuoc.edit']) ? 'active' : '' }}">
                  <a class="menu-link " href="{{ route('admin.cong_tos.nuoc.index') }}">
                      <i class="menu-icon tf-icons bx bxs-droplet"></i>
                      <div>Công tơ nước</div>
@@ -365,7 +367,7 @@
              </li>
          @endif
 
-       
+
          @if (auth()->user()->hasPermissionTo('Xem quản lý điện nước') ||
                  auth()->user()->hasPermissionTo('Thêm quản lý điện nước') ||
                  auth()->user()->hasPermissionTo('Sửa quản lý điện nước'))
@@ -397,8 +399,7 @@
                  auth()->user()->hasPermissionTo('Thêm tài khoản quản trị') ||
                  auth()->user()->hasPermissionTo('Sửa tài khoản quản trị') ||
                  auth()->user()->hasPermissionTo('Xóa tài khoản quản trị'))
-             <li
-                 class="menu-item {{ in_array(Request::route()->getName(), ['admin.quanly.index']) ? 'active' : '' }}">
+             <li class="menu-item {{ in_array(Request::route()->getName(), ['admin.quanly.index']) ? 'active' : '' }}">
                  <a class="menu-link " href="{{ route('admin.quanly.index') }}">
                      <i class="menu-icon tf-icons bx bxs-briefcase"></i>
                      <div>Quản trị</div>
@@ -426,68 +427,85 @@
                  auth()->user()->hasPermissionTo('Thêm hợp đồng') ||
                  auth()->user()->hasPermissionTo('Sửa hợp đồng') ||
                  auth()->user()->hasPermissionTo('Xóa hợp đồng'))
-             <li class="menu-item {{ in_array(Request::route()->getName(), ['admin.hop_dong.index', 'admin.hop_dong.create', 'admin.hop_dong.edit']) ? 'active' : '' }}">
-                 <a class="menu-link"
-                     href="{{ route('admin.hop_dong.index') }}">
+             <li
+                 class="menu-item {{ in_array(Request::route()->getName(), ['admin.hop_dong.index', 'admin.hop_dong.create', 'admin.hop_dong.edit']) ? 'active' : '' }}">
+                 <a class="menu-link" href="{{ route('admin.hop_dong.index') }}">
                      <i class="menu-icon tf-icons bx bx-file"></i>
                      <div>Hợp đồng</div>
                  </a>
              </li>
          @endif
-          @if (auth()->user()->hasAnyPermission(['Xem hóa đơn', 'Thêm hóa đơn', 'Sửa hóa đơn', 'Xóa hóa đơn']))
-             <li class="menu-item {{ in_array(Request::route()->getName(), ['hoa-dons.index', 'hoa-dons.create', 'hoa-dons.edit', 'hoa-dons.show']) ? 'active' : '' }}">
-                 <a class="menu-link "
-                     href="{{ route('hoa-dons.index') }}">
+         @if (auth()->user()->hasAnyPermission(['Xem hóa đơn', 'Thêm hóa đơn', 'Sửa hóa đơn', 'Xóa hóa đơn']))
+             <li
+                 class="menu-item {{ in_array(Request::route()->getName(), ['hoa-dons.index', 'hoa-dons.create', 'hoa-dons.edit', 'hoa-dons.show']) ? 'active' : '' }}">
+                 <a class="menu-link " href="{{ route('hoa-dons.index') }}">
                      <i class="menu-icon tf-icons bx bx-receipt"></i>
                      <div>Hóa đơn</div>
                  </a>
              </li>
          @endif
-           @if (auth()->user()->hasAnyPermission(['Xem tin tức', 'Xem liên hệ', 'Xem chính sách', 'Xem slider', 'Xem cảm nghĩ', 'Cài đặt web', 'Về chúng tôi']))
-            <li class="menu-header small">
+         @if (auth()->user()->hasAnyPermission([
+                     'Xem tin tức',
+                     'Xem liên hệ',
+                     'Xem chính sách',
+                     'Xem slider',
+                     'Xem cảm nghĩ',
+                     'Cài đặt web',
+                     'Về chúng tôi',
+                 ]))
+             <li class="menu-header small">
                  <span class="menu-header-text" data-i18n="Hiện thị trang chủ">Hiện thị trang chủ</span>
              </li>
          @endif
-          @if (auth()->user()->hasAnyPermission(['Xem tin tức', 'Thêm tin tức', 'Sửa tin tức', 'Xóa tin tức']))
-             <li class="menu-item {{ in_array(Request::route()->getName(), ['tin_tuc.index', 'tin_tuc.create', 'tin_tuc.edit']) ? 'active' : '' }}">
-                 <a class="menu-link "
-                     href="{{ route('tin_tuc.index') }}">
+         @if (auth()->user()->hasAnyPermission(['Xem tin tức', 'Thêm tin tức', 'Sửa tin tức', 'Xóa tin tức']))
+             <li
+                 class="menu-item {{ in_array(Request::route()->getName(), ['tin_tuc.index', 'tin_tuc.create', 'tin_tuc.edit']) ? 'active' : '' }}">
+                 <a class="menu-link " href="{{ route('tin_tuc.index') }}">
                      <i class="menu-icon tf-icons bx bx-news"></i>
                      <div>Tin tức</div>
                  </a>
              </li>
          @endif
-          @if (auth()->user()->hasPermissionTo('Xem liên hệ'))
-             <li class="menu-item {{ in_array(Request::route()->getName(), ['lien_he.index.admin']) ? 'active' : '' }}">
-                 <a class="menu-link "
-                     href="{{ route('lien_he.index.admin') }}">
+         @if (auth()->user()->hasPermissionTo('Xem liên hệ'))
+             <li
+                 class="menu-item {{ in_array(Request::route()->getName(), ['lien_he.index.admin']) ? 'active' : '' }}">
+                 <a class="menu-link " href="{{ route('lien_he.index.admin') }}">
                      <i class="menu-icon tf-icons bx bx-envelope"></i>
                      <div>Liên hệ</div>
                  </a>
              </li>
          @endif
-          @if (auth()->user()->hasPermissionTo('Xem chính sách') || auth()->user()->hasPermissionTo('Thêm chính sách') || auth()->user()->hasPermissionTo('Sửa chính sách') || auth()->user()->hasPermissionTo('Xóa chính sách'))
-             <li class="menu-item {{ in_array(Request::route()->getName(), ['policies.index', 'policies.create', 'policies.edit']) ? 'acitve' : '' }}">
-                 <a class="menu-link "
-                     href="{{ route('policies.index') }}">
+         @if (auth()->user()->hasPermissionTo('Xem chính sách') ||
+                 auth()->user()->hasPermissionTo('Thêm chính sách') ||
+                 auth()->user()->hasPermissionTo('Sửa chính sách') ||
+                 auth()->user()->hasPermissionTo('Xóa chính sách'))
+             <li
+                 class="menu-item {{ in_array(Request::route()->getName(), ['policies.index', 'policies.create', 'policies.edit']) ? 'active' : '' }}">
+                 <a class="menu-link " href="{{ route('policies.index') }}">
                      <i class="menu-icon tf-icons bx bx-book"></i>
                      <div>Chính sách</div>
                  </a>
              </li>
          @endif
-         @if (auth()->user()->hasPermissionTo('Xem slider') || auth()->user()->hasPermissionTo('Thêm slider') || auth()->user()->hasPermissionTo('Sửa slider') || auth()->user()->hasPermissionTo('Xóa slider'))
-             <li class="menu-item {{ in_array(Request::route()->getName(), ['sliders.index', 'sliders.create', 'sliders.edit']) ? 'active' : '' }}">
-                 <a class="menu-link "
-                     href="{{ route('sliders.index') }}">
+         @if (auth()->user()->hasPermissionTo('Xem slider') ||
+                 auth()->user()->hasPermissionTo('Thêm slider') ||
+                 auth()->user()->hasPermissionTo('Sửa slider') ||
+                 auth()->user()->hasPermissionTo('Xóa slider'))
+             <li
+                 class="menu-item {{ in_array(Request::route()->getName(), ['sliders.index', 'sliders.create', 'sliders.edit']) ? 'active' : '' }}">
+                 <a class="menu-link " href="{{ route('sliders.index') }}">
                      <i class="menu-icon tf-icons bx bx-slideshow"></i>
                      <div>Sliders</div>
                  </a>
              </li>
          @endif
-         @if (auth()->user()->hasPermissionTo('Xem cảm nghĩ') || auth()->user()->hasPermissionTo('Thêm cảm nghĩ') || auth()->user()->hasPermissionTo('Sửa cảm nghĩ') || auth()->user()->hasPermissionTo('Xóa cảm nghĩ'))
-             <li class="menu-item {{ in_array(Request::route()->getName(), ['feedbacks.index', 'feedbacks.create', 'feedbacks.edit']) ? 'active' : '' }}">
-                 <a class="menu-link "
-                     href="{{ route('feedbacks.index') }}">
+         @if (auth()->user()->hasPermissionTo('Xem cảm nghĩ') ||
+                 auth()->user()->hasPermissionTo('Thêm cảm nghĩ') ||
+                 auth()->user()->hasPermissionTo('Sửa cảm nghĩ') ||
+                 auth()->user()->hasPermissionTo('Xóa cảm nghĩ'))
+             <li
+                 class="menu-item {{ in_array(Request::route()->getName(), ['feedbacks.index', 'feedbacks.create', 'feedbacks.edit']) ? 'active' : '' }}">
+                 <a class="menu-link " href="{{ route('feedbacks.index') }}">
                      <i class="menu-icon tf-icons bx bx-comment"></i>
                      <div>Cảm nghĩ</div>
                  </a>
@@ -495,8 +513,7 @@
          @endif
          @if (auth()->user()->hasPermissionTo('Cài đặt web'))
              <li class="menu-item {{ in_array(Request::route()->getName(), ['web-config.edit']) ? 'active' : '' }}">
-                 <a class="menu-link "
-                     href="{{ route('web-config.edit') }}">
+                 <a class="menu-link " href="{{ route('web-config.edit') }}">
                      <i class="menu-icon tf-icons bx bx-cog"></i>
                      <div>Cài đặt web</div>
                  </a>
@@ -504,35 +521,46 @@
          @endif
          @if (auth()->user()->hasPermissionTo('Về chúng tôi'))
              <li class="menu-item {{ in_array(Request::route()->getName(), ['about_us.edit']) ? 'active' : '' }}">
-                 <a class="menu-link "
-                     href="{{ route('about_us.edit') }}">
+                 <a class="menu-link " href="{{ route('about_us.edit') }}">
                      <i class="menu-icon tf-icons bx bx-info-circle"></i>
                      <div>Về chúng tôi</div>
                  </a>
              </li>
          @endif
-         @if (auth()->user()->hasAnyPermission('Xem câu hỏi thường gặp', 'Sửa câu hỏi thường gặp', 'Xóa câu hỏi thường gặp', 'Thêm câu hỏi thường gặp'))
-             <li class="menu-item {{ in_array(Request::route()->getName(), ['admin.faqs.index', 'admin.faqs.create', 'admin.faqs.edit']) ? 'active' : '' }}">
-                 <a class="menu-link "
-                     href="{{ route('admin.faqs.index') }}">
+         @if (auth()->user()->hasAnyPermission(
+                     'Xem câu hỏi thường gặp',
+                     'Sửa câu hỏi thường gặp',
+                     'Xóa câu hỏi thường gặp',
+                     'Thêm câu hỏi thường gặp'))
+             <li
+                 class="menu-item {{ in_array(Request::route()->getName(), ['admin.faqs.index', 'admin.faqs.create', 'admin.faqs.edit']) ? 'active' : '' }}">
+                 <a class="menu-link " href="{{ route('admin.faqs.index') }}">
                      <i class="menu-icon tf-icons bx bx-help-circle"></i>
                      <div>Câu hỏi thường gặp</div>
                  </a>
              </li>
          @endif
-         @if (auth()->user()->hasAnyPermission('Xem dịch vụ về chúng tôi', 'Sửa dịch vụ về chúng tôi', 'Xóa dịch vụ về chúng tôi', 'Thêm dịch vụ về chúng tôi'))
-             <li class="menu-item {{ in_array(Request::route()->getName(), ['admin.service_about_home.index', 'admin.service_about_home.create', 'admin.service_about_home.edit']) ? 'active' : '' }}">
-                 <a class="menu-link "
-                     href="{{ route('admin.service_about_home.index') }}">
+         @if (auth()->user()->hasAnyPermission(
+                     'Xem dịch vụ về chúng tôi',
+                     'Sửa dịch vụ về chúng tôi',
+                     'Xóa dịch vụ về chúng tôi',
+                     'Thêm dịch vụ về chúng tôi'))
+             <li
+                 class="menu-item {{ in_array(Request::route()->getName(), ['admin.service_about_home.index', 'admin.service_about_home.create', 'admin.service_about_home.edit']) ? 'active' : '' }}">
+                 <a class="menu-link " href="{{ route('admin.service_about_home.index') }}">
                      <i class="menu-icon tf-icons bx bx-briefcase"></i>
                      <div>Dịch vụ về chúng tôi</div>
                  </a>
              </li>
          @endif
-         @if (auth()->user()->hasAnyPermission('Xem thành viên trang chủ', 'Sửa thành viên trang chủ', 'Xóa thành viên trang chủ', 'Thêm thành viên trang chủ'))
-             <li class="menu-item {{ in_array(Request::route()->getName(), ['admin.members.index', 'admin.members.create', 'admin.members.edit']) ? 'active' : '' }}">
-                 <a class="menu-link "
-                     href="{{ route('admin.members.index') }}">
+         @if (auth()->user()->hasAnyPermission(
+                     'Xem thành viên trang chủ',
+                     'Sửa thành viên trang chủ',
+                     'Xóa thành viên trang chủ',
+                     'Thêm thành viên trang chủ'))
+             <li
+                 class="menu-item {{ in_array(Request::route()->getName(), ['admin.members.index', 'admin.members.create', 'admin.members.edit']) ? 'active' : '' }}">
+                 <a class="menu-link " href="{{ route('admin.members.index') }}">
                      <i class="menu-icon tf-icons bx bx-group"></i>
                      <div>Thành viên trang chủ</div>
                  </a>

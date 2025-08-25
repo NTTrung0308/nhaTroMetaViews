@@ -1,15 +1,11 @@
 @extends('admin.index')
 @section('contentadmin')
-  
-
-
-
     <div class="row">
 
         <div class="col-lg-12">
 
             <div class="card">
-                 
+
                 <div class="card-body">
                     <div class="col-12 d-sm-flex justify-content-between align-items-center">
                         <h5 class="card-title">Nội dung Phòng trọ</h5>
@@ -110,18 +106,27 @@
 
 
 
-
                                         <td>
                                             <span
-                                                class="badge bg-{{ $room->status == 'trong' ? 'success' : 'secondary' }}">
-                                                {{ $room->status == 'trong' ? 'Trống' : 'Đã thuê' }}
+                                                class="badge 
+            @if ($room->status == 'trong') bg-success 
+            @elseif($room->status == 'dang_sua') bg-warning 
+            @else bg-secondary @endif">
+                                                @if ($room->status == 'trong')
+                                                    Trống
+                                                @elseif($room->status == 'dang_sua')
+                                                    Đang sửa
+                                                @else
+                                                    Đã thuê
+                                                @endif
                                             </span>
                                         </td>
                                         <td>{{ $room->da_thue ? 'Có' : 'Không' }}</td>
                                         <td>
                                             @if (auth()->user()->hasPermissionTo('Sửa phòng trọ'))
                                                 <a href="{{ route('rooms.edit', $room->id) }}"
-                                                    class="btn btn-sm btn-warning"><i class="icon-base bx bx-edit-alt"></i></a>
+                                                    class="btn btn-sm btn-warning"><i
+                                                        class="icon-base bx bx-edit-alt"></i></a>
                                             @endif
                                             @if (auth()->user()->hasPermissionTo('Xóa phòng trọ'))
                                                 <form action="{{ route('rooms.destroy', $room->id) }}" method="POST"
@@ -181,7 +186,8 @@
                         <li class="list-group-item"><strong>Giá thuê:</strong> <span id="modal-gia-thue"></span> VNĐ</li>
                         <li class="list-group-item"><strong>Loại phòng:</strong> <span id="modal-loai-phong"></span></li>
                         <li class="list-group-item"><strong>Trạng thái:</strong> <span id="modal-trang-thai"></span></li>
-                        <li class="list-group-item"><strong>Có ban công không:</strong> <span id="modal-ban-cong"></span></li>
+                        <li class="list-group-item"><strong>Có ban công không:</strong> <span id="modal-ban-cong"></span>
+                        </li>
                         <li class="list-group-item"><strong>Đã thuê:</strong> <span id="modal-da-thue"></span></li>
                     </ul>
                     <div id="roomImageCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
