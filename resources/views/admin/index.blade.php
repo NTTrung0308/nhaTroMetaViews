@@ -307,6 +307,7 @@
     <link rel="stylesheet" href="{{ asset('/admin/css/iconify-icons.css') }}" />
     <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('/assets/css/cropper.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('/assets/css/toastr.min.css') }}" rel="stylesheet">
 
     <!-- Core CSS -->
     <!-- build:css assets/vendor/css/theme.css  -->
@@ -650,6 +651,68 @@
             }
         });
     </script>
+        <script src="{{ asset('/assets/js/toastr.min.js') }}"></script>
+     <script>
+        @if (Session::has('success'))
+            toastr.success("{{ Session::get('success') }}");
+        @endif
+
+        @if (Session::has('error'))
+            toastr.error("{{ Session::get('error') }}");
+        @endif
+
+        @if (Session::has('info'))
+            toastr.info("{{ Session::get('info') }}");
+        @endif
+
+        @if (Session::has('warning'))
+            toastr.warning("{{ Session::get('warning') }}");
+        @endif
+    </script>
+      @if (session('generation_status'))
+        <script>
+            // Đảm bảo rằng đoạn mã này chạy sau khi DOM đã sẵn sàng
+            document.addEventListener('DOMContentLoaded', function() {
+             
+                const status = @json(session('generation_status'));
+
+                // Cấu hình chung cho Toastr (tùy chọn)
+                toastr.options = {
+                    "closeButton": true,
+                    "progressBar": true,
+                    "positionClass": "toast-top-right",
+                    "timeOut": 5000, // 5 giây cho thông báo tóm tắt
+                };
+
+                // 1. Hiển thị TOAST TÓM TẮT
+                // Tin nhắn chính là tiêu đề, còn phần tóm tắt là nội dung
+                toastr.success(
+                    `Thành công: ${status.success_count} hóa đơn.<br>Bỏ qua: ${status.skipped_count} phòng.`,
+                    status.message // "Tạo hóa đơn hoàn tất cho tháng 8/2023!"
+                );
+
+                // 2. Nếu có lỗi, hiển thị TOAST CHI TIẾT
+                if (status.skipped_count > 0 && status.errors) {
+                    // Xây dựng chuỗi HTML chứa danh sách lỗi
+                    let errorDetailsHtml = '<ul>';
+                    // Lặp qua đối tượng lỗi
+                    for (const [roomName, reason] of Object.entries(status.errors)) {
+                        errorDetailsHtml += `<li><strong>${roomName}:</strong> ${reason}</li>`;
+                    }
+                    errorDetailsHtml += '</ul>';
+
+                    // Hiển thị toast cảnh báo với các tùy chọn đặc biệt
+                    toastr.warning(errorDetailsHtml, "Chi tiết các phòng đã bỏ qua", {
+                        "timeOut": 7000, // 0 = không tự động đóng
+                        "extendedTimeOut": 0, // 0 = không tự động đóng khi hover
+                        "escapeHtml": false, // QUAN TRỌNG: Cho phép hiển thị HTML
+                        "closeButton": true,
+                        "tapToDismiss": false
+                    });
+                }
+            });
+        </script>
+    @endif
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     @stack('scripts')
 </body>
