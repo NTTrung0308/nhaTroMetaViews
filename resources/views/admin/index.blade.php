@@ -651,24 +651,7 @@
             }
         });
     </script>
-        <script src="{{ asset('/assets/js/toastr.min.js') }}"></script>
-     <script>
-        @if (Session::has('success'))
-            toastr.success("{{ Session::get('success') }}");
-        @endif
-
-        @if (Session::has('error'))
-            toastr.error("{{ Session::get('error') }}");
-        @endif
-
-        @if (Session::has('info'))
-            toastr.info("{{ Session::get('info') }}");
-        @endif
-
-        @if (Session::has('warning'))
-            toastr.warning("{{ Session::get('warning') }}");
-        @endif
-    </script>
+    
       @if (session('generation_status'))
         <script>
             // Đảm bảo rằng đoạn mã này chạy sau khi DOM đã sẵn sàng
