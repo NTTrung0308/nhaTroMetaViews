@@ -10,7 +10,7 @@ use App\Models\NhaTros;
 use App\Models\Rooms;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Log; 
 class RoomController extends Controller
 {
     public function __construct()
@@ -68,9 +68,8 @@ class RoomController extends Controller
     public function store(Request $request)
     {
             $user = auth()->user();
-
     // Lấy license key gán cho user
-    $license = LicenseKey::where('user_id', $user->id)
+    $license = LicenseKey::where('key', $user->license_key)
         ->where('is_active', true)
         ->first();
 
@@ -315,38 +314,43 @@ class RoomController extends Controller
    public function destroy(Rooms $room)
 {
     try {
-        // Bắt đầu một transaction để đảm bảo tất cả các thao tác đều thành công
+        // Bắt đầu một transaction để đảm bảo tất cả các thao tác đều thành công hoặc không thành công cùng nhau.
+        // Điều này rất quan trọng: nếu xóa file ảnh thất bại, việc hoàn lại lượt tạo phòng cũng sẽ bị hủy.
         DB::transaction(function () use ($room) {
             
-            // --- PHẦN LOGIC MỚI: HOÀN LẠI LƯỢT TẠO PHÒNG ---
+            // --- PHẦN LOGIC HOÀN LẠI LƯỢT TẠO PHÒNG ---
 
-            // 1. Lấy user_id của chủ sở hữu phòng thông qua nhà trọ.
-            // Giả định rằng model Room có quan hệ 'nhaTro' và model NhaTro có thuộc tính 'user_id'.
-            // Nếu bạn chưa có quan hệ này, bạn có thể tạo nó trong model Room:
-            // public function nhaTro() { return $this->belongsTo(\App\Models\NhaTro::class); }
-            $ownerId = $room->nhaTro->user_id ?? null;
+            // 1. Lấy user_id của chủ sở hữu phòng thông qua mối quan hệ với nhà trọ.
+            // Điều này đảm bảo chúng ta hoàn lại lượt cho đúng người, ngay cả khi admin là người thực hiện thao tác xóa.
+            // Cú pháp `?->` (optional chaining) sẽ tránh lỗi nếu `$room->nhaTro` không tồn tại.
+            $ownerId = $room->nhaTro?->user_id;
 
             if ($ownerId) {
-                // 2. Tìm license key đang hoạt động của chủ sở hữu
+                // 2. Tìm license key ĐANG HOẠT ĐỘNG của chủ sở hữu.
+                // Việc chỉ tìm key 'is_active' là hợp lý, vì người dùng chỉ có thể tạo phòng bằng key đang hoạt động.
                 $license = LicenseKey::where('user_id', $ownerId)
                                      ->where('is_active', true)
                                      ->first();
 
-                // 3. Nếu tìm thấy license, cộng lại 1 lượt
+                // 3. Nếu tìm thấy license, cộng lại 1 lượt tạo phòng.
                 if ($license) {
                     $license->increment('max_rooms');
                 }
             } else {
-                // Ghi log nếu không tìm thấy chủ sở hữu, đây là trường hợp bất thường
-                \Log::warning('Không thể hoàn lại lượt tạo phòng khi xóa phòng ID: ' . $room->id . ' vì không tìm thấy chủ sở hữu.');
+                // Ghi log nếu không tìm thấy chủ sở hữu. Đây là trường hợp bất thường và cần được kiểm tra.
+                Log::warning('Không thể hoàn lại lượt tạo phòng khi xóa phòng ID: ' . $room->id . ' vì không tìm thấy chủ sở hữu (nhaTro hoặc user_id không tồn tại).');
             }
 
             // --- GIỮ NGUYÊN LOGIC XÓA CỦA BẠN ---
 
+            // Lấy thông tin phòng trước khi xóa để ghi log
+            $tenPhong = $room->ten_phong;
+            $roomId = $room->id;
+
             // Xóa các công tơ liên quan đến phòng
             CongTo::where('room_id', $room->id)->delete();
             
-            // Xóa ảnh nếu có
+            // Xóa các file ảnh vật lý liên quan đến phòng
             if (!empty($room->images)) {
                 $images = json_decode($room->images, true);
                 if (is_array($images)) {
@@ -359,28 +363,24 @@ class RoomController extends Controller
                 }
             }
 
-            // Lấy thông tin phòng trước khi xóa để ghi log
-            $tenPhong = $room->ten_phong;
-            $roomId = $room->id;
-
-            // Xóa bản ghi phòng trọ
+            // Cuối cùng, xóa bản ghi phòng trọ khỏi database
             $room->delete();
 
-            // Ghi log chi tiết
+            // Ghi log chi tiết về hành động
             LogHelper::ghi(
                 'Xóa phòng trọ: ' . $tenPhong . ' (ID: ' . $roomId . ')',
                 'Phòng Trọ',
-                'Người dùng "' . auth()->user()->name . '" (ID: ' . auth()->id() . ') đã xóa phòng trọ "' . $tenPhong . '" (ID: ' . $roomId . '). Lượt tạo phòng đã được hoàn lại.'
+                'Người dùng "' . auth()->user()->name . '" (ID: ' . auth()->id() . ') đã xóa phòng trọ "' . $tenPhong . '". Lượt tạo phòng đã được hoàn lại cho chủ sở hữu.'
             );
         });
 
     } catch (\Exception $e) {
-        // Nếu có lỗi xảy ra trong transaction, ghi log và báo lỗi
-        \Log::error('Lỗi khi xóa phòng: ' . $e->getMessage());
-        return back()->with('error', 'Xóa phòng thất bại. Vui lòng thử lại.');
+        // Nếu có bất kỳ lỗi nào xảy ra trong transaction, tất cả sẽ được hoàn tác.
+        Log::error('Lỗi khi xóa phòng ID ' . $room->id . ': ' . $e->getMessage());
+        return back()->with('error', 'Xóa phòng thất bại. Đã có lỗi xảy ra.');
     }
 
-    // Cập nhật thông báo thành công
+    // Redirect về trang trước đó với thông báo thành công
     return back()->with('success', 'Xóa phòng thành công và đã hoàn lại 1 lượt tạo phòng.');
 }
     // App\Http\Controllers\RoomController.php

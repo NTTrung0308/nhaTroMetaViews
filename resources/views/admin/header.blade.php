@@ -79,21 +79,28 @@
                         </a>
                     </li>
                   
-                    @if (auth()->user()->hasPermissionTo('Xem phòng trọ') ||
-                            auth()->user()->hasPermissionTo('Thêm phòng trọ') ||
-                            auth()->user()->hasPermissionTo('Sửa phòng trọ') ||
-                            auth()->user()->hasPermissionTo('Xóa phòng trọ'))
-                        <li>
-                            <a class="dropdown-item" href="#">
-                                <span class="d-flex align-items-center align-middle">
-                                    <i class="flex-shrink-0 icon-base bx bx-credit-card icon-md me-3"></i><span
-                                        class="flex-grow-1 align-middle">Số phòng còn lại</span>
-                                    <span
-                                        class="flex-shrink-0 badge rounded-pill bg-danger">{{ auth()->user()->max_rooms ?? 0 }}</span>
-                                </span>
-                            </a>
-                        </li>
-                    @endif
+                   {{-- PHIÊN BẢN TỐI ƯU VÀ KHUYẾN KHÍCH SỬ DỤNG --}}
+@if (auth()->user()->hasPermissionTo('Xem phòng trọ') ||
+     auth()->user()->hasPermissionTo('Thêm phòng trọ') ||
+     auth()->user()->hasPermissionTo('Sửa phòng trọ') ||
+     auth()->user()->hasPermissionTo('Xóa phòng trọ'))
+    <li>
+        <a class="dropdown-item" href="#">
+            <span class="d-flex align-items-center align-middle">
+                <i class="flex-shrink-0 icon-base bx bx-home-alt icon-md me-3"></i>
+                <span class="flex-grow-1 align-middle">Lượt tạo phòng</span>
+                
+                <span class="flex-shrink-0 badge rounded-pill bg-success">
+                    {{-- 
+                        - auth()->user()->licenseDetails?->is_active: Kiểm tra an toàn xem license có tồn tại và active không.
+                        - Nếu đúng, lấy max_rooms. Nếu sai, trả về 0.
+                    --}}
+                    {{ (auth()->user()->licenseDetails?->is_active) ? auth()->user()->licenseDetails->max_rooms : 0 }}
+                </span>
+            </span>
+        </a>
+    </li>
+@endif
                     <li>
                         <div class="dropdown-divider my-1"></div>
                     </li>

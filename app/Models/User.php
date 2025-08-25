@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -99,5 +100,11 @@ class User extends Authenticatable
 {
     return $this->hasOne(LicenseKey::class);
 }
-
+ public function licenseDetails(): HasOne
+    {
+        // hasOne(RelatedModel, foreign_key_on_related_table, local_key_on_this_table)
+        // Laravel sẽ thực hiện query tương đương:
+        // SELECT * FROM `license_keys` WHERE `license_keys`.`key` = `users`.`license_key`
+        return $this->hasOne(LicenseKey::class, 'key', 'license_key');
+    }
 }
