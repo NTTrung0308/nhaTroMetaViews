@@ -323,14 +323,15 @@ class RoomController extends Controller
             // 1. Lấy user_id của chủ sở hữu phòng thông qua mối quan hệ với nhà trọ.
             // Điều này đảm bảo chúng ta hoàn lại lượt cho đúng người, ngay cả khi admin là người thực hiện thao tác xóa.
             // Cú pháp `?->` (optional chaining) sẽ tránh lỗi nếu `$room->nhaTro` không tồn tại.
-            $ownerId = $room->nhaTro?->user_id;
+            $user = auth()->user();
 
-            if ($ownerId) {
+            if ($user) {
                 // 2. Tìm license key ĐANG HOẠT ĐỘNG của chủ sở hữu.
                 // Việc chỉ tìm key 'is_active' là hợp lý, vì người dùng chỉ có thể tạo phòng bằng key đang hoạt động.
-                $license = LicenseKey::where('user_id', $ownerId)
-                                     ->where('is_active', true)
-                                     ->first();
+                 $license = LicenseKey::where('key', $user->license_key)
+        ->where('is_active', true)
+        ->first();
+
 
                 // 3. Nếu tìm thấy license, cộng lại 1 lượt tạo phòng.
                 if ($license) {
