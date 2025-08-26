@@ -314,11 +314,11 @@
 
     <link rel="stylesheet" href="{{ asset('/admin/css/core.css') }}" />
     <link rel="stylesheet" href="{{ asset('/admin/css/demo.css') }}" />
-<link href="{{ asset('/assets/css/select2.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('/assets/css/select2.min.css') }}" rel="stylesheet" />
     <!-- Vendors CSS -->
 
     <link rel="stylesheet" href="{{ asset('/admin/css/perfect-scrollbar.css') }}" />
- <link href="{{ asset('/assets/css/select2-bootstrap4.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('/assets/css/select2-bootstrap4.min.css') }}" rel="stylesheet" />
     <!-- endbuild -->
 
     <!-- Page CSS -->
@@ -534,43 +534,50 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 
-            const imageInput = document.getElementById('imageInput');
-            const previewImage = document.getElementById('previewImage');
-            const croppedImageInput = document.getElementById('croppedImage');
-            if (imageInput && previewImage && croppedImageInput) {
+            // const imageInput = document.getElementById('imageInput');
+            // const previewImage = document.getElementById('previewImage');
+            // const croppedImageInput = document.getElementById('croppedImage');
 
-                let cropper;
+            // // Kiểm tra xem các element có tồn tại không trước khi chạy
+            // if (imageInput && previewImage && croppedImageInput) {
+            //     let cropper;
 
-                if (imageInput && previewImage && croppedImageInput) {
-                    imageInput.addEventListener('change', function(e) {
-                        const file = e.target.files[0];
-                        if (!file) return;
+            //     imageInput.addEventListener('change', function(e) {
+            //         const file = e.target.files[0];
+            //         if (!file) return;
 
-                        const reader = new FileReader();
-                        reader.onload = function(event) {
-                            previewImage.src = event.target.result;
-                            previewImage.style.display = 'block';
+            //         const reader = new FileReader();
+            //         reader.onload = function(event) {
+            //             previewImage.src = event.target.result;
+            //             previewImage.style.display = 'block';
 
+            //             if (cropper) {
+            //                 cropper.destroy();
+            //             }
 
-                            if (cropper) cropper.destroy();
+            //             cropper = new Cropper(previewImage, {
+            //                 aspectRatio: 16 / 9,
+            //                 viewMode: 1,
+            //                 autoCropArea: 1,
 
-                            cropper = new Cropper(previewImage, {
-                                aspectRatio: 16 / 9,
-                                viewMode: 1,
-                                autoCropArea: 1,
-                                cropend() {
-                                    const canvas = cropper.getCroppedCanvas({
-                                        width: 1280,
-                                        height: 720,
-                                    });
-                                    croppedImageInput.value = canvas.toDataURL('image/png');
-                                }
-                            });
-                        };
-                        reader.readAsDataURL(file);
-                    });
-                }
-            }
+            //                 cropend() {
+            //                     const canvas = cropper.getCroppedCanvas({
+            //                         width: 1280,
+            //                         height: 720,
+            //                         imageSmoothingEnabled: true,
+            //                         imageSmoothingQuality: 'high',
+            //                     });
+            //                     // Gán giá trị JPEG đã tối ưu vào input hidden
+            //                     croppedImageInput.value = canvas.toDataURL('image/jpeg', 0.85);
+            //                 }
+            //             });
+            //         };
+            //         reader.readAsDataURL(file);
+            //     });
+            // } else {
+            //     console.error(
+            //         'Một hoặc nhiều phần tử HTML (imageInput, previewImage, croppedImage) không được tìm thấy!');
+            // }
 
             const provinceSelect = document.getElementById('province-select');
             const districtSelect = document.getElementById('district-select');
@@ -651,12 +658,12 @@
             }
         });
     </script>
-    
-      @if (session('generation_status'))
+
+    @if (session('generation_status'))
         <script>
             // Đảm bảo rằng đoạn mã này chạy sau khi DOM đã sẵn sàng
             document.addEventListener('DOMContentLoaded', function() {
-             
+
                 const status = @json(session('generation_status'));
 
                 // Cấu hình chung cho Toastr (tùy chọn)

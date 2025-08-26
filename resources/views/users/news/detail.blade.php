@@ -78,98 +78,23 @@
                                 <input type="text" class="form-control" placeholder="Tìm kiếm...">
                             </div>
                         </div>
-                        <div class=" text2-news text-center py-3">
-                            <h5>Câu hỏi thường gặp </h5>
-                        </div>
-                        <div class="row ">
-                            <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
-                                <img src="images/anh2.jpg" alt="" class="img_2 w-100 h-100">
-                            </div>
-                            <div class="col-lg-8 col-md-6 col-sm-12">
-                                <div class="text3-news">
-                                    <a href="" class="text-decoration-none text-dark">
-                                        <h6>Thông tin trọ mới nhất ở Hà Nội</h6>
-                                        <p>Giá phòng trọ ở Hà Nội tháng 12 có sự giao động giá từ 500-1.000.00.</p>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
-                                <img src="images/anh2.jpg" alt="" class="img_2 w-100 h-100">
-                            </div>
-                            <div class="col-lg-8 col-md-6 col-sm-12">
-                                <div class="text3-news">
-                                    <a href="" class="text-decoration-none text-dark">
-                                        <h6>Thông tin trọ mới nhất ở Hà Nội</h6>
-                                        <p>Giá phòng trọ ở Hà Nội tháng 12 có sự giao động giá từ 500-1.000.00.</p>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
-                                <img src="images/anh2.jpg" alt="" class="img_2 w-100 h-100">
-                            </div>
-                            <div class="col-lg-8 col-md-6 col-sm-12">
-                                <div class="text3-news">
-                                    <a href="" class="text-decoration-none text-dark">
-                                        <h6>Thông tin trọ mới nhất ở Hà Nội</h6>
-                                        <p>Giá phòng trọ ở Hà Nội tháng 12 có sự giao động giá từ 500-1.000.00.</p>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
-                                <img src="images/anh2.jpg" alt="" class="img_2 w-100 h-100">
-                            </div>
-                            <div class="col-lg-8 col-md-6 col-sm-12">
-                                <div class="text3-news">
-                                    <a href="" class="text-decoration-none text-dark">
-                                        <h6>Thông tin trọ mới nhất ở Hà Nội</h6>
-                                        <p>Giá phòng trọ ở Hà Nội tháng 12 có sự giao động giá từ 500-1.000.00.</p>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+                       
                         <div class="wrapper-detail py-3 ">
                             <div class="news-box">
                                 <h3 class="news-box-title text-center">Tin tức mới nhất</h3>
-                                <div class="news-box-item">
-                                    Giá phòng khu vực tại Hà Nội đang có biến động trong dịp đầu năm
+                                @foreach ($tinMoi as $tinmoiItem)
+                                     <div class="news-box-item">
+                                 <a href="{{ route('news.users.detail', $tinmoiItem->slug) }}" style="text-decoration: none" class="text-dark">  {{ $tinmoiItem->tieu_de ??
+                                                'Giá trọ khu vực Hoàng Mai đang có xu hướng giảm giá sau điều chỉnh của cơ chế thị trường .' }}</a>
                                 </div>
-                                <div class="news-box-item">
-                                    Giá phòng khu vực tại Hà Nội đang có biến động trong dịp đầu năm
-                                </div>
-                                <div class="news-box-item">
-                                    Giá phòng khu vực tại Hà Nội đang có biến động trong dịp đầu năm
-                                </div>
-                                <div class="news-box-item">
-                                    Giá phòng khu vực tại Hà Nội đang có biến động trong dịp đầu năm
-                                </div>
-                                <div class="news-box-item">
-                                    Giá phòng khu vực tại Hà Nội đang có biến động trong dịp đầu năm
-                                </div>
+                                @endforeach
+                               
+                               
                             </div>
                         </div>
                     </div>
                 </div>
-                {{-- <div>
-                    <h2 class=" fw-bold">Leave a Comment</h2>
-                    <p>Your email address will not be published. Required fields are marked *</p>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12 col-md-6 col-lg-6">
-                        <input type="text" class="input-detail w-100 mx-auto my-3 " placeholder="Email : ">
-                    </div>
-                    <div class="col-sm-12 col-md-6 col-lg-6">
-                        <input type="text" class="input-detail w-100 mx-auto my-3 " placeholder="Số điện thoại : ">
-                    </div>
-                    <div class="col-sm-12 col-md-12 col-lg-12">
-                        <input type="text" class="input-detail w-100 mx-auto my-3 " placeholder="Số điện thoại : ">
-                    </div>
-                    <div class="col-sm-12 col-md-12 col-lg-12">
-                        <textarea name="" id="" placeholder="Hãy nhập comment của bạn : " class="w-100 textarea-detail"></textarea>
-                    </div>
-                    <div class="col-sm-12 col-md-12 col-lg-12 text-end">
-                        <button type="submit" class="btn_detail my-3"> Gửi </button>
-                    </div>
-                </div> --}}
+              
             </div>
             <div class="col-sm-12 col-md-12 col-lg-4 d-none d-lg-block">
                 <div class="news-search">
@@ -188,73 +113,17 @@
                             <input type="text" class="form-control" placeholder="Tìm kiếm...">
                         </div>
                     </div>
-                    <div class=" text2-news text-center py-3">
-                        <h5>Câu hỏi thường gặp </h5>
-                    </div>
-                    <div class="row ">
-                        <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
-                            <img src="images/anh2.jpg" alt="" class="img_2 w-100 h-100">
-                        </div>
-                        <div class="col-lg-8 col-md-6 col-sm-12">
-                            <div class="text3-news">
-                                <a href="" class="text-decoration-none text-dark">
-                                    <h6>Thông tin trọ mới nhất ở Hà Nội</h6>
-                                    <p>Giá phòng trọ ở Hà Nội tháng 12 có sự giao động giá từ 500-1.000.00.</p>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
-                            <img src="images/anh2.jpg" alt="" class="img_2 w-100 h-100">
-                        </div>
-                        <div class="col-lg-8 col-md-6 col-sm-12">
-                            <div class="text3-news">
-                                <a href="" class="text-decoration-none text-dark">
-                                    <h6>Thông tin trọ mới nhất ở Hà Nội</h6>
-                                    <p>Giá phòng trọ ở Hà Nội tháng 12 có sự giao động giá từ 500-1.000.00.</p>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
-                            <img src="images/anh2.jpg" alt="" class="img_2 w-100 h-100">
-                        </div>
-                        <div class="col-lg-8 col-md-6 col-sm-12">
-                            <div class="text3-news">
-                                <a href="" class="text-decoration-none text-dark">
-                                    <h6>Thông tin trọ mới nhất ở Hà Nội</h6>
-                                    <p>Giá phòng trọ ở Hà Nội tháng 12 có sự giao động giá từ 500-1.000.00.</p>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
-                            <img src="images/anh2.jpg" alt="" class="img_2 w-100 h-100">
-                        </div>
-                        <div class="col-lg-8 col-md-6 col-sm-12">
-                            <div class="text3-news">
-                                <a href="" class="text-decoration-none text-dark">
-                                    <h6>Thông tin trọ mới nhất ở Hà Nội</h6>
-                                    <p>Giá phòng trọ ở Hà Nội tháng 12 có sự giao động giá từ 500-1.000.00.</p>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                 
                     <div class="wrapper-detail py-3 ">
                         <div class="news-box">
                             <h3 class="news-box-title text-center">Tin tức mới nhất</h3>
-                            <div class="news-box-item">
-                                Giá phòng khu vực tại Hà Nội đang có biến động trong dịp đầu năm
-                            </div>
-                            <div class="news-box-item">
-                                Giá phòng khu vực tại Hà Nội đang có biến động trong dịp đầu năm
-                            </div>
-                            <div class="news-box-item">
-                                Giá phòng khu vực tại Hà Nội đang có biến động trong dịp đầu năm
-                            </div>
-                            <div class="news-box-item">
-                                Giá phòng khu vực tại Hà Nội đang có biến động trong dịp đầu năm
-                            </div>
-                            <div class="news-box-item">
-                                Giá phòng khu vực tại Hà Nội đang có biến động trong dịp đầu năm
-                            </div>
+                             @foreach ($tinMoi as $tinmoiItem)
+                                     <div class="news-box-item">
+                                 <a href="{{ route('news.users.detail', $tinmoiItem->slug) }}" style="text-decoration: none" class="text-dark">   {{ $tinmoiItem->tieu_de ??
+                                                'Giá trọ khu vực Hoàng Mai đang có xu hướng giảm giá sau điều chỉnh của cơ chế thị trường .' }}</a>
+                                </div>
+                                @endforeach
+                            
                         </div>
                     </div>
                 </div>

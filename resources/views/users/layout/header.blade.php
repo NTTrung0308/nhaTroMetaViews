@@ -19,7 +19,7 @@
                     <ul class="dropdown-menu">
                         <li><a href="{{ route('about.users.index') }}">Về chúng tôi</a></li>
                         <li><a href="{{ route('members.users.index') }}">Thành viên</a></li>
-                        <li><a href="/history">History</a></li>
+                        {{-- <li><a href="/history">History</a></li> --}}
                         <li><a href="{{ route('services.users.index') }}">Dịch vụ</a></li>
                     </ul>
                 </li>

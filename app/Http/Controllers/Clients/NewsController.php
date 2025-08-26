@@ -25,8 +25,18 @@ class NewsController extends Controller
 
 
 public function detail($slug)
-    {
-          $tinTuc = TinTuc::where('slug', $slug)->where('trang_thai', 'hien_thi')->firstOrFail();
-        return view('users.news.detail', compact('tinTuc'));
-    }
+{
+    $tinTuc = TinTuc::where('slug', $slug)
+        ->where('trang_thai', 'hien_thi')
+        ->firstOrFail();
+
+    // Lấy thêm 5 bài viết mới nhất, loại trừ bài hiện tại
+    $tinMoi = TinTuc::where('trang_thai', 'hien_thi')
+        ->where('id', '!=', $tinTuc->id)
+        ->orderBy('created_at', 'desc')
+        ->take(7)
+        ->get();
+
+    return view('users.news.detail', compact('tinTuc', 'tinMoi'));
+}
 }

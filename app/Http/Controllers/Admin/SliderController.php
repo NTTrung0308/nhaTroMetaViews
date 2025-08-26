@@ -80,50 +80,57 @@ class SliderController extends Controller
     }
 
     public function update(Request $request, Slider $slider)
-    {
-        $request->validate([
-            'title' => 'nullable|string|max:255',
-            'subtitle' => 'nullable|string|max:255',
-            'cropped_image' => 'nullable|string',
-            'link' => 'nullable|url',
-            'position' => 'nullable|integer',
-            'active' => 'nullable|boolean',
-        ], [
-            'title.string' => 'Tiêu đề phải là chuỗi.',
-            'title.max' => 'Tiêu đề không được vượt quá 255 ký tự.',
+{
+    $request->validate([
+        'title' => 'nullable|string|max:255',
+        'subtitle' => 'nullable|string|max:255',
+        'cropped_image' => 'nullable|string',
+        'link' => 'nullable|url',
+        'position' => 'nullable|integer',
+        'active' => 'nullable|boolean',
+    ], [
+        'title.string' => 'Tiêu đề phải là chuỗi.',
+        'title.max' => 'Tiêu đề không được vượt quá 255 ký tự.',
+        'subtitle.string' => 'Phụ đề phải là chuỗi.',
+        'subtitle.max' => 'Phụ đề không được vượt quá 255 ký tự.',
+        'link.url' => 'Liên kết không hợp lệ. Vui lòng nhập đúng định dạng URL.',
+        'position.integer' => 'Vị trí phải là số nguyên.',
+        'active.boolean' => 'Trạng thái hiển thị phải là true hoặc false.',
+    ]);
+    // **PHẦN CẢI TIẾN BẮT ĐẦU TỪ ĐÂY**
+    if ($request->filled('cropped_image')) {
+        // 1. Lấy đường dẫn ảnh cũ (nếu có)
+        $oldImagePath = $slider->image;
 
-            'subtitle.string' => 'Phụ đề phải là chuỗi.',
-            'subtitle.max' => 'Phụ đề không được vượt quá 255 ký tự.',
+        // 2. Lưu ảnh mới và lấy đường dẫn (ĐÃ SỬA LỖI ĐÁNH MÁY)
+        $newImagePath = $this->saveBase64Image($request->input('cropped_image'));
+        
+        // 3. Cập nhật đường dẫn ảnh mới vào model
+        $slider->image = $newImagePath;
 
-
-            'link.url' => 'Liên kết không hợp lệ. Vui lòng nhập đúng định dạng URL.',
-
-            'position.integer' => 'Vị trí phải là số nguyên.',
-
-            'active.boolean' => 'Trạng thái hiển thị phải là true hoặc false.',
-        ]);
-
-
-        if ($request->filled('cropped_image')) {
-            $imagePath = $this->saveBase64Image($request->input('cropped_image'));
-            $slider->image = $imagePath;
+        // 4. Xóa file ảnh cũ khỏi server (nếu tồn tại)
+        if ($oldImagePath && file_exists(public_path($oldImagePath))) {
+            unlink(public_path($oldImagePath));
         }
-
-        $slider->title = $request->title;
-        $slider->subtitle = $request->subtitle;
-        $slider->link = $request->link;
-        $slider->position = $request->position ?? 0;
-        $slider->active = $request->boolean('active');
-        $slider->save();
-        // Ghi lại log chi tiết
-        LogHelper::ghi(
-            'Cập nhật slider: "' . ($slider->title ?? 'Không tiêu đề') . '" (ID: ' . $slider->id . ')',
-            'Slider',
-            'Người dùng "' . auth()->user()->name . '" (ID: ' . auth()->id() . ') đã cập nhật slider "' . ($slider->title ?? 'Không tiêu đề') . '" trong quản trị viên.'
-        );
-        return redirect()->route('sliders.index')->with('success', 'Cập nhật slider thành công.');
     }
 
+    // Cập nhật các thông tin còn lại
+    $slider->title = $request->title;
+    $slider->subtitle = $request->subtitle;
+    $slider->link = $request->link;
+    $slider->position = $request->position ?? 0;
+    $slider->active = $request->boolean('active');
+    $slider->save();
+
+    // Ghi lại log chi tiết
+    LogHelper::ghi(
+        'Cập nhật slider: "' . ($slider->title ?? 'Không tiêu đề') . '" (ID: ' . $slider->id . ')',
+        'Slider',
+        'Người dùng "' . auth()->user()->name . '" (ID: ' . auth()->id() . ') đã cập nhật slider "' . ($slider->title ?? 'Không tiêu đề') . '" trong quản trị viên.'
+    );
+
+    return redirect()->route('sliders.index')->with('success', 'Cập nhật slider thành công.');
+}
     public function destroy(Slider $slider)
     {
         // Xóa ảnh nếu có

@@ -45,7 +45,9 @@ return new class extends Migration
             $table->unsignedBigInteger('da_thanh_toan')->default(0); // Số tiền khách đã trả cho hoá đơn này
             
             // Cột ảo để tính toán số tiền còn nợ, rất tiện lợi
-            $table->bigInteger('con_no')->storedAs('tong_tien + no_ky_truoc - da_thanh_toan');
+         $table->integer('con_no')->virtualAs('(`tong_tien` + `no_ky_truoc` - `da_thanh_toan`)');
+
+
             
             // --- Trạng thái & Ghi chú ---
             $table->enum('trang_thai', ['chua_thanh_toan', 'da_thanh_toan', 'qua_han', 'da_huy'])->default('chua_thanh_toan');
