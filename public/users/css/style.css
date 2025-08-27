@@ -2286,7 +2286,11 @@ float-bob-x animation {
 
 .news-search {
     position: sticky;
-    top: 0;
+    top: 100px;         /* Điều chỉnh theo chiều cao header thực tế */
+    z-index: 10;
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
 }
 
 .news-box {

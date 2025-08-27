@@ -5,7 +5,7 @@
         <div class="col-6">
             <div class="content-vision ">
                 <span>
-                    <a href="#" class="text-decoration-none text-dark fs-4 fw-bold content-vision-home ">Trang
+                    <a href="/" class="text-decoration-none text-dark fs-4 fw-bold content-vision-home ">Trang
                         Chủ</a>
                 </span>
                 <span><i class="bi bi-chevron-right fs-5 content-vision-home"></i></span>
@@ -66,6 +66,13 @@
                                         </h6>
                                         <p class="line-text-limit-5">{{ $tinTuc->mo_ta_ngan ?? '' }}
                                         </p>
+                                        <small class="text-muted">
+                                            @if (\Carbon\Carbon::parse($tinTuc->created_at)->isToday())
+                                                Đăng hôm nay
+                                            @else
+                                                Đăng ngày {{ \Carbon\Carbon::parse($tinTuc->created_at)->format('d/m/Y') }}
+                                            @endif
+                                        </small>
                                     </div>
                                 </div>
                             </a>
@@ -116,42 +123,31 @@
                             placeholder="Tìm kiếm...">
                     </form>
 
-                    <div class=" text2-news text-center py-3">
-                        <h5>Tin tức phòng mới </h5>
+                    {{-- filepath: d:\trung\nhaTroMetaViews\resources\views\users\news\index.blade.php --}}
+                    <div class=" text2-news text-center p-3">
+                        <h5>Câu hỏi thường gặp</h5>
                     </div>
-                    <div class="row ">
-                        @forelse ($tinMoi as $tin)
-                            <div class="news-item-mobile p-2">
-                                <div class="row">
-                                    <div class="col-5">
-                                        <div class="w-100 h-100">
-                                            <img src="{{ $tin->hinh_anh ? asset($tin->hinh_anh) : asset('/users/images/anh7.png') }}"
-                                                alt="" class="img_2 w-100 h-100 object-fit-cover">
-                                        </div>
-                                    </div>
-                                    <div class="col-7">
-                                        <div class="text3-news w-100 h-100">
-                                            <a href="{{ route('news.users.detail', $tin->slug) }}"
-                                                class="text-decoration-none text-dark text-news ">
-                                                <h6>{{ $tin->tieu_de }}</h6>
-                                                <p>{{ $tin->mo_ta_ngan }}</p>
-                                            </a>
-                                            <small class="text-muted">
-                                                @if (\Carbon\Carbon::parse($tin->created_at)->isToday())
-                                                    Đăng hôm nay
-                                                @else
-                                                    Đăng ngày
-                                                    {{ \Carbon\Carbon::parse($tin->created_at)->format('d/m/Y') }}
-                                                @endif
-                                            </small>
-                                        </div>
+                    <div class="accordion" id="faqAccordion">
+                        @forelse ($faqs ?? [] as $faq)
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="heading{{ $faq->id }}">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapse{{ $faq->id }}" aria-expanded="false"
+                                        aria-controls="collapse{{ $faq->id }}">
+                                        {{ $faq->question }}
+                                    </button>
+                                </h2>
+                                <div id="collapse{{ $faq->id }}" class="accordion-collapse collapse"
+                                    aria-labelledby="heading{{ $faq->id }}" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body">
+                                        {{ $faq->answer }}
                                     </div>
                                 </div>
                             </div>
                         @empty
-                            <div class="col-12 text-center">Không có tin mới</div>
+                            <div class="col-12 text-center">Không có câu hỏi mới</div>
                         @endforelse
-                    </div>  
+                    </div>
 
                 </div>
             </div>
