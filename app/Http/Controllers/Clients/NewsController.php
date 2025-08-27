@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class NewsController extends Controller
 {
-    public function index(Request $request)
+public function index(Request $request)
 {
     $query = TinTuc::query();
 
@@ -19,24 +19,18 @@ class NewsController extends Controller
         });
     }
 
-    $tinTucs = $query->orderBy('created_at', 'desc')->paginate(6);
-    return view('users.news.index', compact('tinTucs'));
+    $tinTucs = $query->orderBy('created_at', 'desc')->paginate(12);
+
+    // Lấy 5 tin mới nhất
+    $tinMoi = TinTuc::orderBy('created_at', 'desc')->take(5)->get();
+
+    return view('users.news.index', compact('tinTucs', 'tinMoi'));
 }
 
 
 public function detail($slug)
-{
-    $tinTuc = TinTuc::where('slug', $slug)
-        ->where('trang_thai', 'hien_thi')
-        ->firstOrFail();
-
-    // Lấy thêm 5 bài viết mới nhất, loại trừ bài hiện tại
-    $tinMoi = TinTuc::where('trang_thai', 'hien_thi')
-        ->where('id', '!=', $tinTuc->id)
-        ->orderBy('created_at', 'desc')
-        ->take(7)
-        ->get();
-
-    return view('users.news.detail', compact('tinTuc', 'tinMoi'));
-}
+    {
+          $tinTuc = TinTuc::where('slug', $slug)->where('trang_thai', 'hien_thi')->firstOrFail();
+        return view('users.news.detail', compact('tinTuc'));
+    }
 }

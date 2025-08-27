@@ -10,9 +10,8 @@
                 </span>
                 <span><i class="bi bi-chevron-right fs-5 content-vision-home"></i></span>
                 <span>
-                    <a href="#"
-                        class="text-decoration-none fs-4 fw-bold vision-banner-title content-vision-home w-100">Chi
-                        tiết tin tức </a>
+                    <a href="tin-tuc"
+                        class="text-decoration-none fs-4 fw-bold vision-banner-title content-vision-home w-100">Tin tức </a>
                 </span>
                 <h1 class="fw-bold mt-2 title">Thông tin về chúng tôi </h1>
                 <h4 class="vision-banner-title">"FunHome là đại diện cho các bất động sản sang trọng đặc biệt và bất
@@ -118,30 +117,41 @@
                     </form>
 
                     <div class=" text2-news text-center py-3">
-                        <h5>Câu hỏi thường gặp </h5>
+                        <h5>Tin tức phòng mới </h5>
                     </div>
                     <div class="row ">
-                        @for ($i = 1; $i <= 5; $i++)
+                        @forelse ($tinMoi as $tin)
                             <div class="news-item-mobile p-2">
                                 <div class="row">
                                     <div class="col-5">
                                         <div class="w-100 h-100">
-                                            <img src="{{ asset('images/anh7.png') }}" alt=""
-                                                class="img_2 w-100 h-100 object-fit-cover">
+                                            <img src="{{ $tin->hinh_anh ? asset($tin->hinh_anh) : asset('/users/images/anh7.png') }}"
+                                                alt="" class="img_2 w-100 h-100 object-fit-cover">
                                         </div>
                                     </div>
                                     <div class="col-7">
                                         <div class="text3-news w-100 h-100">
-                                            <a href="" class="text-decoration-none text-dark text-news ">
-                                                <h6>Thông tin trọ mới nhất ở Hà Nội</h6>
-                                                <p>Giá phòng trọ ở Hà Nội tháng 12 có sự giao động giá từ 500-1.000.00.</p>
+                                            <a href="{{ route('news.users.detail', $tin->slug) }}"
+                                                class="text-decoration-none text-dark text-news ">
+                                                <h6>{{ $tin->tieu_de }}</h6>
+                                                <p>{{ $tin->mo_ta_ngan }}</p>
                                             </a>
+                                            <small class="text-muted">
+                                                @if (\Carbon\Carbon::parse($tin->created_at)->isToday())
+                                                    Đăng hôm nay
+                                                @else
+                                                    Đăng ngày
+                                                    {{ \Carbon\Carbon::parse($tin->created_at)->format('d/m/Y') }}
+                                                @endif
+                                            </small>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        @endfor
-                    </div>
+                        @empty
+                            <div class="col-12 text-center">Không có tin mới</div>
+                        @endforelse
+                    </div>  
 
                 </div>
             </div>
